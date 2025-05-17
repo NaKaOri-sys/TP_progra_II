@@ -1,4 +1,4 @@
-package ar.edu.ungs.prog2.ticketek;
+package TP_progra_II.ar.edu.ungs.prog2.ticketek;
 
 public interface IEntrada {
 
