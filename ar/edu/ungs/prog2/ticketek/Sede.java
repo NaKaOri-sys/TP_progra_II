@@ -27,6 +27,12 @@ public abstract class Sede {
 	public double obtenerPrecioBase() {
 		return precioBase;
 	}
+	
+	public abstract double calcularPrecioBase(Sector sector);
 
-	public abstract double calcularPrecioBase();
+	@Override
+	public String toString() {
+		return "Sede [nombre=" + nombre + ", direccion=" + direccion + ", capacidadMaxima=" + capacidadMaxima
+				+ ", precioBase=" + precioBase + "]";
+	}
 }
