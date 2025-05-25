@@ -1,5 +1,6 @@
 package TP_progra_II.ar.edu.ungs.prog2.ticketek;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -46,7 +47,7 @@ public class Usuario {
         List<Entrada> listaEntradasFuturas = new ArrayList<>();
         Fecha fechaActual = Fecha.fechaActual();
         for (Entrada e : entradasFuturas) {
-            if (e.getFecha().esMayor(e.getFecha(), fechaActual)) {
+            if (e.obtenerFecha().esMayor(e.obtenerFecha(), fechaActual)) {
                 listaEntradasFuturas.add(e);
             }
         }

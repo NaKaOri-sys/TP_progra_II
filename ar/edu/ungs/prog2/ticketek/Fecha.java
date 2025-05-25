@@ -18,7 +18,7 @@ public class Fecha {
 		this.anio = anio;
 	}
 
-	// Validación básica (puedes mejorarla con más reglas)
+	// Validación básica
 	private boolean esFechaValida(int dia, int mes, int anio) {
 		if (mes < 1 || mes > 12)
 			return false;
