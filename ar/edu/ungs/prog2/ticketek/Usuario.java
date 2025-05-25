@@ -1,7 +1,8 @@
-package ar.edu.ungs.prog2.ticketek;
+package TP_progra_II.ar.edu.ungs.prog2.ticketek;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Usuario {
     private String email;
@@ -30,24 +31,6 @@ public class Usuario {
             this.entradas.add(e);
         }
     }
-
-    // Anular entrada por código
-    public void anularEntrada(String codigo) {
-        Entrada entradaAEliminar = null;
-        for (Entrada e : entradas) {
-            if (e.getCodigo().equals(codigo)) {
-                entradaAEliminar = e;
-                break;
-            }
-        }
-        if (entradaAEliminar != null) {
-            entradas.remove(entradaAEliminar);
-            System.out.println("Entrada con código " + codigo + " anulada.");
-        } else {
-            System.out.println("No se encontró una entrada con el código: " + codigo);
-        }
-    }
-
     // Obtener entrada por código
     public Entrada obtenerEntrada(String codigo) {
         for (Entrada e : entradas) {
@@ -69,8 +52,33 @@ public class Usuario {
         }
         return listaEntradasFuturas;
     }
+    
+    @Override
+	public String toString() {
+		return "Usuario [email=" + email + ", nombre=" + nombre + ", apellido=" + apellido + ", contrasenia="
+				+ contrasenia + ", entradas=" + entradas + "]";
+	}
+    
+	@Override
+	public int hashCode() {
+		return Objects.hash(apellido, contrasenia, email, entradas, nombre);
+	}
 
-    //Getters
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Usuario other = (Usuario) obj;
+		return Objects.equals(apellido, other.apellido) && Objects.equals(contrasenia, other.contrasenia)
+				&& Objects.equals(email, other.email) && Objects.equals(entradas, other.entradas)
+				&& Objects.equals(nombre, other.nombre);
+	}
+
+	//Getters
     public String getEmail() {
         return email;
     }
@@ -104,5 +112,4 @@ public class Usuario {
         this.contrasenia = contrasenia;
     }
 }
-
 

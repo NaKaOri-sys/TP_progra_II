@@ -1,33 +1,24 @@
-package ar.edu.ungs.prog2.ticketek;
+package TP_progra_II.ar.edu.ungs.prog2.ticketek;
 
 public class Funcion {
 	private Sede sede;
 	private Fecha fecha;
+	private double precio;
 	
-	public Funcion(Sede sede, Fecha fecha) {
+	public Funcion(Sede sede, Fecha fecha, double precio) {
 		this.sede = sede;
 		this.fecha = fecha;
-	}
-
-	public Sede obtenerSede(String nombre) {
-		Sede sedeObtenida = null;
-		for (Sede s: sedes) {
-			if(s.getNombre.equals(nombre)) {
-				sedeObtenida = s;
-				break;
-			}
-		}
-		return sedeObtenida;
+		this.precio = precio;
 	}
 	// Getters
-    public Sede getSede() {
+    public Sede obtenerSede() {
         return sede;
     }
 
-    public Fecha getFecha() {
+    public Fecha obtenerFecha() {
         return fecha;
     }
-
+	
     // Setters
     public void setSede(Sede sede) {
         this.sede = sede;

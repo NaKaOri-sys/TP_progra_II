@@ -1,6 +1,7 @@
-package ar.edu.ungs.prog2.ticketek;
+package TP_progra_II.ar.edu.ungs.prog2.ticketek;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Fecha {
 	private int dia;
@@ -53,19 +54,12 @@ public class Fecha {
 	public int ObtenerAnio() {
 		return anio;
 	}
-
-	public String ObtenerFecha() {
-		return dia + "/" + mes + "/" + anio;
-	}
-
 	public boolean esMayor(Fecha fecha, Fecha otrafecha) {
-
 		if ((fecha.dia > otrafecha.dia && fecha.mes > otrafecha.mes && fecha.anio > otrafecha.anio)
 				|| (fecha.dia < otrafecha.dia && fecha.mes > otrafecha.mes && fecha.anio > otrafecha.anio))
 			return true;
 		else
 			return false;
-
 	}
 
 	public boolean esMenor(Fecha fecha, Fecha otrafecha) {
@@ -74,7 +68,6 @@ public class Fecha {
 			return false;
 		else
 			return true;
-
 	}
 
 	private boolean esBisiesto(int anio) {
@@ -85,35 +78,26 @@ public class Fecha {
         LocalDate hoy = LocalDate.now();
         return new Fecha(hoy.getDayOfMonth(), hoy.getMonthValue(), hoy.getYear());
     }
-    //Getters
-    public int getDia() {
-        return dia;
-    }
-    public int getMes() {
-        return mes;
-    }
-    public int getAnio() {
-        return anio;
-    }
-//	Setters   
-    public void setDia(int dia) {
-        if (!esFechaValida(dia, this.mes, this.anio)) {
-            throw new IllegalArgumentException("Día inválido para la fecha actual.");
-        }
-        this.dia = dia;
-    }
-    
-    public void setMes(int mes) {
-        if (!esFechaValida(this.dia, mes, this.anio)) {
-            throw new IllegalArgumentException("Mes inválido para la fecha actual.");
-        }
-        this.mes = mes;
-    }
-    public void setAnio(int anio) {
-        if (!esFechaValida(this.dia, this.mes, anio)) {
-            throw new IllegalArgumentException("Año inválido para la fecha actual.");
-        }
-        this.anio = anio;
-    }
-}
 
+	@Override
+	public String toString() {
+		return "Fecha [dia=" + dia + ", mes=" + mes + ", anio=" + anio + "]";
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(anio, dia, mes);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Fecha other = (Fecha) obj;
+		return anio == other.anio && dia == other.dia && mes == other.mes;
+	}
+}
