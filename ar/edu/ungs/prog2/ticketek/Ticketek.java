@@ -129,8 +129,31 @@ public class Ticketek implements ITicketek {
 
 	@Override
 	public void registrarUsuario(String email, String nombre, String apellido, String contrasenia) {
-		// TODO Auto-generated method stub
-
+		
+		//Si el email ya está registrado, se debe lanzar una excepcion
+		
+		if (usuarios.containsKey(email)){
+			throw new IllegalStateException("El email ya está registrado.");
+		}
+		
+		//Si algun dato no es aceptable, se debe lanzar una excepcion.
+		if(email == null || !email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")){			
+			throw new IllegalStateException("El Email ingresado es invalido.");
+		}
+		if(nombre == null){			
+			throw new IllegalStateException("El Nombre ingresado no puede estar vacio.");
+		}
+		if(apellido== null){			
+			throw new IllegalStateException("El Apellido ingresado no puede estar vacio.");
+		}
+		if(contrasenia == null){			
+			throw new IllegalStateException("La contraña ingresado no puede estar vacio.");
+		}
+		// Registrar un nuevo usuario en el sistema
+        
+		Usuario nuevo = new Usuario(email, nombre, apellido, contrasenia);
+        usuarios.put(email, nuevo);
+        System.out.println("Usuario registrado correctamente: " + email);
 	}
 
 	@Override

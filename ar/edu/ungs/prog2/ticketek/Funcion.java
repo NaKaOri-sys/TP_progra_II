@@ -3,14 +3,13 @@ package TP_progra_II.ar.edu.ungs.prog2.ticketek;
 public class Funcion {
 	private Sede sede;
 	private Fecha fecha;
-	private double precio;
+	private double precioBase;
 	
-	public Funcion(Sede sede, Fecha fecha, double precio) {
+	public Funcion(Sede sede, Fecha fecha, double precioBase) {
 		this.sede = sede;
 		this.fecha = fecha;
-		this.precio = precio;
+		this.precioBase = precioBase;
 	}
-	
 	// Getters
     public Sede obtenerSede() {
         return sede;
@@ -19,7 +18,9 @@ public class Funcion {
     public Fecha obtenerFecha() {
         return fecha;
     }
-	
+    public double obtenerPrecioBase() {
+        return precioBase;
+    }
     // Setters
     public void setSede(Sede sede) {
         this.sede = sede;
