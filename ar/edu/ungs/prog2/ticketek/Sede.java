@@ -6,7 +6,6 @@ public abstract class Sede {
 	private String nombre;
 	private String direccion;
 	private int capacidadMaxima;
-	private double precioBase;
 	
 	public Sede(String nombre, String direccion, int capacidadMaxima) {
 		this.nombre = nombre;
@@ -25,16 +24,12 @@ public abstract class Sede {
 	public int obtenerCapacidadMaxima() {
 		return capacidadMaxima;
 	}
-
-	public double obtenerPrecioBase() {
-		return precioBase;
-	}
 	
-	public abstract double calcularPrecioBase(Sector sector) throws Exception;
+	public abstract double calcularPrecioBase(Sector sector, double precioBase);
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(capacidadMaxima, direccion, nombre, precioBase);
+		return Objects.hash(nombre);
 	}
 
 	@Override
@@ -47,14 +42,13 @@ public abstract class Sede {
 			return false;
 		Sede other = (Sede) obj;
 		return capacidadMaxima == other.capacidadMaxima && Objects.equals(direccion, other.direccion)
-				&& Objects.equals(nombre, other.nombre)
-				&& Double.doubleToLongBits(precioBase) == Double.doubleToLongBits(other.precioBase);
+				&& Objects.equals(nombre, other.nombre);
 	}
 
 	@Override
 	public String toString() {
 		return "Sede [nombre=" + nombre + ", direccion=" + direccion + ", capacidadMaxima=" + capacidadMaxima
-				+ ", precioBase=" + precioBase + "]";
+				+ "]";
 	}
 
 }

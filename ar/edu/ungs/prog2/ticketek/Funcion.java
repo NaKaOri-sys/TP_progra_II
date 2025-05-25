@@ -10,18 +10,17 @@ public class Funcion {
 		this.fecha = fecha;
 		this.precioBase = precioBase;
 	}
-	// Getters
-    public Sede obtenerSede() {
+
+	public Sede obtenerSede() {
         return sede;
     }
-
     public Fecha obtenerFecha() {
         return fecha;
     }
     public double obtenerPrecioBase() {
         return precioBase;
     }
-    // Setters
+    
     public void setSede(Sede sede) {
         this.sede = sede;
     }

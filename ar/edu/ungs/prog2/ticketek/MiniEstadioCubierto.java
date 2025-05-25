@@ -55,11 +55,11 @@ public class MiniEstadioCubierto extends Sede {
 	}
 
 	@Override
-	public double calcularPrecioBase(Sector sector) {
+	public double calcularPrecioBase(Sector sector, double precioBase) {
 		if (!sectoresRegistrados.containsKey(sector.obtenerTipo())) {
 			throw new IllegalArgumentException("El sector ingresado no existe.");
 		}
-		return sector.obtenerIncremento() + obtenerPrecioBase() + obtenerPrecioConsumicion();
+		return sector.obtenerIncremento() + precioBase + obtenerPrecioConsumicion();
 	}
 
 	public double obtenerPrecioConsumicion() {
