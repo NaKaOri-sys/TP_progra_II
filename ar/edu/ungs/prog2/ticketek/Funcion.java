@@ -10,6 +10,7 @@ public class Funcion {
 		this.fecha = fecha;
 		this.precio = precio;
 	}
+	
 	// Getters
     public Sede obtenerSede() {
         return sede;
