@@ -1,6 +1,8 @@
 package TP_progra_II.ar.edu.ungs.prog2.ticketek;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Objects;
 
 public class Fecha {
@@ -17,6 +19,22 @@ public class Fecha {
 		this.mes = mes;
 		this.anio = anio;
 	}
+	
+	public Fecha(String fechaStr) throws IllegalArgumentException {
+        if (fechaStr == null || fechaStr.trim().isEmpty()) {
+            throw new IllegalArgumentException("La cadena de fecha no puede ser nula o vacía.");
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+        try {
+            LocalDate localDate = LocalDate.parse(fechaStr, formatter);
+            this.dia = localDate.getDayOfMonth();
+            this.mes = localDate.getMonthValue();
+            this.anio = localDate.getYear();
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("Formato de fecha inválido. Se esperaba 'dd/MM/yy'. Error: " + e.getMessage(), e);
+        }
+    }
 
 	// Validación básica
 	private boolean esFechaValida(int dia, int mes, int anio) {
