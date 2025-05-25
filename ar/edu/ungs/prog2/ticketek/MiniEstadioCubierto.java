@@ -10,7 +10,7 @@ public class MiniEstadioCubierto extends Sede {
 
 	public MiniEstadioCubierto(String nombre, String direccion, int capacidadMaxima, double precioConsumicion,
 			String[] tipoSectores, int[] capacidadMaxPorSector, int asientosPorFila, 
-			int[] porcentajeIncrementoSectores) throws Exception {
+			int[] porcentajeIncrementoSectores) {
 		super(nombre, direccion, capacidadMaxima);
 		this.sectoresRegistrados = new HashMap<String, Sector>();
 		this.precioConsumicion = precioConsumicion;
@@ -26,7 +26,7 @@ public class MiniEstadioCubierto extends Sede {
 	 * @param porcentajeIncrementoSectores
 	 * @throws IllegalArgumentException
 	 */
-	private void inicializarSectores(String[] tipoSectores, int[] capacidadMaxPorSector, int asientosPorFila, int[] porcentajeIncrementoSectores) throws Exception {
+	private void inicializarSectores(String[] tipoSectores, int[] capacidadMaxPorSector, int asientosPorFila, int[] porcentajeIncrementoSectores) {
 		validarParametrosSectores(tipoSectores, capacidadMaxPorSector, porcentajeIncrementoSectores);
 		for (int i = 0; i < tipoSectores.length; i++) {
 			sectoresRegistrados.put(tipoSectores[i], new Sector(tipoSectores[i],
@@ -42,7 +42,7 @@ public class MiniEstadioCubierto extends Sede {
 	 * @param porcentajeIncrementoSectores Un array de porcentajes de incremento por sector.
 	 * @throws IllegalArgumentException Si los arrays no tienen la misma longitud o están vacíos.
 	 */
-	private void validarParametrosSectores(String[] tipoSectores, int[] capacidadMaxPorSector, int[] porcentajeIncrementoSectores) throws IllegalArgumentException {
+	private void validarParametrosSectores(String[] tipoSectores, int[] capacidadMaxPorSector, int[] porcentajeIncrementoSectores) {
 	    if (tipoSectores == null || capacidadMaxPorSector == null || porcentajeIncrementoSectores == null) {
 	        throw new IllegalArgumentException("Los arrays de tipos de sectores, capacidades o incrementos no pueden ser nulos.");
 	    }
@@ -55,9 +55,9 @@ public class MiniEstadioCubierto extends Sede {
 	}
 
 	@Override
-	public double calcularPrecioBase(Sector sector) throws Exception {
+	public double calcularPrecioBase(Sector sector) {
 		if (!sectoresRegistrados.containsKey(sector.obtenerTipo())) {
-			throw new Exception("El sector ingresado no existe.");
+			throw new IllegalArgumentException("El sector ingresado no existe.");
 		}
 		return sector.obtenerIncremento() + obtenerPrecioBase() + obtenerPrecioConsumicion();
 	}

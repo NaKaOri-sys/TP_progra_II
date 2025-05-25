@@ -1,6 +1,7 @@
 package TP_progra_II.ar.edu.ungs.prog2.ticketek;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 public class Espectaculo {
 	private String codigo;
@@ -11,10 +12,8 @@ public class Espectaculo {
 	 * @param nombre
 	 * @param funciones
 	 */
-	public Espectaculo(String codigo, String nombre, HashMap<Fecha, Funcion> funciones) {
-		this.codigo = codigo;
+	public Espectaculo(String nombre) {
 		this.nombre = nombre;
-		this.funciones = funciones;
 	}
 	public String obtenerCodigo() {
 		return codigo;
@@ -24,6 +23,15 @@ public class Espectaculo {
 	}
 	public HashMap<Fecha, Funcion> obtenerFunciones() {
 		return funciones;
+	}
+	
+	public void registrarCodigo() {
+		String uuid = UUID.randomUUID().toString();
+		this.codigo = uuid;
+	}
+	
+	public void registrarFuncion() {
+		
 	}
 	
 	public Funcion obtenerFuncion(Fecha fecha) throws Exception {
