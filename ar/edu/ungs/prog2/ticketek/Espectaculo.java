@@ -30,8 +30,10 @@ public class Espectaculo {
 		this.codigo = uuid;
 	}
 	
-	public void registrarFuncion() {
-		
+	public void registrarFuncion(String fecha, Sede sedeRegistrada, double precioBase) {
+		Fecha fechaFuncion = new Fecha(fecha);
+		Funcion funcion = new Funcion(sedeRegistrada, fechaFuncion, precioBase);
+		funciones.put(fechaFuncion, funcion);
 	}
 	
 	public Funcion obtenerFuncion(Fecha fecha) throws Exception {

@@ -140,13 +140,16 @@ public class Ticketek implements ITicketek {
 		if (espectaculos.containsKey(nombre))
 			throw new IllegalArgumentException("El espectaculo ya se encuentra registrado.");
 		Espectaculo espectaculo = new Espectaculo(nombre);
+		espectaculo.registrarCodigo();
 		espectaculos.put(nombre, espectaculo);
 	}
 
 	@Override
 	public void agregarFuncion(String nombreEspectaculo, String fecha, String sede, double precioBase) {
 		validarParametrosFuncion(nombreEspectaculo, fecha, sede, precioBase);
-
+		Sede sedeRegistrada = sedes.get(sede);
+		Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
+		espectaculo.registrarFuncion(fecha, sedeRegistrada, precioBase);
 	}
 
 	private void validarParametrosFuncion(String nombreEspectaculo, String fecha, String sede, double precioBase) {
@@ -154,9 +157,14 @@ public class Ticketek implements ITicketek {
 			throw new IllegalArgumentException("El nombre del espectaculo no puede estar vacio.");
 		if (!espectaculos.containsKey(nombreEspectaculo))
 			throw new IllegalArgumentException("El espectaculo debe encontrarse registrado.");
-		if (fecha == null || fecha.trim().isEmpty()) {
+		if (!espectaculos.containsKey(nombreEspectaculo)) 
+			throw new IllegalArgumentException("El espectaculo ingresado no se encuentra registrado.");
+		if (!sedes.containsKey(sede))
+			throw new IllegalArgumentException("La sede ingresada no se encuentra registrada");
+		if (fecha == null || fecha.trim().isEmpty())
 			throw new IllegalArgumentException("La fecha no puede encontrarse vacia");
-		}
+		if (precioBase <= 0)
+			throw new IllegalArgumentException("El precio debe ser un número positivo mayor a 0.");
 	}
 
 	@Override
