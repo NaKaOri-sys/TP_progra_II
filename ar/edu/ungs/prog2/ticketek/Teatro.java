@@ -69,12 +69,12 @@ public class Teatro extends Sede {
 	}
 
 	@Override
-	public double calcularPrecioBase(Sector sector) {
+	public double calcularPrecioBase(Sector sector, double precioBase) {
 		if (!sectoresRegistrados.containsKey(sector.obtenerTipo())) {
 			throw new IllegalArgumentException("El sector ingresado no existe.");
 		}
 		
-		return obtenerPrecioBase() + sector.obtenerIncremento();
+		return precioBase + sector.obtenerIncremento();
 	}
 
 	@Override

@@ -12,10 +12,10 @@ public class Estadio extends Sede {
 	}
 
 	@Override
-	public double calcularPrecioBase(Sector sector) throws Exception {
+	public double calcularPrecioBase(Sector sector, double precioBase) {
 		if (!sector.equals(CAMPO)) {
-			throw new Exception("Estadio solo puede tener sector CAMPO.");
+			throw new IllegalArgumentException("Estadio solo puede tener sector CAMPO.");
 		}
-		return obtenerPrecioBase();
+		return precioBase;
 	}
 }
