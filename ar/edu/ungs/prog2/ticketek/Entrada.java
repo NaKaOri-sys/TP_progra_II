@@ -1,10 +1,5 @@
 package TP_progra_II.ar.edu.ungs.prog2.ticketek;
 
-import TP_progra_II.ar.edu.ungs.prog2.ticketek.IEntrada;
-
-import java.time.LocalDate;
-import java.util.Objects;
-
 public class Entrada implements IEntrada {
 	
     private String codigo;
@@ -78,5 +73,4 @@ public class Entrada implements IEntrada {
 
 		    return formatoEntrada.toString();			
 	}
-}
 }
