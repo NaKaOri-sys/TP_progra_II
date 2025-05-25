@@ -32,12 +32,6 @@ public abstract class Sede {
 	
 	public abstract double calcularPrecioBase(Sector sector) throws Exception;
 	
-	public double calcularPrecioBase() {
-		return obtenerPrecioBase();
-	}
-	
-	
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(capacidadMaxima, direccion, nombre, precioBase);
