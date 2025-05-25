@@ -79,4 +79,3 @@ public class Entrada implements IEntrada {
 		    return formatoEntrada.toString();			
 	}
 }
-}
