@@ -14,6 +14,7 @@ public class Espectaculo {
 	 */
 	public Espectaculo(String nombre) {
 		this.nombre = nombre;
+		this.funciones = new HashMap<Fecha, Funcion>();
 	}
 	public String obtenerCodigo() {
 		return codigo;
