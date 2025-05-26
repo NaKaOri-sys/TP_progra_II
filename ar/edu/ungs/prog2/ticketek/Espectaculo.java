@@ -25,6 +25,12 @@ public class Espectaculo {
 		return funciones;
 	}
 	
+	public String listarFunciones() {
+		StringBuilder sb = new StringBuilder();
+		
+		return sb.toString();
+	}
+	
 	public void registrarCodigo() {
 		String uuid = UUID.randomUUID().toString();
 		this.codigo = uuid;
@@ -36,9 +42,9 @@ public class Espectaculo {
 		funciones.put(fechaFuncion, funcion);
 	}
 	
-	public Funcion obtenerFuncion(Fecha fecha) throws Exception {
+	public Funcion obtenerFuncion(Fecha fecha) {
 		if(!funciones.containsKey(fecha))
-			throw new Exception();
+			throw new IllegalArgumentException("La fecha ingresada no existe para ninguna función activa.");
 		return funciones.get(fecha);
 	}
 }
