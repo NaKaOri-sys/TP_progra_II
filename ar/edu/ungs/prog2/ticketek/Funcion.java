@@ -32,7 +32,7 @@ public class Funcion {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(" - ("+this.fecha.toString()+")"+this.sede.obtenerNombre()+" - ");
+		sb.append(" - ").append("(").append(obtenerFecha().toString()).append(")").append(obtenerSede().obtenerNombre()).append(" - ");
 		sb.append(this.sede.obtenerInfoSectores(null));
 		
 		return sb.toString();
