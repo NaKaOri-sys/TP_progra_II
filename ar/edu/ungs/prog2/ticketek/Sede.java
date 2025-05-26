@@ -28,6 +28,10 @@ public abstract class Sede {
 	
 	public abstract double calcularPrecioBase(Sector sector, double precioBase);
 	
+	/***
+	 * Devuelve los sectores registrados en el caso de Estadio, solo devuelve el nombre de sector.
+	 * @return
+	 */
 	public abstract String listarSectores();
 	 /**
      * Recibe el diccionario de entradas vendidas de LA FUNCIÓN ESPECÍFICA para que la Sede
@@ -37,7 +41,8 @@ public abstract class Sede {
      * @return String con el formato de sectores solicitado.
      */
     public abstract String obtenerInfoSectores(HashMap<String, Integer> entradasVendidasPorSector);
-
+    
+    public abstract HashMap<String, Sector> obtenerSectores();
 	
 	@Override
 	public int hashCode() {
