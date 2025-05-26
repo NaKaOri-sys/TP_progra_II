@@ -192,13 +192,15 @@ public class Ticketek implements ITicketek {
 	}
 
 	@Override
+	// Vende una o varias entradas a un usuario para funciones en sedes no numeradas.
+
 		public List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia, int cantidadEntradas) {
 	    validarParametrosEntrada(nombreEspectaculo, fecha, email, contrasenia, cantidadEntradas);
 
 	    Usuario usuario = usuarios.get(email);
 	    Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
 	    Fecha fechaEntrada = new Fecha(fecha);
-	    Sede sede = espectaculo.obtenerFuncion(fechaEntrada).obtenerSede(); // esto debería devolver un String
+	    Sede sede = espectaculo.obtenerFuncion(fechaEntrada).obtenerSede();
 	    
 
 
@@ -232,18 +234,19 @@ public class Ticketek implements ITicketek {
 	        throw new IllegalArgumentException("La cantidad de entradas debe ser mayor a cero");
 	    }
 
-
 	}
+
 	@Override
+	//Vende una o varias entradas a un usuario para funciones con sedes numeradas.
+
 	public List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia, String sector, int[] asientos) {
-	    validarParametrosEntrada(nombreEspectaculo, fecha, email, contrasenia, asientos);
+	    validarParametrosEntradaEnumeradas(nombreEspectaculo, fecha, email, contrasenia, asientos);
 
 	    Usuario usuario = usuarios.get(email);
 	    Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
 	    Fecha fechaEntrada = new Fecha(fecha);
-	    Sede sede = espectaculo.obtenerFuncion(fechaEntrada).obtenerSede(); // esto debería devolver un String
+	    Sede sede = espectaculo.obtenerFuncion(fechaEntrada).obtenerSede(); 
 	    
-
 
 	    List<IEntrada> entradas = new ArrayList<>();
 	    
@@ -259,6 +262,27 @@ public class Ticketek implements ITicketek {
 		    }
 	    return entradas;
 	    }
+		private void validarParametrosEntradaEnumeradas(String nombreEspectaculo, String fecha, String email, String contrasenia, String sector, int asientos) {
+	    if (!usuarios.containsKey(email)) {
+	        throw new IllegalStateException("El usuario no se encuentra registrado");
+	    }
+	    if (!espectaculos.containsKey(nombreEspectaculo)) {
+	        throw new IllegalStateException("El espectáculo no se encuentra registrado");
+	    }
+	    Usuario usuario = usuarios.get(email);
+	    if (!usuario.validarContrasenia(contrasenia)) {
+	        throw new IllegalStateException("La contraseña es inválida");
+	    }
+	    if(sectoresRegistrados.containsKey(sector)){
+			throw new IllegalStateException("El sector no se encuentra regitrado.");
+		}
+			if (asientos <= 0) {
+	        throw new IllegalArgumentException("La cantidad de asientos debe ser mayor a cero");
+	    }
+	}
+
+
+
 
 	@Override
 	public String listarFunciones(String nombreEspectaculo) {

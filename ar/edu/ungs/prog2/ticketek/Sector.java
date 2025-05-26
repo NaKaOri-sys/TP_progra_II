@@ -26,11 +26,9 @@ public class Sector {
 	public int obtenerIncremento() {
 		return incremento;
 	}
-	
 	public int obtenerCapacidadMaxSector() {
 		return capacidadMaxSector;
 	}
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(asientosPorFila, capacidadMaxSector, incremento, tipo);
