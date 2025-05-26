@@ -1,5 +1,6 @@
 package TP_progra_II.ar.edu.ungs.prog2.ticketek;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 public abstract class Sede {
@@ -26,6 +27,16 @@ public abstract class Sede {
 	}
 	
 	public abstract double calcularPrecioBase(Sector sector, double precioBase);
+	
+	 /**
+     * Recibe el diccionario de entradas vendidas de LA FUNCIÓN ESPECÍFICA para que la Sede
+     * pueda calcular y mostrar "vendidas / capacidad".
+     *
+     * @param entradasVendidasPorSector Mapa<String (tipoSector), Integer (cantidadVendida)> de la función.
+     * @return String con el formato de sectores solicitado.
+     */
+    public abstract String obtenerInfoSectores(HashMap<String, Integer> entradasVendidasPorSector);
+
 	
 	@Override
 	public int hashCode() {

@@ -1,5 +1,7 @@
 package TP_progra_II.ar.edu.ungs.prog2.ticketek;
 
+import java.util.HashMap;
+
 public class Estadio extends Sede {
 	private static Sector CAMPO;
 	public Estadio(String nombre, String direccion, int capacidadMaxima) {
@@ -17,5 +19,11 @@ public class Estadio extends Sede {
 			throw new IllegalArgumentException("Estadio solo puede tener sector CAMPO.");
 		}
 		return precioBase;
+	}
+
+	@Override
+	public String obtenerInfoSectores(HashMap<String, Integer> entradasVendidasPorSector) {
+		int entradasVendidas = entradasVendidasPorSector.getOrDefault(CAMPO, 0);
+        return entradasVendidas + "/" + obtenerCapacidadMaxima();
 	}
 }

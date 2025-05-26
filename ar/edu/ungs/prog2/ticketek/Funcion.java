@@ -28,4 +28,15 @@ public class Funcion {
     public void setFecha(Fecha fecha) {
         this.fecha = fecha;
     }
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(" - ("+this.fecha.toString()+")"+this.sede.obtenerNombre()+" - ");
+		sb.append(this.sede.obtenerInfoSectores(null));
+		
+		return sb.toString();
+	}
+    
+    
 }
