@@ -79,6 +79,7 @@ public class MiniEstadioCubierto extends Sede {
 		return precioConsumicion;
 	}
 
+	@Override
 	public HashMap<String, Sector> obtenerSectores() {
 		return sectoresRegistrados;
 	}

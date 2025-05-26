@@ -61,7 +61,8 @@ public class Teatro extends Sede {
 					"Para poder inicializar los sectores, los tipos de sectores deben tener la misma cantidad de elementos que capacidadMaxPorSector y porcentajeIncrementoSectores.");
 		}
 	}
-
+	
+	@Override
 	public HashMap<String, Sector> obtenerSectores() {
 		return sectoresRegistrados;
 	}

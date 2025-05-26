@@ -33,4 +33,11 @@ public class Estadio extends Sede {
 		sb.append(CAMPO.toString());
 		return sb.toString();
 	}
+
+	@Override
+	public HashMap<String, Sector> obtenerSectores() {
+		HashMap<String, Sector> sectores = new HashMap<String, Sector>();
+		sectores.put(CAMPO.obtenerTipo(), CAMPO);
+		return sectores;
+	}
 }
