@@ -1,12 +1,16 @@
 package TP_progra_II.ar.edu.ungs.prog2.ticketek;
 
+import java.time.LocalDate;
+import java.util.Objects;
+import java.util.Random;
+
 public class Entrada implements IEntrada {
 	
     private String codigo;
     private String espectaculoNombre;
     private Fecha fecha;
     private Sede sede;
-    private String ubicacion;
+    String ubicacion;
     private String sector;
     private int fila;
     private int asiento;
@@ -19,6 +23,7 @@ public class Entrada implements IEntrada {
         this.sede = sede;
         this.ubicacion = ubicacion;
     }
+    
     // Métodos existentes
     public String obtenerNombre() {
         return espectaculoNombre;
@@ -36,15 +41,13 @@ public class Entrada implements IEntrada {
     	
     	 StringBuilder formatoSector = new StringBuilder();
     	 
-		    if (ubicacion.equals("estadio")){
-		    	formatoSector.append("CAMPO");
-		    } 
-		    else {
-		    	formatoSector.append(sector).append(" f:").append(fila).append(" a:").append(asiento);
-		    }
-		    return formatoSector.toString();
+    	 if (ubicacion.equals("CAMPO")) {
+    		    formatoSector.append("CAMPO");
+    		} else {
+    		    formatoSector.append(sector).append(" f:").append(fila).append(" a:").append(asiento);
+    		}
+    	 return formatoSector.toString();
     }
-
 	public String toString() {
 
 		    StringBuilder formatoEntrada = new StringBuilder();
@@ -73,4 +76,21 @@ public class Entrada implements IEntrada {
 
 		    return formatoEntrada.toString();			
 	}
+    public static String generarCodigo(int longitud) {
+        String caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Random rand = new Random();
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < longitud; i++) {
+            int index = rand.nextInt(caracteres.length());
+            sb.append(caracteres.charAt(index));
+        }
+
+        return sb.toString();
+    }
+
+	public String getUbicacion() {
+		return ubicacion;
+	}
+    
 }
