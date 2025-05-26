@@ -1,6 +1,5 @@
 package TP_progra_II.ar.edu.ungs.prog2.ticketek;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -95,22 +94,8 @@ public class Usuario {
     public List<Entrada> getEntradas() {
         return entradas;
     }
-
-    //Setters
-    public void setEntradas(List<Entrada> entradas) {
-        this.entradas = entradas;
+    public boolean validarContrasenia(String contrasenia) {
+        return this.contrasenia.equals(contrasenia);
     }
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-    public void setContrasenia(String contrasenia) {
-        this.contrasenia = contrasenia;
-    }
+    
 }
-
