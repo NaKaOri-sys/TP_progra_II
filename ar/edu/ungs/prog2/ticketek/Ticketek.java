@@ -14,6 +14,7 @@ public class Ticketek implements ITicketek {
 		this.espectaculos = new HashMap<String, Espectaculo>();
 		this.sedes = new HashMap<String, Sede>();
 	}
+
 	@Override
 	public void registrarSede(String nombre, String direccion, int capacidadMaxima) {
 		validarParametrosSede(nombre, direccion, capacidadMaxima);
@@ -138,31 +139,31 @@ public class Ticketek implements ITicketek {
 
 	@Override
 	public void registrarUsuario(String email, String nombre, String apellido, String contrasenia) {
-		
-		//Si el email ya está registrado, se debe lanzar una excepcion
-		
-		if (usuarios.containsKey(email)){
+
+		// Si el email ya está registrado, se debe lanzar una excepcion
+
+		if (usuarios.containsKey(email)) {
 			throw new IllegalStateException("El email ya está registrado.");
 		}
-		
-		//Si algun dato no es aceptable, se debe lanzar una excepcion.
-		if(email == null || !email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")){			
+
+		// Si algun dato no es aceptable, se debe lanzar una excepcion.
+		if (email == null || !email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
 			throw new IllegalStateException("El Email ingresado es invalido.");
 		}
-		if(nombre == null){			
+		if (nombre == null) {
 			throw new IllegalStateException("El Nombre ingresado no puede estar vacio.");
 		}
-		if(apellido== null){			
+		if (apellido == null) {
 			throw new IllegalStateException("El Apellido ingresado no puede estar vacio.");
 		}
-		if(contrasenia == null){			
+		if (contrasenia == null) {
 			throw new IllegalStateException("La contraña ingresado no puede estar vacio.");
 		}
 		// Registrar un nuevo usuario en el sistema
-        
+
 		Usuario nuevo = new Usuario(email, nombre, apellido, contrasenia);
-        usuarios.put(email, nuevo);
-        System.out.println("Usuario registrado correctamente: " + email);
+		usuarios.put(email, nuevo);
+		System.out.println("Usuario registrado correctamente: " + email);
 	}
 
 	@Override
@@ -189,7 +190,7 @@ public class Ticketek implements ITicketek {
 			throw new IllegalArgumentException("El nombre del espectaculo no puede estar vacio.");
 		if (!espectaculos.containsKey(nombreEspectaculo))
 			throw new IllegalArgumentException("El espectaculo debe encontrarse registrado.");
-		if (!espectaculos.containsKey(nombreEspectaculo)) 
+		if (!espectaculos.containsKey(nombreEspectaculo))
 			throw new IllegalArgumentException("El espectaculo ingresado no se encuentra registrado.");
 		if (!sedes.containsKey(sede))
 			throw new IllegalArgumentException("La sede ingresada no se encuentra registrada");
@@ -200,104 +201,105 @@ public class Ticketek implements ITicketek {
 	}
 
 	@Override
-	// Vende una o varias entradas a un usuario para funciones en sedes no numeradas.
+	// Vende una o varias entradas a un usuario para funciones en sedes no
+	// numeradas.
 
-		public List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia, int cantidadEntradas) {
-	    validarParametrosEntrada(nombreEspectaculo, fecha, email, contrasenia, cantidadEntradas);
+	public List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia,
+			int cantidadEntradas) {
+		validarParametrosEntrada(nombreEspectaculo, fecha, email, contrasenia, cantidadEntradas);
 
-	    Usuario usuario = usuarios.get(email);
-	    Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
-	    Fecha fechaEntrada = new Fecha(fecha);
-	    Sede sede = espectaculo.obtenerFuncion(fechaEntrada).obtenerSede();
-	    
+		Usuario usuario = usuarios.get(email);
+		Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
+		Fecha fechaEntrada = new Fecha(fecha);
+		Sede sede = espectaculo.obtenerFuncion(fechaEntrada).obtenerSede();
 
+		List<IEntrada> entradas = new ArrayList<>();
 
-	    List<IEntrada> entradas = new ArrayList<>();
-	    
-	    for (int i = 0; i < cantidadEntradas; i++) {
-	        String codigo = Entrada.generarCodigo(8);
-	        Entrada entrada = new Entrada(codigo, nombreEspectaculo, fechaEntrada, sede, "CAMPO");
-		    if (!entrada.ubicacion().equals("CAMPO")) {
-		    	
-		    	throw new IllegalStateException("La sede de la función es numerada");
-		    }else {
-		    	entradas.add(entrada);
-	    
-		    }
-	    return entradas;
-	    	}
-	    }
-	private void validarParametrosEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia, int cantidadEntradas) {
-	    if (!usuarios.containsKey(email)) {
-	        throw new IllegalStateException("El usuario no se encuentra registrado");
-	    }
-	    if (!espectaculos.containsKey(nombreEspectaculo)) {
-	        throw new IllegalStateException("El espectáculo no se encuentra registrado");
-	    }
-	    Usuario usuario = usuarios.get(email);
-	    if (!usuario.validarContrasenia(contrasenia)) {
-	        throw new IllegalStateException("La contraseña es inválida");
-	    }
-	    if (cantidadEntradas <= 0) {
-	        throw new IllegalArgumentException("La cantidad de entradas debe ser mayor a cero");
-	    }
+		for (int i = 0; i < cantidadEntradas; i++) {
+			String codigo = Entrada.generarCodigo(8);
+			Entrada entrada = new Entrada(codigo, nombreEspectaculo, fechaEntrada, sede, "CAMPO");
+			if (!entrada.ubicacion().equals("CAMPO")) {
+
+				throw new IllegalStateException("La sede de la función es numerada");
+			} else {
+				entradas.add(entrada);
+
+			}
+		}
+		return entradas;
+	}
+
+	private void validarParametrosEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia,
+			int cantidadEntradas) {
+		if (!usuarios.containsKey(email)) {
+			throw new IllegalStateException("El usuario no se encuentra registrado");
+		}
+		if (!espectaculos.containsKey(nombreEspectaculo)) {
+			throw new IllegalStateException("El espectáculo no se encuentra registrado");
+		}
+		Usuario usuario = usuarios.get(email);
+		if (!usuario.validarContrasenia(contrasenia)) {
+			throw new IllegalStateException("La contraseña es inválida");
+		}
+		if (cantidadEntradas <= 0) {
+			throw new IllegalArgumentException("La cantidad de entradas debe ser mayor a cero");
+		}
 
 	}
 
 	@Override
-	//Vende una o varias entradas a un usuario para funciones con sedes numeradas.
+	// Vende una o varias entradas a un usuario para funciones con sedes numeradas.
 
-	public List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia, String sector, int[] asientos) {
-	    validarParametrosEntradaEnumeradas(nombreEspectaculo, fecha, email, contrasenia, asientos);
+	public List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia,
+			String sector, int[] asientos) {
+		validarParametrosEntradaEnumeradas(nombreEspectaculo, fecha, email, contrasenia, asientos);
 
-	    Usuario usuario = usuarios.get(email);
-	    Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
-	    Fecha fechaEntrada = new Fecha(fecha);
-	    Sede sede = espectaculo.obtenerFuncion(fechaEntrada).obtenerSede(); 
-	    
+		Usuario usuario = usuarios.get(email);
+		Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
+		Fecha fechaEntrada = new Fecha(fecha);
+		Sede sede = espectaculo.obtenerFuncion(fechaEntrada).obtenerSede();
 
-	    List<IEntrada> entradas = new ArrayList<>();
-	    
-	    for (int i = 0; i < cantidadEntradas; i++) {
-	        String codigo = Entrada.generarCodigo(8);
-	        Entrada entrada = new Entrada(codigo, nombreEspectaculo, fechaEntrada, sede, sector, asientos);		   
-	        if (entrada.ubicacion().equals("CAMPO")) {
-		    	
-		    	throw new IllegalStateException("La sede de la función no es numerada");
-		    }
-		    entradas.add(entrada);
-	    
-		    }
-	    return entradas;
-	    }
-		private void validarParametrosEntradaEnumeradas(String nombreEspectaculo, String fecha, String email, String contrasenia, String sector, int asientos) {
-	    if (!usuarios.containsKey(email)) {
-	        throw new IllegalStateException("El usuario no se encuentra registrado");
-	    }
-	    if (!espectaculos.containsKey(nombreEspectaculo)) {
-	        throw new IllegalStateException("El espectáculo no se encuentra registrado");
-	    }
-	    Usuario usuario = usuarios.get(email);
-	    if (!usuario.validarContrasenia(contrasenia)) {
-	        throw new IllegalStateException("La contraseña es inválida");
-	    }
-	    if(sectoresRegistrados.containsKey(sector)){
-			throw new IllegalStateException("El sector no se encuentra regitrado.");
+		List<IEntrada> entradas = new ArrayList<>();
+
+		for (int i = 0; i < cantidadEntradas; i++) {
+			String codigo = Entrada.generarCodigo(8);
+			Entrada entrada = new Entrada(codigo, nombreEspectaculo, fechaEntrada, sede, sector, asientos);
+			if (entrada.ubicacion().equals("CAMPO")) {
+
+				throw new IllegalStateException("La sede de la función no es numerada");
+			}
+			entradas.add(entrada);
+
 		}
-			if (asientos <= 0) {
-	        throw new IllegalArgumentException("La cantidad de asientos debe ser mayor a cero");
-	    }
+		return entradas;
 	}
 
-
-
+	private void validarParametrosEntradaEnumeradas(String nombreEspectaculo, String fecha, String email,
+			String contrasenia, String sector, int asientos) {
+		if (!usuarios.containsKey(email)) {
+			throw new IllegalStateException("El usuario no se encuentra registrado");
+		}
+		if (!espectaculos.containsKey(nombreEspectaculo)) {
+			throw new IllegalStateException("El espectáculo no se encuentra registrado");
+		}
+		Usuario usuario = usuarios.get(email);
+		if (!usuario.validarContrasenia(contrasenia)) {
+			throw new IllegalStateException("La contraseña es inválida");
+		}
+		if (sectoresRegistrados.containsKey(sector)) {
+			throw new IllegalStateException("El sector no se encuentra regitrado.");
+		}
+		if (asientos <= 0) {
+			throw new IllegalArgumentException("La cantidad de asientos debe ser mayor a cero");
+		}
+	}
 
 	@Override
 	public String listarFunciones(String nombreEspectaculo) {
-		if (!espectaculos.containsKey(nombreEspectaculo)) 
+		if (!espectaculos.containsKey(nombreEspectaculo))
 			throw new IllegalArgumentException("El espectaculo ingresado no se encuentra registrado.");
 		Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
-		
+
 		return null;
 	}
 
