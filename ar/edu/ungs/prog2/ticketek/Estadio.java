@@ -6,7 +6,7 @@ public class Estadio extends Sede {
 	private static Sector CAMPO;
 	public Estadio(String nombre, String direccion, int capacidadMaxima) {
 		super(nombre, direccion, capacidadMaxima);
-		CAMPO = new Sector("Campo");
+		CAMPO = new Sector("Campo", 0,capacidadMaxima, 0);
 	}
 	
 	public Sector obtenerSector() {
@@ -25,5 +25,12 @@ public class Estadio extends Sede {
 	public String obtenerInfoSectores(HashMap<String, Integer> entradasVendidasPorSector) {
 		int entradasVendidas = entradasVendidasPorSector.getOrDefault(CAMPO, 0);
         return entradasVendidas + "/" + obtenerCapacidadMaxima();
+	}
+
+	@Override
+	public String listarSectores() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(CAMPO.toString());
+		return sb.toString();
 	}
 }

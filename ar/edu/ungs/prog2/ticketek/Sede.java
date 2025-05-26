@@ -28,6 +28,7 @@ public abstract class Sede {
 	
 	public abstract double calcularPrecioBase(Sector sector, double precioBase);
 	
+	public abstract String listarSectores();
 	 /**
      * Recibe el diccionario de entradas vendidas de LA FUNCIÓN ESPECÍFICA para que la Sede
      * pueda calcular y mostrar "vendidas / capacidad".

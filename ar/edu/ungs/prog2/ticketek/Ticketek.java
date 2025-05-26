@@ -9,6 +9,11 @@ public class Ticketek implements ITicketek {
 	private HashMap<String, Espectaculo> espectaculos;
 	private HashMap<String, Sede> sedes;
 
+	public Ticketek() {
+		this.usuarios = new HashMap<String, Usuario>();
+		this.espectaculos = new HashMap<String, Espectaculo>();
+		this.sedes = new HashMap<String, Sede>();
+	}
 	@Override
 	public void registrarSede(String nombre, String direccion, int capacidadMaxima) {
 		validarParametrosSede(nombre, direccion, capacidadMaxima);
@@ -17,6 +22,7 @@ public class Ticketek implements ITicketek {
 		}
 		Sede sede = new Estadio(nombre, direccion, capacidadMaxima);
 		sedes.put(nombre, sede);
+		System.out.println(sede.toString() + " " + sede.listarSectores());
 	}
 
 	@Override
@@ -30,6 +36,7 @@ public class Ticketek implements ITicketek {
 		Sede sede = new Teatro(nombre, direccion, capacidadMaxima, sectores, capacidad, asientosPorFila,
 				porcentajeAdicional);
 		sedes.put(nombre, sede);
+		System.out.println(sede.toString() + " " + sede.listarSectores());
 	}
 
 	@Override
@@ -44,6 +51,7 @@ public class Ticketek implements ITicketek {
 		Sede sede = new MiniEstadioCubierto(nombre, direccion, capacidadMaxima, precioConsumicion, sectores, capacidad,
 				asientosPorFila, porcentajeAdicional);
 		sedes.put(nombre, sede);
+		System.out.println(sede.toString() + " " + sede.listarSectores());
 	}
 
 	private void validarParametrosSede(String nombre, String direccion, int capacidadMaxima) {

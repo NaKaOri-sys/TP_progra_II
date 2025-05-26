@@ -106,6 +106,8 @@ public class MiniEstadioCubierto extends Sede {
 	public int obtenerPuestosComidaRapida() {
 		return puestosComidaRapida;
 	}
+	
+	
 
 	@Override
 	public String obtenerInfoSectores(HashMap<String, Integer> entradasVendidasPorSector) {
@@ -123,6 +125,15 @@ public class MiniEstadioCubierto extends Sede {
 
 			sb.append(tipoSector).append(": ").append(entradasVendidas).append("/").append(capacidadSector);
 			firstSector = false;
+		}
+		return sb.toString();
+	}
+
+	@Override
+	public String listarSectores() {
+		StringBuilder sb = new StringBuilder();
+		for (Sector entry : sectoresRegistrados.values()) {
+			sb.append(entry.toString());
 		}
 		return sb.toString();
 	}

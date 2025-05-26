@@ -14,9 +14,6 @@ public class Sector {
 		this.capacidadMaxSector = capacidadMaxSector;
 	}
 	
-	public Sector(String tipo) {
-		this.tipo = tipo;
-	}
 	public String obtenerTipo() {
 		return tipo;
 	}
@@ -45,6 +42,19 @@ public class Sector {
 		Sector other = (Sector) obj;
 		return asientosPorFila == other.asientosPorFila && capacidadMaxSector == other.capacidadMaxSector
 				&& incremento == other.incremento && Objects.equals(tipo, other.tipo);
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(obtenerTipo());
+		if (obtenerTipo().equals("Campo")) {
+			return sb.toString();
+		}
+		sb.append(" - ").append("asientos por fila: ").append(obtenerAsientosPorFila()).append(" - ")
+		.append("incremento por sector: %").append(obtenerIncremento())
+		.append(" - ").append("capacidad máxima en sector: ").append(obtenerCapacidadMaxSector()).append("\n");
+		return sb.toString();
 	}
 	
 	
