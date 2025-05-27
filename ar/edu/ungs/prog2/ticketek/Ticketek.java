@@ -204,68 +204,76 @@ public class Ticketek implements ITicketek {
 	// Vende una o varias entradas a un usuario para funciones en sedes no
 	// numeradas.
 
-	public List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia, int cantidadEntradas) {
-	    validarParametrosEntrada(nombreEspectaculo, fecha, email, contrasenia, cantidadEntradas);
-	    Usuario usuario = usuarios.get(email);
-	    Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
-	    Fecha fechaEntrada = new Fecha(fecha);
-	    Funcion funcion = espectaculo.obtenerFuncion(fechaEntrada);
-	    Sede sede = funcion.obtenerSede();
+	public List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia,
+			int cantidadEntradas) {
+		validarParametrosEntrada(nombreEspectaculo, fecha, email, contrasenia, cantidadEntradas);
+		Usuario usuario = usuarios.get(email);
+		Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
+		Fecha fechaEntrada = new Fecha(fecha);
+		Funcion funcion = espectaculo.obtenerFuncion(fechaEntrada);
+		Sede sede = funcion.obtenerSede();
 
-	    List<IEntrada> entradas = new ArrayList<>();
+		List<IEntrada> entradas = new ArrayList<>();
 
-	    for (int i = 0; i < cantidadEntradas; i++) {
-	        String codigo = Entrada.generarCodigo(8);
-	        Entrada entrada = new Entrada(codigo, nombreEspectaculo, fechaEntrada, sede, "Campo");
-	        entradas.add(entrada);
+		for (int i = 0; i < cantidadEntradas; i++) {
+			String codigo = Entrada.generarCodigo(8);
+			Entrada entrada = new Entrada(codigo, espectaculo, fechaEntrada, sede, "Campo");
+			entradas.add(entrada);
 
-	        // Registrar la entrada vendida en la función
-	        funcion.registrarEntrada(entrada, "Campo");
-	    }
-	    return entradas;
+			// Registrar la entrada vendida en la función
+			funcion.registrarEntrada(entrada, "Campo");
+		}
+		return entradas;
 	}
+
 	@Override
 	// Vende una o varias entradas a un usuario para funciones con sedes numeradas.
 
-	public List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia, String sector, int[] asientos) {
-	    validarParametrosEntradaEnumeradas(nombreEspectaculo, fecha, email, contrasenia, sector, asientos);
-	    Usuario usuario = usuarios.get(email);
-	    Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
-	    Fecha fechaEntrada = new Fecha(fecha);
-	    Funcion funcion = espectaculo.obtenerFuncion(fechaEntrada);
-	    Sede sede = funcion.obtenerSede();
+	public List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia,
+			String sector, int[] asientos) {
+		validarParametrosEntradaEnumeradas(nombreEspectaculo, fecha, email, contrasenia, sector, asientos);
+		Usuario usuario = usuarios.get(email);
+		Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
+		Fecha fechaEntrada = new Fecha(fecha);
+		Funcion funcion = espectaculo.obtenerFuncion(fechaEntrada);
+		Sede sede = funcion.obtenerSede();
 
-	    List<IEntrada> entradas = new ArrayList<>();
+		List<IEntrada> entradas = new ArrayList<>();
 
-	    for (int i = 0; i < asientos.length; i++) {
-	        String codigo = Entrada.generarCodigo(8);
-	        Entrada entrada = new Entrada(codigo, nombreEspectaculo, fechaEntrada, sede, sector, 1, asientos[i]);
-	        entradas.add(entrada);
+		for (int i = 0; i < asientos.length; i++) {
+			String codigo = Entrada.generarCodigo(8);
+			Entrada entrada = new Entrada(codigo, espectaculo, fechaEntrada, sede, sector, 1, asientos[i]);
+			entradas.add(entrada);
 
-	        // Registrar la entrada vendida en la función
-	        funcion.registrarEntrada(entrada, sector);
-	    }
-	    return entradas;
+			// Registrar la entrada vendida en la función
+			funcion.registrarEntrada(entrada, sector);
+		}
+		return entradas;
 	}
 
-	private void validarParametrosEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia, int cantidadEntradas) {
-	    if (!usuarios.containsKey(email)) throw new IllegalStateException("Usuario no registrado");
-	    if (!espectaculos.containsKey(nombreEspectaculo)) throw new IllegalStateException("Espectáculo no registrados");
-	    if (!usuarios.get(email).validarContrasenia(contrasenia)) throw new IllegalStateException("Contraseña inválida");
-	    if (cantidadEntradas <= 0) throw new IllegalArgumentException("Cantidad debe ser > 0");
+	private void validarParametrosEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia,
+			int cantidadEntradas) {
+		if (!usuarios.containsKey(email))
+			throw new IllegalStateException("Usuario no registrado");
+		if (!espectaculos.containsKey(nombreEspectaculo))
+			throw new IllegalStateException("Espectáculo no registrados");
+		if (!usuarios.get(email).validarContrasenia(contrasenia))
+			throw new IllegalStateException("Contraseña inválida");
+		if (cantidadEntradas <= 0)
+			throw new IllegalArgumentException("Cantidad debe ser > 0");
 	}
 
-	private void validarParametrosEntradaEnumeradas(String nombreEspectaculo, String fecha, String email, String contrasenia, String sector, int[] asientos) {
-	    validarParametrosEntrada(nombreEspectaculo, fecha, email, contrasenia, asientos.length);
+	private void validarParametrosEntradaEnumeradas(String nombreEspectaculo, String fecha, String email,
+			String contrasenia, String sector, int[] asientos) {
+		validarParametrosEntrada(nombreEspectaculo, fecha, email, contrasenia, asientos.length);
 
-	    Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
-	    Fecha fechaEntrada = new Fecha(fecha);
-	    Sede sede = espectaculo.obtenerFuncion(fechaEntrada).obtenerSede();
+		Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
+		Fecha fechaEntrada = new Fecha(fecha);
+		Sede sede = espectaculo.obtenerFuncion(fechaEntrada).obtenerSede();
 
-	     if (!sede.obtenerSectores().containsKey(sector)) 
-	        throw new IllegalArgumentException("El sector no existe en esta sede.");
+		if (!sede.obtenerSectores().containsKey(sector))
+			throw new IllegalArgumentException("El sector no existe en esta sede.");
 	}
-
 
 	@Override
 	public String listarFunciones(String nombreEspectaculo) {
@@ -276,54 +284,56 @@ public class Ticketek implements ITicketek {
 		for (Funcion entry : espectaculo.obtenerFunciones().values()) {
 			sb.append(entry.toString());
 		}
-		return sb.toString(); 
+		return sb.toString();
 	}
 
-		@Override
+	@Override
 
 	public List<IEntrada> listarEntradasEspectaculo(String nombreEspectaculo) {
-	    if (!espectaculos.containsKey(nombreEspectaculo)) {
-	        throw new IllegalArgumentException("Espectáculo no registrado.");
-	    }
+		if (!espectaculos.containsKey(nombreEspectaculo)) {
+			throw new IllegalArgumentException("Espectáculo no registrado.");
+		}
 
-	    Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
-	    List<IEntrada> todasLasEntradas = new ArrayList<>();
+		Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
+		List<IEntrada> todasLasEntradas = new ArrayList<>();
 
-	    for (Funcion funcion : espectaculo.obtenerFunciones().values()) {
-	        todasLasEntradas.addAll(funcion.obtenerEntradasVendidas());
-	    }
+		for (Funcion funcion : espectaculo.obtenerFunciones().values()) {
+			todasLasEntradas.addAll(funcion.obtenerEntradasVendidas());
+		}
 
-	   return todasLasEntradas;
+		return todasLasEntradas;
 	}
-		    
+
 	@Override
 	public List<IEntrada> listarEntradasFuturas(String email, String contrasenia) {
-	    validarUsuario(email, contrasenia);
-	    Usuario usuario = usuarios.get(email);
+		validarUsuario(email, contrasenia);
+		Usuario usuario = usuarios.get(email);
 
-	    return usuario.obtenerEntradasFuturas(usuario.getEntradas());
+		return usuario.obtenerEntradasFuturas(usuario.getEntradas());
 	}
 
 	private void validarUsuario(String email, String contrasenia) {
-	    if (!usuarios.containsKey(email)) throw new IllegalStateException("Usuario no registrado");
-	    if (!usuarios.get(email).validarContrasenia(contrasenia)) throw new IllegalStateException("Contraseña inválida");
+		if (!usuarios.containsKey(email))
+			throw new IllegalStateException("Usuario no registrado");
+		if (!usuarios.get(email).validarContrasenia(contrasenia))
+			throw new IllegalStateException("Contraseña inválida");
 	}
-	
+
 	@Override
 	/**
-     * 7) Devuelve una lista con todas las entradas que compró un usuario desde que se registró en el sistema.
-     * Se debe autenticar al usuario.
-
-     * @param email
-     * @param contrasenia
-     * @return
-     */
+	 * 7) Devuelve una lista con todas las entradas que compró un usuario desde que
+	 * se registró en el sistema. Se debe autenticar al usuario.
+	 * 
+	 * @param email
+	 * @param contrasenia
+	 * @return
+	 */
 	public List<IEntrada> listarTodasLasEntradasDelUsuario(String email, String contrasenia) {
 		validarUsuario(email, contrasenia);
-	    Usuario usuario = usuarios.get(email);
-	    return usuario.obtenerEntradas(usuario.getEntradas());
+		Usuario usuario = usuarios.get(email);
+		return usuario.obtenerEntradas(usuario.getEntradas());
 	}
-	
+
 	@Override
 	public boolean anularEntrada(IEntrada entrada, String contrasenia) {
 		// TODO Auto-generated method stub
