@@ -58,11 +58,6 @@ public class Funcion {
 	}
 	
 	public HashMap<String, Integer> obtenerEntradasVendidasPorSector(){
-		for (Entry<String, Integer> entry : entradasVendidasPorSector.entrySet()) {
-			String key = entry.getKey();
-			Integer val = entry.getValue();
-			System.out.println("key: "+key+" value: "+val+" \n");
-		}
 		return this.entradasVendidasPorSector;
 	}
 
