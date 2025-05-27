@@ -87,13 +87,14 @@ public class Principal {
 		 * System.out.println("\nFunciones de Coldplay:");
 		 * System.out.println(ticketek.listarFunciones("Coldplay en vivo"));
 		 */ 
-		 /* // 7) Listar todas las entradas compradas por un usuario
-		 * 
-		 * List<IEntrada> todasLasEntradasAlcides = ticketek
-		 * .listarTodasLasEntradasDelUsuario("alcides@violeta.com", "1234");
-		 * System.out.println("\nTodas las entradas de Alcides:"); for (IEntrada e:
-		 * todasLasEntradasAlcides) System.out.println(" - " + e);
-		 * 
+		 
+		  // 7) Listar todas las entradas compradas por un usuario
+		 
+		  List<IEntrada> todasLasEntradasAlcides = ticketek.listarTodasLasEntradasDelUsuario("alcides@violeta.com", "1234");
+		  System.out.println("\nTodas las entradas de Alcides:"); 
+		  for (IEntrada e: todasLasEntradasAlcides)
+			  System.out.println(" - " + e);
+		 /* 
 		 * // 10) y 11) Imprimir los precios para comparar el precio // de una entrada
 		 * comprada con el de una funcion.
 		 * System.out.println("\nPrecio de entrada para El Rey Leon: $" +

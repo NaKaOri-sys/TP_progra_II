@@ -10,20 +10,23 @@ public class Usuario {
     private String apellido;
     private String contrasenia;
     private List<Entrada> entradas;
+    private Fecha fechaRegistro;
 
     // Constructor
-    public Usuario(String email, String nombre, String apellido, String contrasenia) {
+    public Usuario(String email, String nombre, String apellido, String contrasenia, Fecha fechaRegistro) {
         this.email = email;
         this.nombre = nombre;
         this.apellido = apellido;
         this.contrasenia = contrasenia;
         this.entradas = new ArrayList<>();
+        this.fechaRegistro = fechaRegistro;
     }
 
     // Obtener todas las entradas como String
     public String obtenerEntradas() {
         return entradas.toString();
     }
+    
 
     // Comprar entradas
     public void comprarEntradas(List<Entrada> nuevasEntradas) {
@@ -40,10 +43,23 @@ public class Usuario {
         }
         return null;
     }
+    // Obtener Todas las entradas.
+    public List<IEntrada> obtenerEntradas(List<Entrada> entradasFuturas) {
+        List<IEntrada> listaEntradas= new ArrayList<>();
+   	 	Fecha fechaActual = Fecha.fechaActual();
+   	 	for (Entrada e : entradasFuturas) {
+        	if (fechaActual.esMayor(fechaRegistro, fechaActual)) {
+                listaEntradas.add(e);
+        	}
+        }
+       return listaEntradas;
+    }
+    
+    
 
     // Obtener solo las entradas futuras
-    public List<Entrada> obtenerEntradasFuturas(List<Entrada> entradasFuturas) {
-        List<Entrada> listaEntradasFuturas = new ArrayList<>();
+    public List<IEntrada> obtenerEntradasFuturas(List<Entrada> entradasFuturas) {
+        List<IEntrada> listaEntradasFuturas = new ArrayList<>();
         Fecha fechaActual = Fecha.fechaActual();
         for (Entrada e : entradasFuturas) {
             if (e.obtenerFecha().esMayor(e.obtenerFecha(), fechaActual)) {
