@@ -138,4 +138,9 @@ public class MiniEstadioCubierto extends Sede {
 		}
 		return sb.toString();
 	}
+
+	@Override
+	public boolean esEnumerada() {
+		return true;
+	}
 }

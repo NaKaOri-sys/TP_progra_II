@@ -40,4 +40,9 @@ public class Estadio extends Sede {
 		sectores.put(CAMPO.obtenerTipo(), CAMPO);
 		return sectores;
 	}
+
+	@Override
+	public boolean esEnumerada() {
+		return false;
+	}
 }

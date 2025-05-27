@@ -7,25 +7,63 @@ public class Sector {
 	private int asientosPorFila;
 	private int incremento;
 	private int capacidadMaxSector;
+
 	public Sector(String tipo, int asientosPorFila, int capacidadMaxSector, int incremento) {
 		this.tipo = tipo;
 		this.asientosPorFila = asientosPorFila;
 		this.incremento = incremento;
 		this.capacidadMaxSector = capacidadMaxSector;
 	}
-	
+
 	public String obtenerTipo() {
 		return tipo;
 	}
+
 	public int obtenerAsientosPorFila() {
 		return asientosPorFila;
 	}
+
 	public int obtenerIncremento() {
 		return incremento;
 	}
+
 	public int obtenerCapacidadMaxSector() {
 		return capacidadMaxSector;
 	}
+
+	/**
+	 * Calcula la fila dado un número de asiento global y los asientos por fila del
+	 * sector. Los asientos empiezan en 1.
+	 * 
+	 * @param numeroAsientoGlobal El número de asiento global en el rango total del
+	 *                            sector (1 a capacidadMaxima).
+	 * @return El número de fila.
+	 */
+	public int calcularFila(int numeroAsientoGlobal) {
+		if (asientosPorFila <= 0 || numeroAsientoGlobal <= 0) {
+			throw new IllegalArgumentException(
+					"asientosPorFila y numeroAsientoGlobal tienen que ser numeros positivos mayores a 0.");
+		}
+		return (int) Math.ceil((double) numeroAsientoGlobal / asientosPorFila);
+	}
+
+	/**
+	 * Calcula el número de asiento dentro de su fila dado un número de asiento
+	 * global. Los asientos dentro de la fila empiezan en 1.
+	 * 
+	 * @param numeroAsientoGlobal El número de asiento global.
+	 * @return El número de asiento dentro de su fila.
+	 */
+	public int calcularAsientoEnFila(int numeroAsientoGlobal) {
+		if (asientosPorFila <= 0 || numeroAsientoGlobal <= 0) {
+			throw new IllegalArgumentException(
+					"asientosPorFila y numeroAsientoGlobal tienen que ser numeros positivos mayores a 0.");
+		}
+		int asientoEnFila = numeroAsientoGlobal % asientosPorFila;
+		// Si el módulo es 0, significa que es el último asiento de la fila.
+		return (asientoEnFila == 0) ? asientosPorFila : asientoEnFila;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(asientosPorFila, capacidadMaxSector, incremento, tipo);
@@ -52,10 +90,9 @@ public class Sector {
 			return sb.toString();
 		}
 		sb.append(" - ").append("asientos por fila: ").append(obtenerAsientosPorFila()).append(" - ")
-		.append("incremento por sector: %").append(obtenerIncremento())
-		.append(" - ").append("capacidad máxima en sector: ").append(obtenerCapacidadMaxSector()).append("\n");
+				.append("incremento por sector: %").append(obtenerIncremento()).append(" - ")
+				.append("capacidad máxima en sector: ").append(obtenerCapacidadMaxSector()).append("\n");
 		return sb.toString();
 	}
-	
-	
+
 }

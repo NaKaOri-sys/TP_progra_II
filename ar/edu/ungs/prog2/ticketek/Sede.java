@@ -26,6 +26,8 @@ public abstract class Sede {
 		return capacidadMaxima;
 	}
 	
+	public abstract boolean esEnumerada();
+	
 	public abstract double calcularPrecioBase(Sector sector, double precioBase);
 	
 	/***
