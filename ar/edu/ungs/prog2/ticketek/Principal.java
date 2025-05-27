@@ -86,8 +86,8 @@ public class Principal {
 		 * 
 		 * System.out.println("\nFunciones de Coldplay:");
 		 * System.out.println(ticketek.listarFunciones("Coldplay en vivo"));
-		 * 
-		 * // 7) Listar todas las entradas compradas por un usuario
+		 */ 
+		 /* // 7) Listar todas las entradas compradas por un usuario
 		 * 
 		 * List<IEntrada> todasLasEntradasAlcides = ticketek
 		 * .listarTodasLasEntradasDelUsuario("alcides@violeta.com", "1234");
@@ -134,12 +134,13 @@ public class Principal {
 		 * System.out.println("\nTotal Recaudado por El Rey León en Gran Rex: $" +
 		 * totalRecaudadoSede);
 		 * 
-		 * 
-		 * // 15) Listar entradas vendidas de un espectaculo List<IEntrada>
-		 * entradasReyLeon = ticketek .listarEntradasEspectaculo("El Rey León");
-		 * System.out.println("\nTodas las entradas para El Rey León:"); for (IEntrada
-		 * e: entradasReyLeon) System.out.println(" - " + e);
 		 */
+		 // 15) Listar entradas vendidas de un espectaculo 
+		  List<IEntrada> entradasReyLeon = ticketek .listarEntradasEspectaculo("El Rey Leon");
+		  System.out.println("\nTodas las entradas para El Rey León:");
+		  for (IEntrada e: entradasReyLeon)
+			  System.out.println(" - " + e);
+		 
         
 		printEmpresa(ticketek, "Fin de la simulación");
 	}
