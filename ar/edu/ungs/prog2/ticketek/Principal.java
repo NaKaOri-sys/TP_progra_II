@@ -32,54 +32,52 @@ public class Principal {
         ticketek.registrarSede("Mini Arena Norte", "pasaje 5", 500, asientosPorFilaMiniestadio, 12, 30000.0, sectores_teatro, capacidad_miniestadio, porcentajeAdicionalTeatro);
         ticketek.registrarSede("Microestadio Sur", "pje. 10", 500, asientosPorFilaMiniestadio, 20, 20000.0, sectores_teatro, capacidad_miniestadio, porcentajeAdicionalTeatro);
 
-		/*
-		 * // 2) Registrar usuarios
-		 * 
-		 * ticketek.registrarUsuario("Antonio", "Rios", "ant@nio.rios.com", "1234");
-		 * ticketek.registrarUsuario("Leonardo", "Mattioli", "leo@mattioli.com.ar",
-		 * "1234"); ticketek.registrarUsuario("Miguel Angel", "Lunardi",
-		 * "miguel.conejito@alejandro.com.ar", "1234");
-		 * ticketek.registrarUsuario("Alcides", "Berardo", "alcides@violeta.com",
-		 * "1234");
-		 * 
-		 * // 3) y 14) Registrar espectaculos y sus funciones
-		 * ticketek.registrarEspectaculo("El Rey Leon");
-		 * ticketek.agregarFuncion("El Rey Leon", "26/07/25", "Teatro Gran Rex",
-		 * 90000.0); ticketek.agregarFuncion("El Rey Leon", "29/07/25",
-		 * "Teatro Gran Rex", 90000.0); ticketek.agregarFuncion("El Rey Leon",
-		 * "31/08/25", "Teatro Colón", 90000.0); ticketek.agregarFuncion("El Rey Leon",
-		 * "31/09/25", "Teatro Colón", 90000.0); ticketek.agregarFuncion("El Rey Leon",
-		 * "01/10/25", "Teatro Gran Rex", 90000.0);
-		 * 
-		 * 
-		 * ticketek.registrarEspectaculo("Coldplay en vivo");
-		 * ticketek.agregarFuncion("Coldplay en vivo", "25/07/25", "La bombonera",
-		 * 130000.0); ticketek.agregarFuncion("Coldplay en vivo", "28/07/25",
-		 * "La bombonera", 130000.0); ticketek.agregarFuncion("Coldplay en vivo",
-		 * "30/07/25", "La bombonera", 130000.0);
-		 * ticketek.agregarFuncion("Coldplay en vivo", "31/07/25", "La bombonera",
-		 * 130000.0); ticketek.agregarFuncion("Coldplay en vivo", "01/08/25",
-		 * "La bombonera", 130000.0);
-		 * 
-		 * printEmpresa(ticketek, "Sedes, Usuarios y Funciones registradas.");
-		 * 
-		 * 
-		 * // 4) Vender entradas. Se guardan algunas para anular y cambiar.
-		 * 
-		 * // // Entradas para el rey leon int[] asientos = { 10, 9, 1, 2 };
-		 * ticketek.venderEntrada( "El Rey León", "31/08/25", "alcides@violeta.com",
-		 * "1234", "Platea Común", asientos ); List<IEntrada> entradasConejo =
-		 * ticketek.venderEntrada( "El Rey León", "29/07/25",
-		 * "miguel.conejito@alejandro.com.ar", "1234", "Platea VIP", asientos );
-		 * System.out.println("\nEntradas Miguel Conejito Alejandro para El Rey Leon:");
-		 * for (IEntrada e: entradasConejo) System.out.println(" - " + e);
-		 * 
-		 * // // Entradas para coldplay List<IEntrada> entradasAlcides =
-		 * ticketek.venderEntrada( "Coldplay en vivo", "31/07/25",
-		 * "alcides@violeta.com", "1234", 10 );
-		 * System.out.println("\nEntradas Alcides para Coldplay:"); for (IEntrada e:
-		 * entradasAlcides) System.out.println(" - " + e);
-		 * 
+		
+		  // 2) Registrar usuarios
+		  
+		  ticketek.registrarUsuario("ant@nio.rios.com","Antonio", "Rios",  "1234");
+		  ticketek.registrarUsuario("leo@mattioli.com.ar", "Leonardo", "Mattioli", "1234");
+		  ticketek.registrarUsuario("miguel.conejito@alejandro.com.ar", "Miguel Angel", "Lunardi","1234");
+		  ticketek.registrarUsuario( "alcides@violeta.com","Alcides", "Berardo","1234");
+		  
+		  // 3) y 14) Registrar espectaculos y sus funciones
+		  ticketek.registrarEspectaculo("El Rey Leon");
+		  ticketek.agregarFuncion("El Rey Leon", "26/07/25", "Teatro Gran Rex", 90000.0); 
+		  ticketek.agregarFuncion("El Rey Leon", "29/07/25", "Teatro Gran Rex", 90000.0); 
+		  ticketek.agregarFuncion("El Rey Leon", "31/08/25", "Teatro Colón", 90000.0); 
+		  ticketek.agregarFuncion("El Rey Leon", "31/09/25", "Teatro Colón", 90000.0); 
+		  ticketek.agregarFuncion("El Rey Leon", "01/10/25", "Teatro Gran Rex", 90000.0);
+		  
+		 
+		  ticketek.registrarEspectaculo("Coldplay en vivo");
+		  ticketek.agregarFuncion("Coldplay en vivo", "25/07/25", "La bombonera", 130000.0); 
+		  ticketek.agregarFuncion("Coldplay en vivo", "28/07/25", "La bombonera", 130000.0); 
+		  ticketek.agregarFuncion("Coldplay en vivo", "30/07/25", "La bombonera", 130000.0);
+		  ticketek.agregarFuncion("Coldplay en vivo", "31/07/25", "La bombonera", 130000.0);
+		  ticketek.agregarFuncion("Coldplay en vivo", "01/08/25", "La bombonera", 130000.0);
+		  
+		  printEmpresa(ticketek, "Sedes, Usuarios y Funciones registradas.");
+		  
+		  
+        
+		  // 4) Vender entradas. Se guardan algunas para anular y cambiar.
+		 
+		  //Entradas para el rey leon 
+		  int[] asientos = { 10, 9, 1, 2 };
+		  ticketek.venderEntrada( "El Rey Leon", "31/08/25", "alcides@violeta.com", "1234", "Platea Común", asientos ); 
+		  List<IEntrada> entradasConejo = ticketek.venderEntrada( "El Rey León", "29/07/25","miguel.conejito@alejandro.com.ar", "1234", "Platea VIP", asientos );
+		  System.out.println("\nEntradas Miguel Conejito Alejandro para El Rey Leon:");
+		  for (IEntrada e: entradasConejo) 
+			  System.out.println(" - " + e);
+		  
+		  // // Entradas para coldplay
+		  List<IEntrada> entradasAlcides =
+		  ticketek.venderEntrada( "Coldplay en vivo", "31/07/25",
+		  "alcides@violeta.com", "1234", 10 );
+		  System.out.println("\nEntradas Alcides para Coldplay:"); 
+		  for (IEntrada e: entradasAlcides) System.out.println(" - " + e);
+		 
+		 /*
 		 * // 5) Listar funciones de un espectaculo
 		 * System.out.println("\nFunciones de El Rey Leon:");
 		 * System.out.println(ticketek.listarFunciones("El Rey León"));

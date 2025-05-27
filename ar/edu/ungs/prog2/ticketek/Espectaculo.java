@@ -52,4 +52,4 @@ public class Espectaculo {
 			throw new IllegalArgumentException("La fecha ingresada no existe para ninguna función activa.");
 		return funciones.get(fecha);
 	}
-}
+} 
