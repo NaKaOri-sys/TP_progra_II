@@ -307,14 +307,6 @@ public class Ticketek implements ITicketek {
 	}
 	
 	@Override
-	/**
-     * 7) Devuelve una lista con todas las entradas que compró un usuario desde que se registró en el sistema.
-     * Se debe autenticar al usuario.
-
-     * @param email
-     * @param contrasenia
-     * @return
-     */
 	public List<IEntrada> listarTodasLasEntradasDelUsuario(String email, String contrasenia) {
 		validarUsuario(email, contrasenia);
 	    Usuario usuario = usuarios.get(email);
