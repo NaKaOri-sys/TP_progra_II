@@ -14,7 +14,6 @@ public class Funcion {
         this.precioBase = precioBase;
         this.entradasVendidas = new ArrayList<>();
     }
-
     public Sede obtenerSede() {
         return sede;
     }
@@ -43,7 +42,6 @@ public class Funcion {
     public List<IEntrada> obtenerEntradasVendidas() {
         return entradasVendidas;
     }
-
     // Verifica si un asiento ya está ocupado (opcional)
     public boolean asientoOcupado(String sector, int fila, int asiento) {
         for (IEntrada e : entradasVendidas) {

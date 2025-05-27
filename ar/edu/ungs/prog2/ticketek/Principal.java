@@ -42,6 +42,7 @@ public class Principal {
 		  
 		  // 3) y 14) Registrar espectaculos y sus funciones
 		  ticketek.registrarEspectaculo("El Rey Leon");
+		  
 		  ticketek.agregarFuncion("El Rey Leon", "26/07/25", "Teatro Gran Rex", 90000.0); 
 		  ticketek.agregarFuncion("El Rey Leon", "29/07/25", "Teatro Gran Rex", 90000.0); 
 		  ticketek.agregarFuncion("El Rey Leon", "31/08/25", "Teatro Colón", 90000.0); 
@@ -50,6 +51,7 @@ public class Principal {
 		  
 		 
 		  ticketek.registrarEspectaculo("Coldplay en vivo");
+		  
 		  ticketek.agregarFuncion("Coldplay en vivo", "25/07/25", "La bombonera", 130000.0); 
 		  ticketek.agregarFuncion("Coldplay en vivo", "28/07/25", "La bombonera", 130000.0); 
 		  ticketek.agregarFuncion("Coldplay en vivo", "30/07/25", "La bombonera", 130000.0);
@@ -59,13 +61,13 @@ public class Principal {
 		  printEmpresa(ticketek, "Sedes, Usuarios y Funciones registradas.");
 		  
 		  
-        
+		  
 		  // 4) Vender entradas. Se guardan algunas para anular y cambiar.
 		 
 		  //Entradas para el rey leon 
 		  int[] asientos = { 10, 9, 1, 2 };
 		  ticketek.venderEntrada( "El Rey Leon", "31/08/25", "alcides@violeta.com", "1234", "Platea Común", asientos ); 
-		  List<IEntrada> entradasConejo = ticketek.venderEntrada( "El Rey León", "29/07/25","miguel.conejito@alejandro.com.ar", "1234", "Platea VIP", asientos );
+		  List<IEntrada> entradasConejo = ticketek.venderEntrada( "El Rey Leon", "29/07/25","miguel.conejito@alejandro.com.ar", "1234", "Platea VIP", asientos );
 		  System.out.println("\nEntradas Miguel Conejito Alejandro para El Rey Leon:");
 		  for (IEntrada e: entradasConejo) 
 			  System.out.println(" - " + e);
@@ -77,7 +79,7 @@ public class Principal {
 		  System.out.println("\nEntradas Alcides para Coldplay:"); 
 		  for (IEntrada e: entradasAlcides) System.out.println(" - " + e);
 		 
-		 /*
+		  /*
 		 * // 5) Listar funciones de un espectaculo
 		 * System.out.println("\nFunciones de El Rey Leon:");
 		 * System.out.println(ticketek.listarFunciones("El Rey León"));

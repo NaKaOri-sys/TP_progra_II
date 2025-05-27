@@ -218,7 +218,11 @@ public class Ticketek implements ITicketek {
 	        Entrada entrada = new Entrada(codigo, nombreEspectaculo, fechaEntrada, sede, "CAMPO");
 	        entradas.add(entrada);
 	    }
-
+	 // 🔽 Mostrar en pantalla la lista de entradas generadas
+	    System.out.println("Entradas generadas:");
+	    for (IEntrada e : entradas) {
+	        System.out.println(e); // toString() se invoca automáticamente
+	    }
 	    return entradas;
 	}
 
@@ -239,13 +243,18 @@ public class Ticketek implements ITicketek {
 	        Entrada entrada = new Entrada(codigo, nombreEspectaculo, fechaEntrada, sede, sector, 1, asientos[i]);
 	        entradas.add(entrada);
 	    }
+	 // 🔽 Mostrar en pantalla la lista de entradas generadas
+	    System.out.println("Entradas generadas:");
+	    for (IEntrada e : entradas) {
+	        System.out.println(e); // toString() se invoca automáticamente
+	    }
 
 	    return entradas;
 	}
 
 	private void validarParametrosEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia, int cantidadEntradas) {
 	    if (!usuarios.containsKey(email)) throw new IllegalStateException("Usuario no registrado");
-	    if (!espectaculos.containsKey(nombreEspectaculo)) throw new IllegalStateException("Espectáculo no registrado");
+	    if (!espectaculos.containsKey(nombreEspectaculo)) throw new IllegalStateException("Espectáculo no registrados");
 	    if (!usuarios.get(email).validarContrasenia(contrasenia)) throw new IllegalStateException("Contraseña inválida");
 	    if (cantidadEntradas <= 0) throw new IllegalArgumentException("Cantidad debe ser > 0");
 	}

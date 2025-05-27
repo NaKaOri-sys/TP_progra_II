@@ -50,8 +50,13 @@ public class Entrada implements IEntrada {
     }
 
     public String ubicacion() {
-        return ubicacion;
+    	if (ubicacion.equals("CAMPO")) {
+            return "CAMPO";
+        } else {
+            return sector + " f:" + fila + " a:" + asiento;
+        }
     }
+    
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
