@@ -204,95 +204,72 @@ public class Ticketek implements ITicketek {
 	// Vende una o varias entradas a un usuario para funciones en sedes no
 	// numeradas.
 
-	public List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia,
-			int cantidadEntradas) {
-		validarParametrosEntrada(nombreEspectaculo, fecha, email, contrasenia, cantidadEntradas);
+	public List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia, int cantidadEntradas) {
+	    validarParametrosEntrada(nombreEspectaculo, fecha, email, contrasenia, cantidadEntradas);
+	    Usuario usuario = usuarios.get(email);
+	    Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
+	    Fecha fechaEntrada = new Fecha(fecha);
+	    Sede sede = espectaculo.obtenerFuncion(fechaEntrada).obtenerSede();
 
-		Usuario usuario = usuarios.get(email);
-		Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
-		Fecha fechaEntrada = new Fecha(fecha);
-		Sede sede = espectaculo.obtenerFuncion(fechaEntrada).obtenerSede();
+	    List<IEntrada> entradas = new ArrayList<>();
 
-		List<IEntrada> entradas = new ArrayList<>();
-
-		for (int i = 0; i < cantidadEntradas; i++) {
-			String codigo = Entrada.generarCodigo(8);
-			Entrada entrada = new Entrada(codigo, nombreEspectaculo, fechaEntrada, sede, "CAMPO");
-			if (!entrada.ubicacion().equals("CAMPO")) {
-
-				throw new IllegalStateException("La sede de la función es numerada");
-			} else {
-				entradas.add(entrada);
-
-			}
-		}
-		return entradas;
-	}
-
-	private void validarParametrosEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia,
-			int cantidadEntradas) {
-		if (!usuarios.containsKey(email)) {
-			throw new IllegalStateException("El usuario no se encuentra registrado");
-		}
-		if (!espectaculos.containsKey(nombreEspectaculo)) {
-			throw new IllegalStateException("El espectáculo no se encuentra registrado");
-		}
-		Usuario usuario = usuarios.get(email);
-		if (!usuario.validarContrasenia(contrasenia)) {
-			throw new IllegalStateException("La contraseña es inválida");
-		}
-		if (cantidadEntradas <= 0) {
-			throw new IllegalArgumentException("La cantidad de entradas debe ser mayor a cero");
-		}
-
+	    for (int i = 0; i < cantidadEntradas; i++) {
+	        String codigo = Entrada.generarCodigo(8);
+	        Entrada entrada = new Entrada(codigo, nombreEspectaculo, fechaEntrada, sede, "CAMPO");
+	        entradas.add(entrada);
+	    }
+	 // 🔽 Mostrar en pantalla la lista de entradas generadas
+	    System.out.println("Entradas generadas:");
+	    for (IEntrada e : entradas) {
+	        System.out.println(e); // toString() se invoca automáticamente
+	    }
+	    return entradas;
 	}
 
 	@Override
 	// Vende una o varias entradas a un usuario para funciones con sedes numeradas.
 
-	public List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia,
-			String sector, int[] asientos) {
-		validarParametrosEntradaEnumeradas(nombreEspectaculo, fecha, email, contrasenia, asientos);
+	public List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia, String sector, int[] asientos) {
+	    validarParametrosEntradaEnumeradas(nombreEspectaculo, fecha, email, contrasenia, sector, asientos);
+	    Usuario usuario = usuarios.get(email);
+	    Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
+	    Fecha fechaEntrada = new Fecha(fecha);
+	    Sede sede = espectaculo.obtenerFuncion(fechaEntrada).obtenerSede();
 
-		Usuario usuario = usuarios.get(email);
-		Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
-		Fecha fechaEntrada = new Fecha(fecha);
-		Sede sede = espectaculo.obtenerFuncion(fechaEntrada).obtenerSede();
+	    List<IEntrada> entradas = new ArrayList<>();
 
-		List<IEntrada> entradas = new ArrayList<>();
+	    for (int i = 0; i < asientos.length; i++) {
+	        String codigo = Entrada.generarCodigo(8);
+	        Entrada entrada = new Entrada(codigo, nombreEspectaculo, fechaEntrada, sede, sector, 1, asientos[i]);
+	        entradas.add(entrada);
+	    }
+	 // 🔽 Mostrar en pantalla la lista de entradas generadas
+	    System.out.println("Entradas generadas:");
+	    for (IEntrada e : entradas) {
+	        System.out.println(e); // toString() se invoca automáticamente
+	    }
 
-		for (int i = 0; i < cantidadEntradas; i++) {
-			String codigo = Entrada.generarCodigo(8);
-			Entrada entrada = new Entrada(codigo, nombreEspectaculo, fechaEntrada, sede, sector, asientos);
-			if (entrada.ubicacion().equals("CAMPO")) {
-
-				throw new IllegalStateException("La sede de la función no es numerada");
-			}
-			entradas.add(entrada);
-
-		}
-		return entradas;
+	    return entradas;
 	}
 
-	private void validarParametrosEntradaEnumeradas(String nombreEspectaculo, String fecha, String email,
-			String contrasenia, String sector, int asientos) {
-		if (!usuarios.containsKey(email)) {
-			throw new IllegalStateException("El usuario no se encuentra registrado");
-		}
-		if (!espectaculos.containsKey(nombreEspectaculo)) {
-			throw new IllegalStateException("El espectáculo no se encuentra registrado");
-		}
-		Usuario usuario = usuarios.get(email);
-		if (!usuario.validarContrasenia(contrasenia)) {
-			throw new IllegalStateException("La contraseña es inválida");
-		}
-		if (sectoresRegistrados.containsKey(sector)) {
-			throw new IllegalStateException("El sector no se encuentra regitrado.");
-		}
-		if (asientos <= 0) {
-			throw new IllegalArgumentException("La cantidad de asientos debe ser mayor a cero");
-		}
+	private void validarParametrosEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia, int cantidadEntradas) {
+	    if (!usuarios.containsKey(email)) throw new IllegalStateException("Usuario no registrado");
+	    if (!espectaculos.containsKey(nombreEspectaculo)) throw new IllegalStateException("Espectáculo no registrados");
+	    if (!usuarios.get(email).validarContrasenia(contrasenia)) throw new IllegalStateException("Contraseña inválida");
+	    if (cantidadEntradas <= 0) throw new IllegalArgumentException("Cantidad debe ser > 0");
 	}
+
+	private void validarParametrosEntradaEnumeradas(String nombreEspectaculo, String fecha, String email, String contrasenia, String sector, int[] asientos) {
+	    validarParametrosEntrada(nombreEspectaculo, fecha, email, contrasenia, asientos.length);
+
+	    Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
+	    Fecha fechaEntrada = new Fecha(fecha);
+	    Sede sede = espectaculo.obtenerFuncion(fechaEntrada).obtenerSede();
+
+	     if (!sede.obtenerSectores().containsKey(sector)) 
+	        throw new IllegalArgumentException("El sector no existe en esta sede.");
+	}
+
 
 	@Override
 	public String listarFunciones(String nombreEspectaculo) {
