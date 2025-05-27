@@ -114,17 +114,15 @@ public class MiniEstadioCubierto extends Sede {
 	public String obtenerInfoSectores(HashMap<String, Integer> entradasVendidasPorSector) {
 		StringBuilder sb = new StringBuilder();
 		boolean firstSector = true;
-		for (Entry<String, Sector> entry : this.sectoresRegistrados.entrySet()) {
+		for (Sector sector : this.sectoresRegistrados.values()) {
 			if (!firstSector) {
 				sb.append(" | ");
 			}
-			String tipoSector = entry.getKey();
-			Sector sector = entry.getValue();
 
-			int entradasVendidas = entradasVendidasPorSector.getOrDefault(tipoSector, 0);
+			int entradasVendidas = entradasVendidasPorSector.getOrDefault(sector.obtenerTipo(), 0);
 			int capacidadSector = sector.obtenerCapacidadMaxSector();
 
-			sb.append(tipoSector).append(": ").append(entradasVendidas).append("/").append(capacidadSector);
+			sb.append(sector.obtenerTipo()).append(": ").append(entradasVendidas).append("/").append(capacidadSector);
 			firstSector = false;
 		}
 		return sb.toString();

@@ -216,11 +216,11 @@ public class Ticketek implements ITicketek {
 
 	    for (int i = 0; i < cantidadEntradas; i++) {
 	        String codigo = Entrada.generarCodigo(8);
-	        Entrada entrada = new Entrada(codigo, nombreEspectaculo, fechaEntrada, sede, "CAMPO");
+	        Entrada entrada = new Entrada(codigo, nombreEspectaculo, fechaEntrada, sede, "Campo");
 	        entradas.add(entrada);
 
 	        // Registrar la entrada vendida en la función
-	        funcion.registrarEntrada(entrada);
+	        funcion.registrarEntrada(entrada, "Campo");
 	    }
 	    return entradas;
 	}
@@ -243,7 +243,7 @@ public class Ticketek implements ITicketek {
 	        entradas.add(entrada);
 
 	        // Registrar la entrada vendida en la función
-	        funcion.registrarEntrada(entrada);
+	        funcion.registrarEntrada(entrada, sector);
 	    }
 	    return entradas;
 	}
@@ -272,8 +272,11 @@ public class Ticketek implements ITicketek {
 		if (!espectaculos.containsKey(nombreEspectaculo))
 			throw new IllegalArgumentException("El espectaculo ingresado no se encuentra registrado.");
 		Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
-
-		return null;
+		StringBuilder sb = new StringBuilder();
+		for (Funcion entry : espectaculo.obtenerFunciones().values()) {
+			sb.append(entry.toString());
+		}
+		return sb.toString(); 
 	}
 
 		@Override

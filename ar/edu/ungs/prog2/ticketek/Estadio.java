@@ -23,7 +23,7 @@ public class Estadio extends Sede {
 
 	@Override
 	public String obtenerInfoSectores(HashMap<String, Integer> entradasVendidasPorSector) {
-		int entradasVendidas = entradasVendidasPorSector.getOrDefault(CAMPO, 0);
+		int entradasVendidas = entradasVendidasPorSector.getOrDefault(CAMPO.obtenerTipo(), 0);
         return entradasVendidas + "/" + obtenerCapacidadMaxima();
 	}
 
