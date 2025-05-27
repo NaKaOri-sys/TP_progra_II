@@ -86,6 +86,19 @@ public class Entrada implements IEntrada {
         }
         return sb.toString();
     }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Entrada other = (Entrada) obj;
+        return codigo.equals(other.codigo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(codigo);
+    }
+
 }
 
 

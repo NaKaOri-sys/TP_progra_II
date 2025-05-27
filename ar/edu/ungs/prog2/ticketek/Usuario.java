@@ -93,6 +93,7 @@ public class Usuario {
 				&& Objects.equals(email, other.email) && Objects.equals(entradas, other.entradas)
 				&& Objects.equals(nombre, other.nombre);
 	}
+	
 
 	//Getters
     public String getEmail() {

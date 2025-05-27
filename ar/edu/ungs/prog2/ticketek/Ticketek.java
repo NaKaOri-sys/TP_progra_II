@@ -317,12 +317,40 @@ public class Ticketek implements ITicketek {
 	    Usuario usuario = usuarios.get(email);
 	    return usuario.obtenerEntradas(usuario.getEntradas());
 	}
-	
 	@Override
 	public boolean anularEntrada(IEntrada entrada, String contrasenia) {
-		// TODO Auto-generated method stub
-		return false;
+		
+
+		Entrada entradaComprada = usuario.obtenerEntradas();
+	    String email = entradaComprada.obtenerEmailComprador();
+	    
+	    validarUsuario(email, contrasenia);
+	    Usuario usuario = usuarios.get(email);
+	    
+	    if (!entrada.obtenerFecha().esFutura()) {
+	        return false;
+	    }
+
+	    Usuario usuario = usuarios.get(email);
+
+	    // Eliminar la entrada de la lista del usuario
+	    boolean removida = usuario.getEntradas().remove(entrada);
+
+	    // Liberar el lugar si es una entrada numerada
+	    if (entrada.ubicacion() != null && !entrada.ubicacion().equals("CAMPO")) {
+	        Sede sede = entrada.obtenerSede();
+	        Sector sector = sede.obtenerSectores().get(entrada.obtenerSector());
+	        sector.liberarLugar(entrada.obtenerFila(), entrada.obtenerAsiento());
+	    }
+
+	    // Eliminar también de la función
+	    Espectaculo espectaculo = espectaculos.get(entrada.obtenerNombreEspectaculo());
+	    Funcion funcion = espectaculo.obtenerFuncion(entrada.obtenerFecha());
+	    funcion.obtenerEntradasVendidas().remove(entrada);
+
+	    return removida;
 	}
+
 
 	@Override
 	public IEntrada cambiarEntrada(IEntrada entrada, String contrasenia, String fecha, String sector, int asiento) {
