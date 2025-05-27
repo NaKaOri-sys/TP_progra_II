@@ -209,7 +209,8 @@ public class Ticketek implements ITicketek {
 	    Usuario usuario = usuarios.get(email);
 	    Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
 	    Fecha fechaEntrada = new Fecha(fecha);
-	    Sede sede = espectaculo.obtenerFuncion(fechaEntrada).obtenerSede();
+	    Funcion funcion = espectaculo.obtenerFuncion(fechaEntrada);
+	    Sede sede = funcion.obtenerSede();
 
 	    List<IEntrada> entradas = new ArrayList<>();
 
@@ -217,15 +218,12 @@ public class Ticketek implements ITicketek {
 	        String codigo = Entrada.generarCodigo(8);
 	        Entrada entrada = new Entrada(codigo, nombreEspectaculo, fechaEntrada, sede, "CAMPO");
 	        entradas.add(entrada);
-	    }
-	 // 🔽 Mostrar en pantalla la lista de entradas generadas
-	    System.out.println("Entradas generadas:");
-	    for (IEntrada e : entradas) {
-	        System.out.println(e); // toString() se invoca automáticamente
+
+	        // Registrar la entrada vendida en la función
+	        funcion.registrarEntrada(entrada);
 	    }
 	    return entradas;
 	}
-
 	@Override
 	// Vende una o varias entradas a un usuario para funciones con sedes numeradas.
 
@@ -234,7 +232,8 @@ public class Ticketek implements ITicketek {
 	    Usuario usuario = usuarios.get(email);
 	    Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
 	    Fecha fechaEntrada = new Fecha(fecha);
-	    Sede sede = espectaculo.obtenerFuncion(fechaEntrada).obtenerSede();
+	    Funcion funcion = espectaculo.obtenerFuncion(fechaEntrada);
+	    Sede sede = funcion.obtenerSede();
 
 	    List<IEntrada> entradas = new ArrayList<>();
 
@@ -242,13 +241,10 @@ public class Ticketek implements ITicketek {
 	        String codigo = Entrada.generarCodigo(8);
 	        Entrada entrada = new Entrada(codigo, nombreEspectaculo, fechaEntrada, sede, sector, 1, asientos[i]);
 	        entradas.add(entrada);
-	    }
-	 // 🔽 Mostrar en pantalla la lista de entradas generadas
-	    System.out.println("Entradas generadas:");
-	    for (IEntrada e : entradas) {
-	        System.out.println(e); // toString() se invoca automáticamente
-	    }
 
+	        // Registrar la entrada vendida en la función
+	        funcion.registrarEntrada(entrada);
+	    }
 	    return entradas;
 	}
 
@@ -280,11 +276,23 @@ public class Ticketek implements ITicketek {
 		return null;
 	}
 
-	@Override
+		@Override
+
 	public List<IEntrada> listarEntradasEspectaculo(String nombreEspectaculo) {
-		// TODO Auto-generated method stub
-		return null;
+	    if (!espectaculos.containsKey(nombreEspectaculo)) {
+	        throw new IllegalArgumentException("Espectáculo no registrado.");
+	    }
+
+	    Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
+	    List<IEntrada> todasLasEntradas = new ArrayList<>();
+
+	    for (Funcion funcion : espectaculo.obtenerFunciones().values()) {
+	        todasLasEntradas.addAll(funcion.obtenerEntradasVendidas());
+	    }
+
+	   return todasLasEntradas;
 	}
+		    
 
 	@Override
 	public List<IEntrada> listarEntradasFuturas(String email, String contrasenia) {
