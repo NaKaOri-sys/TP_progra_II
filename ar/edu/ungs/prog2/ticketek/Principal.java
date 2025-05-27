@@ -79,14 +79,14 @@ public class Principal {
 		  System.out.println("\nEntradas Alcides para Coldplay:"); 
 		  for (IEntrada e: entradasAlcides) System.out.println(" - " + e);
 		 
-		  /*
-		 * // 5) Listar funciones de un espectaculo
-		 * System.out.println("\nFunciones de El Rey Leon:");
-		 * System.out.println(ticketek.listarFunciones("El Rey León"));
-		 * 
-		 * System.out.println("\nFunciones de Coldplay:");
-		 * System.out.println(ticketek.listarFunciones("Coldplay en vivo"));
-		 */ 
+		  
+		  // 5) Listar funciones de un espectaculo
+		  System.out.println("\nFunciones de El Rey Leon:");
+		  System.out.println(ticketek.listarFunciones("El Rey Leon"));
+		  
+		  System.out.println("\nFunciones de Coldplay:");
+		  System.out.println(ticketek.listarFunciones("Coldplay en vivo"));
+		  
 		 /* // 7) Listar todas las entradas compradas por un usuario
 		 * 
 		 * List<IEntrada> todasLasEntradasAlcides = ticketek

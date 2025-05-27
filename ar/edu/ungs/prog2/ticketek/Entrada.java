@@ -2,7 +2,7 @@ package TP_progra_II.ar.edu.ungs.prog2.ticketek;
 
 import java.util.Random;
 
-public class |	 implements IEntrada {
+public class Entrada implements IEntrada {
     private String codigo;
     private String espectaculoNombre;
     private Fecha fecha;

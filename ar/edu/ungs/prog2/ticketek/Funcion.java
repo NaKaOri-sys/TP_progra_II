@@ -40,7 +40,7 @@ public class Funcion {
 	}
 
 	// Registrar una entrada vendida
-	public void registrarEntrada(IEntrada entrada, String sector) {
+	public void registrarEntrada(Entrada entrada, String sector) {
 		if (entrada == null) {
 			throw new IllegalArgumentException("La entrada no puede ser nula.");
 		}
@@ -60,7 +60,6 @@ public class Funcion {
 		return this.entradasVendidasPorSector;
 	}
 
-	// Verifica si un asiento ya está ocupado (opcional)
 	public boolean asientoOcupado(String sector, int fila, int asiento) {
 		for (IEntrada e : entradasVendidas) {
 			if (e.ubicacion().equals(sector + " f:" + fila + " a:" + asiento)) {
