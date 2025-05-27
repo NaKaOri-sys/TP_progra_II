@@ -3,7 +3,6 @@ package TP_progra_II.ar.edu.ungs.prog2.ticketek;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
 
 public class Funcion {
 	private Sede sede;
