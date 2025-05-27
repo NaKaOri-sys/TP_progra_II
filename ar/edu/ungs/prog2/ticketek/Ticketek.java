@@ -160,8 +160,8 @@ public class Ticketek implements ITicketek {
 			throw new IllegalStateException("La contraña ingresado no puede estar vacio.");
 		}
 		// Registrar un nuevo usuario en el sistema
-
-		Usuario nuevo = new Usuario(email, nombre, apellido, contrasenia);
+		Fecha fechaRegistro = Fecha.fechaActual();
+		Usuario nuevo = new Usuario(email, nombre, apellido, contrasenia, fechaRegistro);
 		usuarios.put(email, nuevo);
 		System.out.println("Usuario registrado correctamente: " + email);
 	}
@@ -296,19 +296,34 @@ public class Ticketek implements ITicketek {
 	   return todasLasEntradas;
 	}
 		    
-
 	@Override
 	public List<IEntrada> listarEntradasFuturas(String email, String contrasenia) {
-		// TODO Auto-generated method stub
-		return null;
+	    validarUsuario(email, contrasenia);
+	    Usuario usuario = usuarios.get(email);
+
+	    return usuario.obtenerEntradasFuturas(usuario.getEntradas());
 	}
 
+	private void validarUsuario(String email, String contrasenia) {
+	    if (!usuarios.containsKey(email)) throw new IllegalStateException("Usuario no registrado");
+	    if (!usuarios.get(email).validarContrasenia(contrasenia)) throw new IllegalStateException("Contraseña inválida");
+	}
+	
 	@Override
-	public List<IEntrada> listarTodasLasEntradasDelUsuario(String email, String contrasenia) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	/**
+     * 7) Devuelve una lista con todas las entradas que compró un usuario desde que se registró en el sistema.
+     * Se debe autenticar al usuario.
 
+     * @param email
+     * @param contrasenia
+     * @return
+     */
+	public List<IEntrada> listarTodasLasEntradasDelUsuario(String email, String contrasenia) {
+		validarUsuario(email, contrasenia);
+	    Usuario usuario = usuarios.get(email);
+	    return usuario.obtenerEntradas(usuario.getEntradas());
+	}
+	
 	@Override
 	public boolean anularEntrada(IEntrada entrada, String contrasenia) {
 		// TODO Auto-generated method stub
