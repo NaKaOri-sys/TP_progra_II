@@ -215,8 +215,9 @@ public class Ticketek implements ITicketek {
 	    List<IEntrada> entradas = new ArrayList<>();
 
 	    for (int i = 0; i < cantidadEntradas; i++) {
+	    	String emailComprador = usuario.getEmail();
 	        String codigo = Entrada.generarCodigo(8);
-	        Entrada entrada = new Entrada(codigo, nombreEspectaculo, fechaEntrada, sede, "Campo");
+	        Entrada entrada = new Entrada(codigo, nombreEspectaculo, fechaEntrada, sede, "Campo", emailComprador);
 	        entradas.add(entrada);
 
 	        // Registrar la entrada vendida en la función
@@ -238,8 +239,9 @@ public class Ticketek implements ITicketek {
 	    List<IEntrada> entradas = new ArrayList<>();
 
 	    for (int i = 0; i < asientos.length; i++) {
+	    	String emailComprador = usuario.getEmail();
 	        String codigo = Entrada.generarCodigo(8);
-	        Entrada entrada = new Entrada(codigo, nombreEspectaculo, fechaEntrada, sede, sector, 1, asientos[i]);
+	        Entrada entrada = new Entrada(codigo, nombreEspectaculo, fechaEntrada, sede, sector, 1, asientos[i], emailComprador);
 	        entradas.add(entrada);
 
 	        // Registrar la entrada vendida en la función

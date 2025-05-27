@@ -11,18 +11,20 @@ public class Entrada implements IEntrada {
     private String sector;
     private int fila;
     private int asiento;
+    private String emailComprador;
 
     // Constructor para no numeradas
-    public Entrada(String codigo, String espectaculoNombre, Fecha fecha, Sede sede, String ubicacion) {
+    public Entrada(String codigo, String espectaculoNombre, Fecha fecha, Sede sede, String ubicacion,String emailComprador) {
         this.codigo = codigo;
         this.espectaculoNombre = espectaculoNombre;
         this.fecha = fecha;
         this.sede = sede;
         this.ubicacion = ubicacion;
+        this.emailComprador = emailComprador;
     }
 
     // Constructor para numeradas
-    public Entrada(String codigo, String espectaculoNombre, Fecha fecha, Sede sede, String sector, int fila, int asiento) {
+    public Entrada(String codigo, String espectaculoNombre, Fecha fecha, Sede sede, String sector, int fila, int asiento,String emailComprador ) {
         this.codigo = codigo;
         this.espectaculoNombre = espectaculoNombre;
         this.fecha = fecha;
@@ -31,6 +33,7 @@ public class Entrada implements IEntrada {
         this.fila = fila;
         this.asiento = asiento;
         this.ubicacion = sector + " f:" + fila + " a:" + asiento;
+        this.emailComprador = emailComprador;
     }
 
     public String obtenerNombre() {
@@ -48,7 +51,11 @@ public class Entrada implements IEntrada {
     public double precio() {
         return 0.0;
     }
-
+    
+    public String obtenerEmailComprador() {
+        return emailComprador;
+    }
+    
     public String ubicacion() {
     	if (ubicacion.equals("CAMPO")) {
             return "CAMPO";
