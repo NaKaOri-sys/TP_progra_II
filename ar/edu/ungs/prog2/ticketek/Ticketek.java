@@ -272,7 +272,11 @@ public class Ticketek implements ITicketek {
 		if (!espectaculos.containsKey(nombreEspectaculo))
 			throw new IllegalArgumentException("El espectaculo ingresado no se encuentra registrado.");
 		Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
-		return espectaculo.obtenerFunciones().toString(); 
+		StringBuilder sb = new StringBuilder();
+		for (Funcion entry : espectaculo.obtenerFunciones().values()) {
+			sb.append(entry.toString());
+		}
+		return sb.toString(); 
 	}
 
 		@Override

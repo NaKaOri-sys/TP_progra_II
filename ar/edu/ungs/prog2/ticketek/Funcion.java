@@ -3,6 +3,7 @@ package TP_progra_II.ar.edu.ungs.prog2.ticketek;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 public class Funcion {
 	private Sede sede;
@@ -40,7 +41,7 @@ public class Funcion {
 	}
 
 	// Registrar una entrada vendida
-	public void registrarEntrada(Entrada entrada, String sector) {
+	public void registrarEntrada(IEntrada entrada, String sector) {
 		if (entrada == null) {
 			throw new IllegalArgumentException("La entrada no puede ser nula.");
 		}
@@ -57,6 +58,11 @@ public class Funcion {
 	}
 	
 	public HashMap<String, Integer> obtenerEntradasVendidasPorSector(){
+		for (Entry<String, Integer> entry : entradasVendidasPorSector.entrySet()) {
+			String key = entry.getKey();
+			Integer val = entry.getValue();
+			System.out.println("key: "+key+" value: "+val+" \n");
+		}
 		return this.entradasVendidasPorSector;
 	}
 
@@ -72,7 +78,7 @@ public class Funcion {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(" - (").append(obtenerFecha().toString()).append(")").append(obtenerSede().obtenerNombre())
+		sb.append(" - ").append("(").append(obtenerFecha().toString()).append(")").append(" ").append(obtenerSede().obtenerNombre())
 				.append(" - ").append(this.sede.obtenerInfoSectores(obtenerEntradasVendidasPorSector()));
 		return sb.toString();
 	}
