@@ -99,7 +99,9 @@ public class Fecha {
 
 	@Override
 	public String toString() {
-		return dia + " / " + mes+ "/"+ anio;
+		StringBuilder sb = new StringBuilder();
+		sb.append(dia).append("/").append(mes).append("/").append(anio);
+		return sb.toString();
 	}
 	
 	@Override
