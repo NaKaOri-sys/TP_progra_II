@@ -266,13 +266,8 @@ public class Ticketek implements ITicketek {
 	    Fecha fechaEntrada = new Fecha(fecha);
 	    Sede sede = espectaculo.obtenerFuncion(fechaEntrada).obtenerSede();
 
-	    if (sede instanceof Teatro teatro) {
-	        if (!teatro.obtenerSectores().containsKey(sector)) {
-	            throw new IllegalArgumentException("El sector no existe en esta sede.");
-	        }
-	    } else {
-	        throw new IllegalStateException("La sede no permite venta numerada.");
-	    }
+	     if (!sede.obtenerSectores().containsKey(sector)) 
+	        throw new IllegalArgumentException("El sector no existe en esta sede.");
 	}
 
 
