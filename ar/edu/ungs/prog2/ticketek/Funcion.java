@@ -38,18 +38,6 @@ public class Funcion {
 	public void setFecha(Fecha fecha) {
 		this.fecha = fecha;
 	}
-	public void registrarEntradaNumerada(IEntrada entrada, String ubicacion) {
-		if (entrada == null) {
-			throw new IllegalArgumentException("La entrada no puede ser nula.");
-		}
-		if (ubicacion != "Campo")  {
-			throw new IllegalArgumentException("El sector no se encuentra registrado.");
-		}
-		this.entradasVendidas.add(entrada);
-		int entradasActuales = entradasVendidasPorSector.getOrDefault(ubicacion, 0);
-		entradasVendidasPorSector.put(ubicacion, entradasActuales + 1);
-	}
-	
 	
 	public void registrarEntrada(IEntrada entrada, String sector) {
 		if (entrada == null) {

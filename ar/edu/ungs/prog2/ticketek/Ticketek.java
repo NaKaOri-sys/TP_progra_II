@@ -339,7 +339,7 @@ public class Ticketek implements ITicketek {
 	    if (!hoy.esMenor(hoy, ((Entrada) entrada).obtenerFecha())) {
 	        return false; 
 	    }
-	    if (!entrada.ubicacion().equals("CAMPO")) {
+	    if (!entrada.ubicacion().equals("Campo")) {
 	        Espectaculo espectaculo = espectaculos.get(((Entrada) entrada).obtenerNombre());
 	        Funcion funcion = espectaculo.obtenerFuncion(((Entrada) entrada).obtenerFecha());
 	        funcion.liberarAsiento(entrada);
@@ -367,10 +367,10 @@ public class Ticketek implements ITicketek {
 
 	    // Crear nueva entrada (tipo no numerada)
 	    String nuevoCodigo = Entrada.generarCodigo(8);
-	    Entrada nuevaEntrada = new Entrada(nuevoCodigo, espectaculo, fechaNueva, nuevaFuncion.obtenerSede(),"CAMPO", email);
+	    Entrada nuevaEntrada = new Entrada(nuevoCodigo, espectaculo, fechaNueva, nuevaFuncion.obtenerSede(),"Campo", email);
 
 	    // Registrar nueva entrada
-	    nuevaFuncion.registrarEntrada(nuevaEntrada, "CAMPO");
+	    nuevaFuncion.registrarEntrada(nuevaEntrada, "Campo");
 	    usuarios.get(email).comprarEntradas(List.of(nuevaEntrada));
 
 	    // Anular la anterior
