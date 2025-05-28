@@ -16,14 +16,15 @@ public class Entrada implements IEntrada {
 	private String emailComprador;
 
 	// Constructor para no numeradas
-	public Entrada(String codigo, Espectaculo espectaculo, Fecha fecha, Sede sede, String ubicacion,
+	public Entrada(String codigo, Espectaculo espectaculo, Fecha fecha, Sede sede, String sector,
 			String emailComprador) {
 		this.codigo = codigo;
 		this.espectaculo = espectaculo;
 		this.fecha = fecha;
 		this.sede = sede;
-		this.ubicacion = ubicacion;
+		this.ubicacion = "Campo";
 		this.emailComprador = emailComprador;
+		this.sector = sector;
 	}
 
 	// Constructor para numeradas
@@ -57,11 +58,15 @@ public class Entrada implements IEntrada {
 	}
 
 	public String ubicacion() {
-		if (ubicacion.equals("CAMPO")) {
-			return "CAMPO";
+		if (ubicacion.equals("Campo")) {
+			return "Campo";
 		} else {
 			return sector + " f:" + fila + " a:" + asiento;
 		}
+	}
+	
+	public String obtenerSector() {
+		return this.sector;
 	}
 
 	public String toString() {
@@ -106,6 +111,7 @@ public class Entrada implements IEntrada {
 		Funcion funcion = espectaculo.obtenerFuncion(fecha);
 		HashMap<String, Sector> sectores = funcion.obtenerSede().obtenerSectores();
 		Sector sectorFuncion = sectores.get(obtenerSector());
+		System.out.println(sectorFuncion);
 		return funcion.obtenerSede().calcularPrecioBase(sectorFuncion, funcion.obtenerPrecioBase());
 	}
 }
