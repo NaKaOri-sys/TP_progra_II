@@ -63,6 +63,11 @@ public class Sector {
 		// Si el módulo es 0, significa que es el último asiento de la fila.
 		return (asientoEnFila == 0) ? asientosPorFila : asientoEnFila;
 	}
+	
+
+	public int getAsientosPorFila() {
+		return asientosPorFila;
+	}
 
 	@Override
 	public int hashCode() {

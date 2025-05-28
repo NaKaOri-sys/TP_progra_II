@@ -241,7 +241,7 @@ public class Ticketek implements ITicketek {
 		List<IEntrada> entradas = new ArrayList<>();
 
 		for (int i = 0; i < asientos.length; i++) {
-			
+
 			String codigo = Entrada.generarCodigo(8);
 			Entrada entrada = new Entrada(codigo, espectaculo, fechaEntrada, sede, sector, 1, asientos[i], email);
 			entradas.add(entrada);
@@ -307,60 +307,121 @@ public class Ticketek implements ITicketek {
 
 	@Override
 	public List<IEntrada> listarEntradasFuturas(String email, String contrasenia) {
-	    validarUsuario(email, contrasenia);
-	    Usuario usuario = usuarios.get(email);
-	    return usuario.obtenerEntradasFuturas();
+		validarUsuario(email, contrasenia);
+		Usuario usuario = usuarios.get(email);
+		return usuario.obtenerEntradasFuturas();
 	}
 
 	private void validarUsuario(String email, String contrasenia) {
-	    if (!usuarios.containsKey(email))
-	        throw new IllegalStateException("Usuario no registrado");
-	    if (!usuarios.get(email).validarContrasenia(contrasenia))
-	        throw new IllegalStateException("Contraseña inválida");
+		if (!usuarios.containsKey(email))
+			throw new IllegalStateException("Usuario no registrado");
+		if (!usuarios.get(email).validarContrasenia(contrasenia))
+			throw new IllegalStateException("Contraseña inválida");
 	}
 
 	@Override
 	public List<IEntrada> listarTodasLasEntradasDelUsuario(String email, String contrasenia) {
-	    validarUsuario(email, contrasenia);
-	    Usuario usuario = usuarios.get(email);
-	    return new ArrayList<>(usuario.getEntradas());
+		validarUsuario(email, contrasenia);
+		Usuario usuario = usuarios.get(email);
+		return new ArrayList<>(usuario.getEntradas());
 	}
-	
+
 	@Override
 	public boolean anularEntrada(IEntrada entrada, String contrasenia) {
-	    if (!(entrada instanceof Entrada)) {
-	        throw new IllegalArgumentException("Tipo de entrada desconocido.");
-	    }
+		if (!(entrada instanceof Entrada)) {
+			throw new IllegalArgumentException("Tipo de entrada desconocido.");
+		}
 
-	    String email = ((Entrada) entrada).obtenerEmailComprador();
-	    validarUsuario(email, contrasenia);
+		String email = ((Entrada) entrada).obtenerEmailComprador();
+		validarUsuario(email, contrasenia);
 
-	    Fecha hoy = Fecha.fechaActual();
-	    if (!hoy.esMenor(hoy, ((Entrada) entrada).obtenerFecha())) {
-	        return false; 
-	    }
-
-	    if (!entrada.ubicacion().equals("CAMPO")) {
-	        Espectaculo espectaculo = espectaculos.get(((Entrada) entrada).obtenerNombre());
-	        Funcion funcion = espectaculo.obtenerFuncion(((Entrada) entrada).obtenerFecha());
-	        funcion.liberarAsiento(entrada);
-	    }
-
-	    return true;
-	}
-
-
-
-	@Override
-	public IEntrada cambiarEntrada(IEntrada entrada, String contrasenia, String fecha, String sector, int asiento) {
-		// TODO Auto-generated method stub
-		return null;
+		Fecha hoy = Fecha.fechaActual();
+		if (!hoy.esMenor(hoy, ((Entrada) entrada).obtenerFecha())) {
+			return false;
+		}
+		if (!entrada.ubicacion().equals("Campo")) {
+			Espectaculo espectaculo = espectaculos.get(((Entrada) entrada).obtenerNombre());
+			Funcion funcion = espectaculo.obtenerFuncion(((Entrada) entrada).obtenerFecha());
+			funcion.liberarAsiento(entrada);
+		}
+		return true;
 	}
 
 	@Override
-	public IEntrada cambiarEntrada(IEntrada entrada, String contrasenia, String fecha) {
-		// TODO Auto-generated method stub
-		return null;
+	public IEntrada cambiarEntrada(IEntrada entrada, String contrasenia, String fechaNuevaStr) {
+
+		Entrada original = (Entrada) entrada;
+
+		String email = original.obtenerEmailComprador();
+		validarUsuario(email, contrasenia);
+
+		Fecha hoy = Fecha.fechaActual();
+		if (!hoy.esMenor(hoy, original.obtenerFecha())) {
+			throw new IllegalStateException("La entrada original ya pasó");
+		}
+		Espectaculo espectaculo = espectaculos.get(original.obtenerNombre());
+		Fecha fechaNueva = Fecha.parse(fechaNuevaStr);
+		Funcion nuevaFuncion = espectaculo.obtenerFuncion(fechaNueva);
+		if (nuevaFuncion == null) {
+			throw new IllegalStateException("No hay función en la fecha indicada");
+		}
+
+		// Crear nueva entrada (tipo no numerada)
+		String nuevoCodigo = Entrada.generarCodigo(8);
+		Entrada nuevaEntrada = new Entrada(nuevoCodigo, espectaculo, fechaNueva, nuevaFuncion.obtenerSede(), "Campo",
+				email);
+
+		// Registrar nueva entrada
+		nuevaFuncion.registrarEntrada(nuevaEntrada, "Campo");
+		usuarios.get(email).comprarEntradas(List.of(nuevaEntrada));
+
+		// Anular la anterior
+		anularEntrada(original, contrasenia);
+		return nuevaEntrada;
+	}
+
+	@Override
+	public IEntrada cambiarEntrada(IEntrada entrada, String contrasenia, String fechaNuevaStr, String sector,
+			int asiento) {
+		if (!(entrada instanceof Entrada)) {
+			throw new IllegalArgumentException("Tipo de entrada no válido");
+		}
+		Entrada original = (Entrada) entrada;
+
+		String email = original.obtenerEmailComprador();
+		validarUsuario(email, contrasenia);
+
+		Fecha hoy = Fecha.fechaActual();
+		if (!hoy.esMenor(hoy, original.obtenerFecha())) {
+			throw new IllegalStateException("La entrada original ya pasó");
+		}
+		Espectaculo espectaculo = espectaculos.get(original.obtenerNombre());
+		Fecha fechaNueva = Fecha.parse(fechaNuevaStr);
+		Funcion nuevaFuncion = espectaculo.obtenerFuncion(fechaNueva);
+		if (nuevaFuncion == null) {
+			throw new IllegalStateException("No hay función en la fecha indicada");
+		}
+
+		Sector nuevoSector = nuevaFuncion.obtenerSede().obtenerSectores().get(sector);
+
+		if (nuevoSector == null) {
+			throw new IllegalStateException("El sector indicado no existe");
+		}
+		int fila = nuevoSector.calcularFila(asiento);
+
+		if (nuevaFuncion.asientoOcupado(sector, fila, asiento)) {
+			throw new IllegalStateException("El asiento está ocupado");
+		}
+		String nuevoCodigo = Entrada.generarCodigo(8);
+		Entrada nuevaEntrada = new Entrada(nuevoCodigo, espectaculo, fechaNueva, nuevaFuncion.obtenerSede(), sector,
+				fila, asiento, email);
+
+		nuevaFuncion.registrarEntrada(nuevaEntrada, sector);
+		usuarios.get(email).comprarEntradas(List.of(nuevaEntrada));
+
+		anularEntrada(original, contrasenia);
+
+		return nuevaEntrada;
 	}
 
 	@Override
@@ -402,7 +463,6 @@ public class Ticketek implements ITicketek {
 		if (sector == null || sector.isBlank()) {
 			throw new IllegalArgumentException("El sector es requerido para consultar costo.");
 		}
-
 	}
 
 	@Override
