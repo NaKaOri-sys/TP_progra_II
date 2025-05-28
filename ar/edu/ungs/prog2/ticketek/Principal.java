@@ -118,25 +118,25 @@ public class Principal {
 		for (IEntrada e : todasLasEntradasAlcides)
 			System.out.println(" - " + e);
 //----------------------------------------------------------------------------------------
-		/*
-		 * // 9) Cambiar una entrada
-		 * 
-		 * // Cambio la fecha de una entrada para estadio
-		 * ticketek.cambiarEntrada(entradasAlcides.getFirst(), "1234", "01/08/25");
-		 * 
-		 * // Cambio la fecha de una entrada para teatro
-		 * ticketek.cambiarEntrada(entradasConejo.getLast(), "1234", "31/08/25",
-		 * "Platea VIP", 30);
-		 * 
-		 * // 12) Total recaudado por espectaculo double totalRecaudado =
-		 * ticketek.totalRecaudado("El Rey León");
-		 * System.out.println("\nTotal Recaudado por El Rey León: $" + totalRecaudado);
-		 * 
-		 * // 13) Total recaudado en espectaculo por sede. double totalRecaudadoSede =
-		 * ticketek.totalRecaudadoPorSede("El Rey León", "Teatro Gran Rex");
-		 * System.out.println("\nTotal Recaudado por El Rey León en Gran Rex: $" +
-		 * totalRecaudadoSede);
-		 */
+		
+		  // 9) Cambiar una entrada
+		 
+		 // Cambio la fecha de una entrada para estadio
+		//   ticketek.cambiarEntrada(entradasAlcides.getFirst(), "1234", "01/08/25");
+		  
+		  // Cambio la fecha de una entrada para teatro
+		  ticketek.cambiarEntrada(entradasConejo.getLast(), "1234", "31/08/25",
+		  "Platea VIP", 30);
+		  /*
+		  // 12) Total recaudado por espectaculo double totalRecaudado =
+		  ticketek.totalRecaudado("El Rey Leon");
+		  System.out.println("\nTotal Recaudado por El Rey León: $" + totalRecaudado);
+		  
+		  // 13) Total recaudado en espectaculo por sede. double totalRecaudadoSede =
+		  ticketek.totalRecaudadoPorSede("El Rey Leon", "Teatro Gran Rex");
+		  System.out.println("\nTotal Recaudado por El Rey León en Gran Rex: $" +
+		  totalRecaudadoSede);
+			*/
 
 		// 12) Total recaudado por espectaculo
 		double totalRecaudado = ticketek.totalRecaudado("El Rey Leon");

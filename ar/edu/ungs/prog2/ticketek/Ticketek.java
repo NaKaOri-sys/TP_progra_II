@@ -375,7 +375,6 @@ public class Ticketek implements ITicketek {
 
 	    // Anular la anterior
 	    anularEntrada(original, contrasenia);
-
 	    return nuevaEntrada;
 	}
 
@@ -394,17 +393,21 @@ public class Ticketek implements ITicketek {
 	    if (!hoy.esMenor(hoy, original.obtenerFecha())) {
 	        throw new IllegalStateException("La entrada original ya pasó");
 	    }
-
 	    Espectaculo espectaculo = espectaculos.get(original.obtenerNombre());
-	    
 	    Fecha fechaNueva = Fecha.parse(fechaNuevaStr);
-	    
 	    Funcion nuevaFuncion = espectaculo.obtenerFuncion(fechaNueva); 
 	    if (nuevaFuncion == null) {
 	        throw new IllegalStateException("No hay función en la fecha indicada");
 	    }
 	    
-	    int fila = sector.calcularFilaParaAsiento(nuevaFuncion, sector, asiento);
+	    Sector nuevoSector = nuevaFuncion.obtenerSede().obtenerSectores().get(sector);
+
+	    if (nuevoSector == null) {
+	        throw new IllegalStateException("El sector indicado no existe");
+	    }
+	    int fila = nuevoSector.calcularFila(asiento);
+
+
 	    
 	    if (nuevaFuncion.asientoOcupado(sector, fila, asiento)) {
 	        throw new IllegalStateException("El asiento está ocupado");
@@ -436,45 +439,14 @@ public class Ticketek implements ITicketek {
 
 	@Override
 	public double totalRecaudado(String nombreEspectaculo) {
-		Espectaculo espectaculo = obtenerYValidarEspectaculo(nombreEspectaculo);
-		return calcularRecaudacionParaFunciones(new ArrayList<>(espectaculo.obtenerFunciones().values()));
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
 	public double totalRecaudadoPorSede(String nombreEspectaculo, String nombreSede) {
-		Espectaculo espectaculo = obtenerYValidarEspectaculo(nombreEspectaculo);
-		if (nombreSede == null || nombreSede.isEmpty()) {
-			throw new IllegalArgumentException("La sede es requerida para consultar el total recaudado.");
-		}
-
-		List<Funcion> funcionesEnSede = new ArrayList<>();
-		for (Funcion funcion : espectaculo.obtenerFunciones().values()) {
-			if (funcion.obtenerSede().obtenerNombre().equals(nombreSede)) {
-				funcionesEnSede.add(funcion);
-			}
-		}
-		return calcularRecaudacionParaFunciones(funcionesEnSede);
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
-	private Espectaculo obtenerYValidarEspectaculo(String nombreEspectaculo) {
-		if (nombreEspectaculo == null || nombreEspectaculo.isEmpty()) {
-			throw new IllegalArgumentException("El nombre del espectáculo es requerido.");
-		}
-		Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
-		if (espectaculo == null) {
-			throw new IllegalArgumentException(
-					"El espectáculo '" + nombreEspectaculo + "' no se encuentra registrado.");
-		}
-		return espectaculo;
-	}
-
-	private double calcularRecaudacionParaFunciones(List<Funcion> funciones) {
-		double totalRecaudado = 0;
-		for (Funcion funcion : funciones) {
-			for (IEntrada entrada : funcion.obtenerEntradasVendidas()) {
-				totalRecaudado += entrada.precio();
-			}
-		}
-		return totalRecaudado;
-	}
 }
