@@ -372,7 +372,7 @@ public class Ticketek implements ITicketek {
 		nuevaFuncion.obtenerSede().actualizarRecaudacionEspectaculo(espectaculo.obtenerNombre(), montoEntrada);
 		// Registrar nueva entrada
 		nuevaFuncion.registrarEntrada(nuevaEntrada, "CAMPO");
-		usuarios.get(email).comprarEntradas(List.of(nuevaEntrada));
+		usuarios.get(email).comprarEntrada(nuevaEntrada);
 
 		// Anular la anterior
 		anularEntrada(original, contrasenia);
@@ -418,7 +418,7 @@ public class Ticketek implements ITicketek {
 		double montoEntrada = entrada.precio();
 		nuevaFuncion.obtenerSede().actualizarRecaudacionEspectaculo(espectaculo.obtenerNombre(), montoEntrada);
 		nuevaFuncion.registrarEntrada(nuevaEntrada, sector);
-		usuarios.get(email).comprarEntradas(List.of(nuevaEntrada));
+		usuarios.get(email).comprarEntrada((nuevaEntrada));
 
 		anularEntrada(original, contrasenia);
 
