@@ -87,7 +87,9 @@ public class Fecha {
 		else
 			return true;
 	}
-
+	public static Fecha parse(String fechaStr) {
+	    return new Fecha(fechaStr);
+	}
 	private boolean esBisiesto(int anio) {
 		return (anio % 4 == 0 && anio % 100 != 0) || (anio % 400 == 0);
 	}

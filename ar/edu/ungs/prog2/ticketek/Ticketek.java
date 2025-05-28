@@ -339,70 +339,99 @@ public class Ticketek implements ITicketek {
 	    if (!hoy.esMenor(hoy, ((Entrada) entrada).obtenerFecha())) {
 	        return false; 
 	    }
-
 	    if (!entrada.ubicacion().equals("CAMPO")) {
 	        Espectaculo espectaculo = espectaculos.get(((Entrada) entrada).obtenerNombre());
 	        Funcion funcion = espectaculo.obtenerFuncion(((Entrada) entrada).obtenerFecha());
 	        funcion.liberarAsiento(entrada);
 	    }
-
 	    return true;
 	}
+	@Override
+	public IEntrada cambiarEntrada(IEntrada entrada, String contrasenia, String fechaNuevaStr) {
+		
+	    Entrada original = (Entrada) entrada;
 
+	    String email = original.obtenerEmailComprador();
+	    validarUsuario(email, contrasenia);
+
+	    Fecha hoy = Fecha.fechaActual();
+	    if (!hoy.esMenor(hoy, original.obtenerFecha())) {
+	        throw new IllegalStateException("La entrada original ya pasó");
+	    }
+	    Espectaculo espectaculo = espectaculos.get(original.obtenerNombre());
+	    Fecha fechaNueva = Fecha.parse(fechaNuevaStr);
+	    Funcion nuevaFuncion = espectaculo.obtenerFuncion(fechaNueva);
+	    if (nuevaFuncion == null) {
+	        throw new IllegalStateException("No hay función en la fecha indicada");
+	    }
+
+	    // Crear nueva entrada (tipo no numerada)
+	    String nuevoCodigo = Entrada.generarCodigo(8);
+	    Entrada nuevaEntrada = new Entrada(nuevoCodigo, espectaculo, fechaNueva, nuevaFuncion.obtenerSede(),"CAMPO", email);
+
+	    // Registrar nueva entrada
+	    nuevaFuncion.registrarEntrada(nuevaEntrada, "CAMPO");
+	    usuarios.get(email).comprarEntradas(List.of(nuevaEntrada));
+
+	    // Anular la anterior
+	    anularEntrada(original, contrasenia);
+
+	    return nuevaEntrada;
+	}
 
 
 	@Override
-	public IEntrada cambiarEntrada(IEntrada entrada, String contrasenia, String fecha, String sector, int asiento) {
-		// TODO Auto-generated method stub
-		return null;
+	public IEntrada cambiarEntrada(IEntrada entrada, String contrasenia, String fechaNuevaStr, String sector, int asiento) {
+	    if (!(entrada instanceof Entrada)) {
+	        throw new IllegalArgumentException("Tipo de entrada no válido");
+	    }
+	    Entrada original = (Entrada) entrada;
+
+	    String email = original.obtenerEmailComprador();
+	    validarUsuario(email, contrasenia);
+
+	    Fecha hoy = Fecha.fechaActual();
+	    if (!hoy.esMenor(hoy, original.obtenerFecha())) {
+	        throw new IllegalStateException("La entrada original ya pasó");
+	    }
+
+	    Espectaculo espectaculo = espectaculos.get(original.obtenerNombre());
+	    
+	    Fecha fechaNueva = Fecha.parse(fechaNuevaStr);
+	    
+	    Funcion nuevaFuncion = espectaculo.obtenerFuncion(fechaNueva); 
+	    if (nuevaFuncion == null) {
+	        throw new IllegalStateException("No hay función en la fecha indicada");
+	    }
+	    
+	    int fila = sector.calcularFilaParaAsiento(nuevaFuncion, sector, asiento);
+	    
+	    if (nuevaFuncion.asientoOcupado(sector, fila, asiento)) {
+	        throw new IllegalStateException("El asiento está ocupado");
+	    }
+	    String nuevoCodigo = Entrada.generarCodigo(8);
+	    Entrada nuevaEntrada = new Entrada(nuevoCodigo, espectaculo,fechaNueva,nuevaFuncion.obtenerSede(),sector, fila, asiento, email);
+
+	    nuevaFuncion.registrarEntrada(nuevaEntrada, sector);
+	    usuarios.get(email).comprarEntradas(List.of(nuevaEntrada));
+
+	    anularEntrada(original, contrasenia);
+
+	    return nuevaEntrada;
 	}
 
-	@Override
-	public IEntrada cambiarEntrada(IEntrada entrada, String contrasenia, String fecha) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	@Override
 	public double costoEntrada(String nombreEspectaculo, String fecha) {
-		validarParametrosCostoEntrada(nombreEspectaculo, fecha);
-		Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
-		Fecha fechaFuncion = new Fecha(fecha);
-		Funcion funcion = espectaculo.obtenerFuncion(fechaFuncion);
-		HashMap<String, Sector> sectores = funcion.obtenerSede().obtenerSectores();
-		Sector sectorFuncion = sectores.get("Campo");
-		return funcion.obtenerSede().calcularPrecioBase(sectorFuncion, funcion.obtenerPrecioBase());
-	}
-
-	private void validarParametrosCostoEntrada(String nombreEspectaculo, String fecha) {
-		if (nombreEspectaculo == null || nombreEspectaculo.isEmpty()) {
-			throw new IllegalArgumentException("El nombre del espectaculo es requerido para consultar costo.");
-		}
-		if (!espectaculos.containsKey(nombreEspectaculo)) {
-			throw new IllegalArgumentException("El espectaculo solicitado no se encuentra registrado.");
-		}
-		if (fecha == null || fecha.isEmpty()) {
-			throw new IllegalArgumentException("La fecha es requerida para consultar costo.");
-		}
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
 	public double costoEntrada(String nombreEspectaculo, String fecha, String sector) {
-		validarParametrosCostoEntradaEnumerada(nombreEspectaculo, fecha, sector);
-		Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
-		Fecha fechaFuncion = new Fecha(fecha);
-		Funcion funcion = espectaculo.obtenerFuncion(fechaFuncion);
-		HashMap<String, Sector> sectores = funcion.obtenerSede().obtenerSectores();
-		Sector sectorFuncion = sectores.get(sector);
-		return funcion.obtenerSede().calcularPrecioBase(sectorFuncion, funcion.obtenerPrecioBase());
-	}
-
-	private void validarParametrosCostoEntradaEnumerada(String nombreEspectaculo, String fecha, String sector) {
-		validarParametrosCostoEntrada(nombreEspectaculo, fecha);
-		if (sector == null || sector.isBlank()) {
-			throw new IllegalArgumentException("El sector es requerido para consultar costo.");
-		}
-
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override

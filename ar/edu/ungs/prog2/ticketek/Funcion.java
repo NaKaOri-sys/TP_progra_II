@@ -70,11 +70,9 @@ public class Funcion {
 	}
 	public void liberarAsiento(IEntrada entrada) {
 
-	    Entrada e = (Entrada) entrada;
-	    
+	    Entrada e = (Entrada) entrada;   
 	    // Eliminar la entrada de la lista de vendidas
 	    this.entradasVendidas.remove(entrada);
-
 	    // Obtener el sector desde la ubicación
 	    String sector;
 	    if (e.ubicacion().equals("CAMPO")) {
@@ -84,7 +82,6 @@ public class Funcion {
 	        String[] partes = e.ubicacion().split(" f:");
 	        sector = partes[0];
 	    }
-
 	    // Restar uno al contador de entradas vendidas por sector
 	    int cantidadActual = this.entradasVendidasPorSector.getOrDefault(sector, 0);
 	    if (cantidadActual > 0) {

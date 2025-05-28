@@ -63,6 +63,16 @@ public class Sector {
 		// Si el módulo es 0, significa que es el último asiento de la fila.
 		return (asientoEnFila == 0) ? asientosPorFila : asientoEnFila;
 	}
+	public int calcularFilaParaAsiento(Funcion funcion, String nombreSector, int numeroAsiento) {
+	    Sector sector = funcion.obtenerSede().obtenerSectores().get(nombreSector);
+	    if (sector == null) {
+	        throw new IllegalArgumentException("El sector no existe en la sede de esta función.");
+	    }
+	    return sector.calcularFila(numeroAsiento);
+	}
+	public int getAsientosPorFila() {
+		return asientosPorFila;
+	}
 
 	@Override
 	public int hashCode() {
