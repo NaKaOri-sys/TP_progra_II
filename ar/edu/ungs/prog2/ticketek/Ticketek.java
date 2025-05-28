@@ -241,7 +241,7 @@ public class Ticketek implements ITicketek {
 		List<IEntrada> entradas = new ArrayList<>();
 
 		for (int i = 0; i < asientos.length; i++) {
-			
+
 			String codigo = Entrada.generarCodigo(8);
 			Entrada entrada = new Entrada(codigo, espectaculo, fechaEntrada, sede, sector, 1, asientos[i], email);
 			entradas.add(entrada);
@@ -307,146 +307,205 @@ public class Ticketek implements ITicketek {
 
 	@Override
 	public List<IEntrada> listarEntradasFuturas(String email, String contrasenia) {
-	    validarUsuario(email, contrasenia);
-	    Usuario usuario = usuarios.get(email);
-	    return usuario.obtenerEntradasFuturas();
+		validarUsuario(email, contrasenia);
+		Usuario usuario = usuarios.get(email);
+		return usuario.obtenerEntradasFuturas();
 	}
 
 	private void validarUsuario(String email, String contrasenia) {
-	    if (!usuarios.containsKey(email))
-	        throw new IllegalStateException("Usuario no registrado");
-	    if (!usuarios.get(email).validarContrasenia(contrasenia))
-	        throw new IllegalStateException("Contraseña inválida");
+		if (!usuarios.containsKey(email))
+			throw new IllegalStateException("Usuario no registrado");
+		if (!usuarios.get(email).validarContrasenia(contrasenia))
+			throw new IllegalStateException("Contraseña inválida");
 	}
 
 	@Override
 	public List<IEntrada> listarTodasLasEntradasDelUsuario(String email, String contrasenia) {
-	    validarUsuario(email, contrasenia);
-	    Usuario usuario = usuarios.get(email);
-	    return new ArrayList<>(usuario.getEntradas());
+		validarUsuario(email, contrasenia);
+		Usuario usuario = usuarios.get(email);
+		return new ArrayList<>(usuario.getEntradas());
 	}
-	
+
 	@Override
 	public boolean anularEntrada(IEntrada entrada, String contrasenia) {
-	    if (!(entrada instanceof Entrada)) {
-	        throw new IllegalArgumentException("Tipo de entrada desconocido.");
-	    }
+		if (!(entrada instanceof Entrada)) {
+			throw new IllegalArgumentException("Tipo de entrada desconocido.");
+		}
 
-	    String email = ((Entrada) entrada).obtenerEmailComprador();
-	    validarUsuario(email, contrasenia);
+		String email = ((Entrada) entrada).obtenerEmailComprador();
+		validarUsuario(email, contrasenia);
 
-	    Fecha hoy = Fecha.fechaActual();
-	    if (!hoy.esMenor(hoy, ((Entrada) entrada).obtenerFecha())) {
-	        return false; 
-	    }
-	    if (!entrada.ubicacion().equals("Campo")) {
-	        Espectaculo espectaculo = espectaculos.get(((Entrada) entrada).obtenerNombre());
-	        Funcion funcion = espectaculo.obtenerFuncion(((Entrada) entrada).obtenerFecha());
-	        funcion.liberarAsiento(entrada);
-	    }
-	    return true;
-	}
-	@Override
-	  public IEntrada cambiarEntrada(IEntrada entrada, String contrasenia, String fechaNuevaStr) {
-	    
-	      Entrada original = (Entrada) entrada;
-
-	      String email = original.obtenerEmailComprador();
-	      validarUsuario(email, contrasenia);
-
-	      Fecha hoy = Fecha.fechaActual();
-	      if (!hoy.esMenor(hoy, original.obtenerFecha())) {
-	          throw new IllegalStateException("La entrada original ya pasó");
-	      }
-	      Espectaculo espectaculo = espectaculos.get(original.obtenerNombre());
-	      Fecha fechaNueva = Fecha.parse(fechaNuevaStr);
-	      Funcion nuevaFuncion = espectaculo.obtenerFuncion(fechaNueva);
-	      if (nuevaFuncion == null) {
-	          throw new IllegalStateException("No hay función en la fecha indicada");
-	      }
-
-	    // Crear nueva entrada (tipo no numerada)
-	    String nuevoCodigo = Entrada.generarCodigo(8);
-	    Entrada nuevaEntrada = new Entrada(nuevoCodigo, espectaculo, fechaNueva, nuevaFuncion.obtenerSede(),"Campo", email);
-
-	    // Registrar nueva entrada
-	    nuevaFuncion.registrarEntrada(nuevaEntrada, "Campo");
-	    usuarios.get(email).comprarEntradas(List.of(nuevaEntrada));
-
-	      // Anular la anterior
-	      anularEntrada(original, contrasenia);
-	      return nuevaEntrada;
-	  }
-
-
-	@Override
-	public IEntrada cambiarEntrada(IEntrada entrada, String contrasenia, String fechaNuevaStr, String sector, int asiento) {
-	    if (!(entrada instanceof Entrada)) {
-	        throw new IllegalArgumentException("Tipo de entrada no válido");
-	    }
-	    Entrada original = (Entrada) entrada;
-
-	    String email = original.obtenerEmailComprador();
-	    validarUsuario(email, contrasenia);
-
-	    Fecha hoy = Fecha.fechaActual();
-	    if (!hoy.esMenor(hoy, original.obtenerFecha())) {
-	        throw new IllegalStateException("La entrada original ya pasó");
-	    }
-	    Espectaculo espectaculo = espectaculos.get(original.obtenerNombre());
-	    Fecha fechaNueva = Fecha.parse(fechaNuevaStr);
-	    Funcion nuevaFuncion = espectaculo.obtenerFuncion(fechaNueva); 
-	    if (nuevaFuncion == null) {
-	        throw new IllegalStateException("No hay función en la fecha indicada");
-	    }
-	    
-	    Sector nuevoSector = nuevaFuncion.obtenerSede().obtenerSectores().get(sector);
-
-	    if (nuevoSector == null) {
-	        throw new IllegalStateException("El sector indicado no existe");
-	    }
-	    int fila = nuevoSector.calcularFila(asiento);
-
-
-	    
-	    if (nuevaFuncion.asientoOcupado(sector, fila, asiento)) {
-	        throw new IllegalStateException("El asiento está ocupado");
-	    }
-	    String nuevoCodigo = Entrada.generarCodigo(8);
-	    Entrada nuevaEntrada = new Entrada(nuevoCodigo, espectaculo,fechaNueva,nuevaFuncion.obtenerSede(),sector, fila, asiento, email);
-
-	    nuevaFuncion.registrarEntrada(nuevaEntrada, sector);
-	    usuarios.get(email).comprarEntradas(List.of(nuevaEntrada));
-
-	    anularEntrada(original, contrasenia);
-
-	    return nuevaEntrada;
+		Fecha hoy = Fecha.fechaActual();
+		if (!hoy.esMenor(hoy, ((Entrada) entrada).obtenerFecha())) {
+			return false;
+		}
+		if (!entrada.ubicacion().equals("Campo")) {
+			Espectaculo espectaculo = espectaculos.get(((Entrada) entrada).obtenerNombre());
+			Funcion funcion = espectaculo.obtenerFuncion(((Entrada) entrada).obtenerFecha());
+			funcion.liberarAsiento(entrada);
+		}
+		return true;
 	}
 
+	@Override
+	public IEntrada cambiarEntrada(IEntrada entrada, String contrasenia, String fechaNuevaStr) {
 
+		Entrada original = (Entrada) entrada;
+
+		String email = original.obtenerEmailComprador();
+		validarUsuario(email, contrasenia);
+
+		Fecha hoy = Fecha.fechaActual();
+		if (!hoy.esMenor(hoy, original.obtenerFecha())) {
+			throw new IllegalStateException("La entrada original ya pasó");
+		}
+		Espectaculo espectaculo = espectaculos.get(original.obtenerNombre());
+		Fecha fechaNueva = Fecha.parse(fechaNuevaStr);
+		Funcion nuevaFuncion = espectaculo.obtenerFuncion(fechaNueva);
+		if (nuevaFuncion == null) {
+			throw new IllegalStateException("No hay función en la fecha indicada");
+		}
+
+		// Crear nueva entrada (tipo no numerada)
+		String nuevoCodigo = Entrada.generarCodigo(8);
+		Entrada nuevaEntrada = new Entrada(nuevoCodigo, espectaculo, fechaNueva, nuevaFuncion.obtenerSede(), "Campo",
+				email);
+
+		// Registrar nueva entrada
+		nuevaFuncion.registrarEntrada(nuevaEntrada, "Campo");
+		usuarios.get(email).comprarEntradas(List.of(nuevaEntrada));
+
+		// Anular la anterior
+		anularEntrada(original, contrasenia);
+		return nuevaEntrada;
+	}
+
+	@Override
+	public IEntrada cambiarEntrada(IEntrada entrada, String contrasenia, String fechaNuevaStr, String sector,
+			int asiento) {
+		if (!(entrada instanceof Entrada)) {
+			throw new IllegalArgumentException("Tipo de entrada no válido");
+		}
+		Entrada original = (Entrada) entrada;
+
+		String email = original.obtenerEmailComprador();
+		validarUsuario(email, contrasenia);
+
+		Fecha hoy = Fecha.fechaActual();
+		if (!hoy.esMenor(hoy, original.obtenerFecha())) {
+			throw new IllegalStateException("La entrada original ya pasó");
+		}
+		Espectaculo espectaculo = espectaculos.get(original.obtenerNombre());
+		Fecha fechaNueva = Fecha.parse(fechaNuevaStr);
+		Funcion nuevaFuncion = espectaculo.obtenerFuncion(fechaNueva);
+		if (nuevaFuncion == null) {
+			throw new IllegalStateException("No hay función en la fecha indicada");
+		}
+
+		Sector nuevoSector = nuevaFuncion.obtenerSede().obtenerSectores().get(sector);
+
+		if (nuevoSector == null) {
+			throw new IllegalStateException("El sector indicado no existe");
+		}
+		int fila = nuevoSector.calcularFila(asiento);
+
+		if (nuevaFuncion.asientoOcupado(sector, fila, asiento)) {
+			throw new IllegalStateException("El asiento está ocupado");
+		}
+		String nuevoCodigo = Entrada.generarCodigo(8);
+		Entrada nuevaEntrada = new Entrada(nuevoCodigo, espectaculo, fechaNueva, nuevaFuncion.obtenerSede(), sector,
+				fila, asiento, email);
+
+		nuevaFuncion.registrarEntrada(nuevaEntrada, sector);
+		usuarios.get(email).comprarEntradas(List.of(nuevaEntrada));
+
+		anularEntrada(original, contrasenia);
+
+		return nuevaEntrada;
+	}
 
 	@Override
 	public double costoEntrada(String nombreEspectaculo, String fecha) {
-		// TODO Auto-generated method stub
-		return 0;
+		validarParametrosCostoEntrada(nombreEspectaculo, fecha);
+		Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
+		Fecha fechaFuncion = new Fecha(fecha);
+		Funcion funcion = espectaculo.obtenerFuncion(fechaFuncion);
+		HashMap<String, Sector> sectores = funcion.obtenerSede().obtenerSectores();
+		Sector sectorFuncion = sectores.get("Campo");
+		return funcion.obtenerSede().calcularPrecioBase(sectorFuncion, funcion.obtenerPrecioBase());
+	}
+
+	private void validarParametrosCostoEntrada(String nombreEspectaculo, String fecha) {
+		if (nombreEspectaculo == null || nombreEspectaculo.isEmpty()) {
+			throw new IllegalArgumentException("El nombre del espectaculo es requerido para consultar costo.");
+		}
+		if (!espectaculos.containsKey(nombreEspectaculo)) {
+			throw new IllegalArgumentException("El espectaculo solicitado no se encuentra registrado.");
+		}
+		if (fecha == null || fecha.isEmpty()) {
+			throw new IllegalArgumentException("La fecha es requerida para consultar costo.");
+		}
 	}
 
 	@Override
 	public double costoEntrada(String nombreEspectaculo, String fecha, String sector) {
-		// TODO Auto-generated method stub
-		return 0;
+		validarParametrosCostoEntradaEnumerada(nombreEspectaculo, fecha, sector);
+		Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
+		Fecha fechaFuncion = new Fecha(fecha);
+		Funcion funcion = espectaculo.obtenerFuncion(fechaFuncion);
+		HashMap<String, Sector> sectores = funcion.obtenerSede().obtenerSectores();
+		Sector sectorFuncion = sectores.get(sector);
+		return funcion.obtenerSede().calcularPrecioBase(sectorFuncion, funcion.obtenerPrecioBase());
+	}
+
+	private void validarParametrosCostoEntradaEnumerada(String nombreEspectaculo, String fecha, String sector) {
+		validarParametrosCostoEntrada(nombreEspectaculo, fecha);
+		if (sector == null || sector.isBlank()) {
+			throw new IllegalArgumentException("El sector es requerido para consultar costo.");
+		}
 	}
 
 	@Override
 	public double totalRecaudado(String nombreEspectaculo) {
-		// TODO Auto-generated method stub
-		return 0;
+		Espectaculo espectaculo = obtenerYValidarEspectaculo(nombreEspectaculo);
+		return calcularRecaudacionParaFunciones(new ArrayList<>(espectaculo.obtenerFunciones().values()));
 	}
 
 	@Override
 	public double totalRecaudadoPorSede(String nombreEspectaculo, String nombreSede) {
-		// TODO Auto-generated method stub
-		return 0;
+		Espectaculo espectaculo = obtenerYValidarEspectaculo(nombreEspectaculo);
+		if (nombreSede == null || nombreSede.isEmpty()) {
+			throw new IllegalArgumentException("La sede es requerida para consultar el total recaudado.");
+		}
+
+		List<Funcion> funcionesEnSede = new ArrayList<>();
+		for (Funcion funcion : espectaculo.obtenerFunciones().values()) {
+			if (funcion.obtenerSede().obtenerNombre().equals(nombreSede)) {
+				funcionesEnSede.add(funcion);
+			}
+		}
+		return calcularRecaudacionParaFunciones(funcionesEnSede);
 	}
 
+	private Espectaculo obtenerYValidarEspectaculo(String nombreEspectaculo) {
+		if (nombreEspectaculo == null || nombreEspectaculo.isEmpty()) {
+			throw new IllegalArgumentException("El nombre del espectáculo es requerido.");
+		}
+		Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
+		if (espectaculo == null) {
+			throw new IllegalArgumentException(
+					"El espectáculo '" + nombreEspectaculo + "' no se encuentra registrado.");
+		}
+		return espectaculo;
+	}
+
+	private double calcularRecaudacionParaFunciones(List<Funcion> funciones) {
+		double totalRecaudado = 0;
+		for (Funcion funcion : funciones) {
+			for (IEntrada entrada : funcion.obtenerEntradasVendidas()) {
+				totalRecaudado += entrada.precio();
+			}
+		}
+		return totalRecaudado;
+	}
 }
