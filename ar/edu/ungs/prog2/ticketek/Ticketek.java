@@ -338,11 +338,12 @@ public class Ticketek implements ITicketek {
 		if (!hoy.esMenor(hoy, entrada.obtenerFecha())) {
 			return false;
 		}
-		// if (!entrada.ubicacion().equals("Campo")) {
+		if (usuario.obtenerEntrada(entrada.obtenerCodigo()) == null) {
+			throw new IllegalArgumentException("La entrada no existe para el usuario indicado.");
+		}
 		Espectaculo espectaculo = espectaculos.get(entrada.obtenerNombre());
 		Funcion funcion = espectaculo.obtenerFuncion(entrada.obtenerFecha());
 		funcion.liberarAsiento(entrada);
-		// }
 		return usuario.anularEntrada(entrada);
 	}
 
