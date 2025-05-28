@@ -101,9 +101,9 @@ public class Principal {
 		// comprada con el de una funcion.
 		System.out.println("\nPrecio de entrada para El Rey Leon: $" + entradasConejo.getFirst().precio());
 		System.out.println("\nPrecio de funcion para El Rey Leon (VIP): $"
-				+ ticketek.costoEntrada("El Rey León", "29/07/25", "Platea VIP"));
+				+ ticketek.costoEntrada("El Rey Leon", "29/07/25", "Platea VIP"));
 		System.out.println("\nPrecio de funcion para El Rey Leon (Común): $"
-				+ ticketek.costoEntrada("El Rey León", "29/07/25", "Platea Común"));
+				+ ticketek.costoEntrada("El Rey Leon", "29/07/25", "Platea Común"));
 
 		System.out.println("\nPrecio de entrada para Coldplay: $" + entradasAlcides.getFirst().precio());
 		System.out.println(
