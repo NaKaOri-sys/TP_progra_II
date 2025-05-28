@@ -111,11 +111,12 @@ public class Principal {
 
 		// 8) Anular una entrada
 
-		ticketek.anularEntrada(entradasAlcides.getLast(), "1234");
+		System.out.println("Borro entrada?: "+ticketek.anularEntrada(entradasAlcides.getLast(), "1234"));
 //--------------------------------------------------------------------------------------
 		// comprueba que las entradas se eliminaron, mas tarde eliminar de principal
-		System.out.println("\nTodas las entradas de Alcides:");
-		for (IEntrada e : todasLasEntradasAlcides)
+		System.out.println("\nTodas las entradas de Alcides xDDDDDDDDDDD:");
+		for (IEntrada e : ticketek.listarTodasLasEntradasDelUsuario("alcides@violeta.com",
+				"1234"))
 			System.out.println(" - " + e);
 //----------------------------------------------------------------------------------------
 
