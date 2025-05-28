@@ -354,14 +354,44 @@ public class Ticketek implements ITicketek {
 
 	@Override
 	public double costoEntrada(String nombreEspectaculo, String fecha) {
-		// TODO Auto-generated method stub
-		return 0;
+		validarParametrosCostoEntrada(nombreEspectaculo, fecha);
+		Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
+		Fecha fechaFuncion = new Fecha(fecha);
+		Funcion funcion = espectaculo.obtenerFuncion(fechaFuncion);
+		HashMap<String, Sector> sectores = funcion.obtenerSede().obtenerSectores();
+		Sector sectorFuncion = sectores.get("Campo");
+		return funcion.obtenerSede().calcularPrecioBase(sectorFuncion, funcion.obtenerPrecioBase());
+	}
+
+	private void validarParametrosCostoEntrada(String nombreEspectaculo, String fecha) {
+		if (nombreEspectaculo == null || nombreEspectaculo.isEmpty()) {
+			throw new IllegalArgumentException("El nombre del espectaculo es requerido para consultar costo.");
+		}
+		if (!espectaculos.containsKey(nombreEspectaculo)) {
+			throw new IllegalArgumentException("El espectaculo solicitado no se encuentra registrado.");
+		}
+		if (fecha == null || fecha.isEmpty()) {
+			throw new IllegalArgumentException("La fecha es requerida para consultar costo.");
+		}
 	}
 
 	@Override
 	public double costoEntrada(String nombreEspectaculo, String fecha, String sector) {
-		// TODO Auto-generated method stub
-		return 0;
+		validarParametrosCostoEntradaEnumerada(nombreEspectaculo, fecha, sector);
+		Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
+		Fecha fechaFuncion = new Fecha(fecha);
+		Funcion funcion = espectaculo.obtenerFuncion(fechaFuncion);
+		HashMap<String, Sector> sectores = funcion.obtenerSede().obtenerSectores();
+		Sector sectorFuncion = sectores.get(sector);
+		return funcion.obtenerSede().calcularPrecioBase(sectorFuncion, funcion.obtenerPrecioBase());
+	}
+
+	private void validarParametrosCostoEntradaEnumerada(String nombreEspectaculo, String fecha, String sector) {
+		validarParametrosCostoEntrada(nombreEspectaculo, fecha);
+		if (sector == null || sector.isBlank()) {
+			throw new IllegalArgumentException("El sector es requerido para consultar costo.");
+		}
+
 	}
 
 	@Override
