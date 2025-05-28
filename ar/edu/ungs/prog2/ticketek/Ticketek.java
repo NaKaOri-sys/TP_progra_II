@@ -182,7 +182,7 @@ public class Ticketek implements ITicketek {
 		validarParametrosFuncion(nombreEspectaculo, fecha, sede, precioBase);
 		Sede sedeRegistrada = sedes.get(sede);
 		Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
-		Fecha fechaFuncion = new Fecha(fecha); 
+		Fecha fechaFuncion = new Fecha(fecha);
 		Funcion funcion = espectaculo.obtenerFunciones().get(fechaFuncion);
 		if (funcion != null) {
 			throw new IllegalStateException("Solo puede haber una fecha por espectaculo.");
@@ -212,19 +212,18 @@ public class Ticketek implements ITicketek {
 	public List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia,
 			int cantidadEntradas) {
 		validarParametrosEntrada(nombreEspectaculo, fecha, email, contrasenia, cantidadEntradas);
-		Usuario usuario = usuarios.get(email);
 		Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
 		Fecha fechaEntrada = new Fecha(fecha);
 		Funcion funcion = espectaculo.obtenerFuncion(fechaEntrada);
 		Sede sede = funcion.obtenerSede();
-
+		Usuario usuario = usuarios.get(email);
 		List<IEntrada> entradas = new ArrayList<>();
 
 		for (int i = 0; i < cantidadEntradas; i++) {
 			String codigo = Entrada.generarCodigo(8);
 			Entrada entrada = new Entrada(codigo, espectaculo, fechaEntrada, sede, "Campo", email);
 			entradas.add(entrada);
-
+			usuario.comprarEntrada(entrada);
 			// Registrar la entrada vendida en la función
 			funcion.registrarEntrada(entrada, "Campo");
 		}
@@ -237,12 +236,11 @@ public class Ticketek implements ITicketek {
 	public List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia,
 			String sector, int[] asientos) {
 		validarParametrosEntradaEnumeradas(nombreEspectaculo, fecha, email, contrasenia, sector, asientos);
-		Usuario usuario = usuarios.get(email);
 		Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
 		Fecha fechaEntrada = new Fecha(fecha);
 		Funcion funcion = espectaculo.obtenerFuncion(fechaEntrada);
 		Sede sede = funcion.obtenerSede();
-
+		Usuario usuario = usuarios.get(email);
 		List<IEntrada> entradas = new ArrayList<>();
 
 		for (int i = 0; i < asientos.length; i++) {
@@ -250,7 +248,7 @@ public class Ticketek implements ITicketek {
 			String codigo = Entrada.generarCodigo(8);
 			Entrada entrada = new Entrada(codigo, espectaculo, fechaEntrada, sede, sector, 1, asientos[i], email);
 			entradas.add(entrada);
-
+			usuario.comprarEntrada(entrada);
 			// Registrar la entrada vendida en la función
 			funcion.registrarEntrada(entrada, sector);
 		}
@@ -328,28 +326,24 @@ public class Ticketek implements ITicketek {
 	public List<IEntrada> listarTodasLasEntradasDelUsuario(String email, String contrasenia) {
 		validarUsuario(email, contrasenia);
 		Usuario usuario = usuarios.get(email);
-		return new ArrayList<>(usuario.getEntradas());
+		return usuario.obtenerEntradas();
 	}
 
 	@Override
 	public boolean anularEntrada(IEntrada entrada, String contrasenia) {
-		if (!(entrada instanceof Entrada)) {
-			throw new IllegalArgumentException("Tipo de entrada desconocido.");
-		}
-
-		String email = ((Entrada) entrada).obtenerEmailComprador();
+		String email = entrada.obtenerEmailComprador();
 		validarUsuario(email, contrasenia);
-
+		Usuario usuario = usuarios.get(email);
 		Fecha hoy = Fecha.fechaActual();
-		if (!hoy.esMenor(hoy, ((Entrada) entrada).obtenerFecha())) {
+		if (!hoy.esMenor(hoy, entrada.obtenerFecha())) {
 			return false;
 		}
-		if (!entrada.ubicacion().equals("Campo")) {
-			Espectaculo espectaculo = espectaculos.get(((Entrada) entrada).obtenerNombre());
-			Funcion funcion = espectaculo.obtenerFuncion(((Entrada) entrada).obtenerFecha());
-			funcion.liberarAsiento(entrada);
-		}
-		return true;
+		// if (!entrada.ubicacion().equals("Campo")) {
+		Espectaculo espectaculo = espectaculos.get(entrada.obtenerNombre());
+		Funcion funcion = espectaculo.obtenerFuncion(entrada.obtenerFecha());
+		funcion.liberarAsiento(entrada);
+		// }
+		return usuario.anularEntrada(entrada);
 	}
 
 	@Override

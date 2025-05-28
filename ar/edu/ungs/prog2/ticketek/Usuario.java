@@ -10,7 +10,7 @@ public class Usuario {
     private String nombre;
     private String apellido;
     private String contrasenia;
-    private Set<Entrada> entradas;
+    private Set<IEntrada> entradas;
     private Fecha fechaRegistro;
 
     public Usuario(String email, String nombre, String apellido, String contrasenia, Fecha fechaRegistro) {
@@ -22,38 +22,36 @@ public class Usuario {
         this.entradas = new HashSet<>();
     }
 
-    public String obtenerEntradas() {
-        return entradas.toString();
-    }
-
-    public void comprarEntradas(List<Entrada> nuevasEntradas) {
+    public void comprarEntradas(List<IEntrada> nuevasEntradas) {
         entradas.addAll(nuevasEntradas);
     }
+    
+    public void comprarEntrada(IEntrada nuevaEntrada) {
+        entradas.add(nuevaEntrada);
+    }
 
-    public Entrada obtenerEntrada(String codigo) {
-        for (Entrada e : entradas) {
-            if (e.getCodigo().equals(codigo)) {
+    public IEntrada obtenerEntrada(String codigo) {
+        for (IEntrada e : entradas) {
+            if (e.obtenerCodigo().equals(codigo)) {
                 return e;
             }
         }
         return null;
     }
 
-    public List<IEntrada> obtenerEntradas(List<Entrada> entradasFuturas) {
+    public List<IEntrada> obtenerEntradas() {
         List<IEntrada> listaEntradas = new ArrayList<>();
-        Fecha fechaActual = Fecha.fechaActual();
-        for (Entrada e : entradasFuturas) {
-            if (fechaActual.esMayor(fechaRegistro, fechaActual)) {
+        for (IEntrada e : this.entradas) {
                 listaEntradas.add(e);
             }
-        }
-        return listaEntradas;
+     return listaEntradas;
     }
+  
 
     public List<IEntrada> obtenerEntradasFuturas() {
         List<IEntrada> listaFuturas = new ArrayList<>();
         Fecha actual = Fecha.fechaActual();
-        for (Entrada e : entradas) {
+        for (IEntrada e : entradas) {
             if (e.obtenerFecha().esMayor(e.obtenerFecha(), actual)) {
                 listaFuturas.add(e);
             }
@@ -61,7 +59,7 @@ public class Usuario {
         return listaFuturas;
     }
 
-    public boolean anularEntrada(Entrada entrada) {
+    public boolean anularEntrada(IEntrada entrada) {
         return entradas.remove(entrada); // O(1)
     }
 
@@ -81,7 +79,7 @@ public class Usuario {
         return contrasenia;
     }
 
-    public Set<Entrada> getEntradas() {
+    public Set<IEntrada> getEntradas() {
         return entradas;
     }
 
