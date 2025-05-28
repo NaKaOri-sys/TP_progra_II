@@ -91,7 +91,7 @@ public class Funcion {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(" - ").append("(").append(obtenerFecha().toString()).append(")").append(" ").append(obtenerSede().obtenerNombre())
-				.append(" - ").append(this.sede.obtenerInfoSectores(obtenerEntradasVendidasPorSector()));
+				.append(" - ").append(this.sede.obtenerInfoSectores(obtenerEntradasVendidasPorSector())).append("\n");
 		return sb.toString();
 	}
 }

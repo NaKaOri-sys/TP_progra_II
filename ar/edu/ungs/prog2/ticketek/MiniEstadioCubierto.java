@@ -1,10 +1,10 @@
 package TP_progra_II.ar.edu.ungs.prog2.ticketek;
 
 import java.util.HashMap;
-import java.util.Map.Entry;
+import java.util.LinkedHashMap;
 
 public class MiniEstadioCubierto extends Sede {
-	HashMap<String, Sector> sectoresRegistrados;
+	LinkedHashMap<String, Sector> sectoresRegistrados;
 	private int puestosMerchandising;
 	private int puestosComidaRapida;
 	private double precioConsumicion;
@@ -13,7 +13,7 @@ public class MiniEstadioCubierto extends Sede {
 			String[] tipoSectores, int[] capacidadMaxPorSector, int asientosPorFila,
 			int[] porcentajeIncrementoSectores) {
 		super(nombre, direccion, capacidadMaxima);
-		this.sectoresRegistrados = new HashMap<String, Sector>();
+		this.sectoresRegistrados = new LinkedHashMap<String, Sector>();
 		this.precioConsumicion = precioConsumicion;
 		inicializarSectores(tipoSectores, capacidadMaxPorSector, asientosPorFila, porcentajeIncrementoSectores);
 	}

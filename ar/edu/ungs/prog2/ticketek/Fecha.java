@@ -101,9 +101,11 @@ public class Fecha {
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(dia).append("/").append(mes).append("/").append(anio);
-		return sb.toString();
+		return String.format("%02d/%02d/%02d", dia, mes, anio % 100);
+	}
+	
+	public String formatoFechaCorta() {
+	    return String.format("%02d/%02d/%02d", dia, mes, anio % 100);
 	}
 	
 	@Override
