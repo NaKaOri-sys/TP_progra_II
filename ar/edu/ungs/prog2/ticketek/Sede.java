@@ -7,11 +7,13 @@ public abstract class Sede {
 	private String nombre;
 	private String direccion;
 	private int capacidadMaxima;
-	
+	private HashMap<String, Double> recaudacionPorEspectaculo;
+
 	public Sede(String nombre, String direccion, int capacidadMaxima) {
 		this.nombre = nombre;
 		this.direccion = direccion;
 		this.capacidadMaxima = capacidadMaxima;
+		this.recaudacionPorEspectaculo = new HashMap<String, Double>();
 	}
 
 	public String obtenerNombre() {
@@ -25,27 +27,39 @@ public abstract class Sede {
 	public int obtenerCapacidadMaxima() {
 		return capacidadMaxima;
 	}
-	
+
 	public abstract boolean esEnumerada();
-	
+
 	public abstract double calcularPrecioBase(Sector sector, double precioBase);
-	
+
+	public void actualizarRecaudacionEspectaculo(String nombreEspectaculo, double monto) {
+		recaudacionPorEspectaculo.merge(nombreEspectaculo, monto, Double::sum);
+	}
+
+	public double obtenerRecaudacionPorEspectaculo(String nombreEspectaculo) {
+		return recaudacionPorEspectaculo.getOrDefault(nombreEspectaculo, 0.0);
+	}
+
 	/***
-	 * Devuelve los sectores registrados en el caso de Estadio, solo devuelve el nombre de sector.
+	 * Devuelve los sectores registrados en el caso de Estadio, solo devuelve el
+	 * nombre de sector.
+	 * 
 	 * @return
 	 */
 	public abstract String listarSectores();
-	 /**
-     * Recibe el diccionario de entradas vendidas de LA FUNCIÓN ESPECÍFICA para que la Sede
-     * pueda calcular y mostrar "vendidas / capacidad".
-     *
-     * @param entradasVendidasPorSector Mapa<String (tipoSector), Integer (cantidadVendida)> de la función.
-     * @return String con el formato de sectores solicitado.
-     */
-    public abstract String obtenerInfoSectores(HashMap<String, Integer> entradasVendidasPorSector);
-    
-    public abstract HashMap<String, Sector> obtenerSectores();
-	
+
+	/**
+	 * Recibe el diccionario de entradas vendidas de LA FUNCIÓN ESPECÍFICA para que
+	 * la Sede pueda calcular y mostrar "vendidas / capacidad".
+	 *
+	 * @param entradasVendidasPorSector Mapa<String (tipoSector), Integer
+	 *                                  (cantidadVendida)> de la función.
+	 * @return String con el formato de sectores solicitado.
+	 */
+	public abstract String obtenerInfoSectores(HashMap<String, Integer> entradasVendidasPorSector);
+
+	public abstract HashMap<String, Sector> obtenerSectores();
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(nombre);
@@ -66,8 +80,7 @@ public abstract class Sede {
 
 	@Override
 	public String toString() {
-		return "Sede [nombre=" + nombre + ", direccion=" + direccion + ", capacidadMaxima=" + capacidadMaxima
-				+ "]";
+		return "Sede [nombre=" + nombre + ", direccion=" + direccion + ", capacidadMaxima=" + capacidadMaxima + "]";
 	}
 
 }
