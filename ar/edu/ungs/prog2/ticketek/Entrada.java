@@ -119,7 +119,6 @@ public class Entrada implements IEntrada {
 		Funcion funcion = espectaculo.obtenerFuncion(fecha);
 		HashMap<String, Sector> sectores = funcion.obtenerSede().obtenerSectores();
 		Sector sectorFuncion = sectores.get(obtenerSector());
-		System.out.println(sectorFuncion);
 		return funcion.obtenerSede().calcularPrecioBase(sectorFuncion, funcion.obtenerPrecioBase());
 	}
 }

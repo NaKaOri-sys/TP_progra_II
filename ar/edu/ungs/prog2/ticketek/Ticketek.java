@@ -213,14 +213,18 @@ public class Ticketek implements ITicketek {
 		Sede sede = funcion.obtenerSede();
 		Usuario usuario = usuarios.get(email);
 		List<IEntrada> entradas = new ArrayList<>();
-
+		double precioEntrada = 0;
 		for (int i = 0; i < cantidadEntradas; i++) {
 			String codigo = Entrada.generarCodigo(8);
 			Entrada entrada = new Entrada(codigo, espectaculo, fechaEntrada, sede, "CAMPO", email);
 			entradas.add(entrada);
 			usuario.comprarEntrada(entrada);
 			funcion.registrarEntrada(entrada, "CAMPO");
+			precioEntrada = entrada.precio();
 		}
+		double montoRecaudado = precioEntrada * cantidadEntradas;
+		sede.actualizarRecaudacionEspectaculo(nombreEspectaculo, montoRecaudado);
+
 		return entradas;
 	}
 
@@ -236,7 +240,7 @@ public class Ticketek implements ITicketek {
 		Sede sede = funcion.obtenerSede();
 		Usuario usuario = usuarios.get(email);
 		List<IEntrada> entradas = new ArrayList<>();
-
+		double precioPorEntrada = sede.calcularPrecioBase(sede.obtenerSectores().get(sector), funcion.obtenerPrecioBase());
 		for (int i = 0; i < asientos.length; i++) {
 
 			String codigo = Entrada.generarCodigo(8);
@@ -245,6 +249,8 @@ public class Ticketek implements ITicketek {
 			usuario.comprarEntrada(entrada);
 			funcion.registrarEntrada(entrada, sector);
 		}
+		double montoRecaudado = precioPorEntrada * asientos.length;
+		sede.actualizarRecaudacionEspectaculo(nombreEspectaculo, montoRecaudado);
 		return entradas;
 	}
 
@@ -336,6 +342,8 @@ public class Ticketek implements ITicketek {
 		}
 		Espectaculo espectaculo = espectaculos.get(entrada.obtenerNombre());
 		Funcion funcion = espectaculo.obtenerFuncion(entrada.obtenerFecha());
+		double montoResto = entrada.precio();
+		funcion.obtenerSede().actualizarRecaudacionEspectaculo(espectaculo.obtenerNombre(), -montoResto);
 		funcion.liberarAsiento(entrada);
 		return usuario.anularEntrada(entrada);
 	}
@@ -360,7 +368,8 @@ public class Ticketek implements ITicketek {
 		String nuevoCodigo = Entrada.generarCodigo(8);
 		Entrada nuevaEntrada = new Entrada(nuevoCodigo, espectaculo, fechaNueva, nuevaFuncion.obtenerSede(), "CAMPO",
 				email);
-
+		double montoEntrada = entrada.precio();
+		nuevaFuncion.obtenerSede().actualizarRecaudacionEspectaculo(espectaculo.obtenerNombre(), montoEntrada);
 		// Registrar nueva entrada
 		nuevaFuncion.registrarEntrada(nuevaEntrada, "CAMPO");
 		usuarios.get(email).comprarEntradas(List.of(nuevaEntrada));
@@ -405,7 +414,9 @@ public class Ticketek implements ITicketek {
 		String nuevoCodigo = Entrada.generarCodigo(8);
 		Entrada nuevaEntrada = new Entrada(nuevoCodigo, espectaculo, fechaNueva, nuevaFuncion.obtenerSede(), sector,
 				fila, asiento, email);
-
+		
+		double montoEntrada = entrada.precio();
+		nuevaFuncion.obtenerSede().actualizarRecaudacionEspectaculo(espectaculo.obtenerNombre(), montoEntrada);
 		nuevaFuncion.registrarEntrada(nuevaEntrada, sector);
 		usuarios.get(email).comprarEntradas(List.of(nuevaEntrada));
 
@@ -468,13 +479,12 @@ public class Ticketek implements ITicketek {
 			throw new IllegalArgumentException("La sede es requerida para consultar el total recaudado.");
 		}
 
-		List<Funcion> funcionesEnSede = new ArrayList<>();
-		for (Funcion funcion : espectaculo.obtenerFunciones().values()) {
-			if (funcion.obtenerSede().obtenerNombre().equals(nombreSede)) {
-				funcionesEnSede.add(funcion);
-			}
-		}
-		return calcularRecaudacionParaFunciones(funcionesEnSede);
+		Sede sede = sedes.get(nombreSede);
+        if (sede == null) {
+            throw new IllegalArgumentException("La sede '" + nombreSede + "' no se encuentra registrada.");
+        }
+
+        return sede.obtenerRecaudacionPorEspectaculo(nombreEspectaculo);
 	}
 
 	private Espectaculo obtenerYValidarEspectaculo(String nombreEspectaculo) {

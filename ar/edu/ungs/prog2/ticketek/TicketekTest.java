@@ -278,6 +278,7 @@ public class TicketekTest{
         // precio base: 110000.0 para cada entrada platea alta
     	// 110000 * 4 + 15.000*4 = 500000
         double totalRecaudado = ticketek.totalRecaudadoPorSede("Stand up Comedy","Microestadio Sur");
+       System.out.println(totalRecaudado);
         assertEquals(500000.0, totalRecaudado, 0.01);
     }
 
