@@ -77,8 +77,8 @@ public class Funcion {
 
 	    // Obtener el sector desde la ubicación
 	    String sector;
-	    if (e.ubicacion().equals("CAMPO")) {
-	        sector = "CAMPO";
+	    if (e.ubicacion().equals("Campo")) {
+	        sector = "Campo";
 	    } else {
 	        // Extraer sector desde ubicacion: "Platea f:3 a:5" → "Platea"
 	        String[] partes = e.ubicacion().split(" f:");

@@ -1,7 +1,6 @@
 package TP_progra_II.ar.edu.ungs.prog2.ticketek;
 
 import java.util.HashMap;
-import java.util.Map.Entry;
 import java.util.UUID;
 
 public class Espectaculo {
