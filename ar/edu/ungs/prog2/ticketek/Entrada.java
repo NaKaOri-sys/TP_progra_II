@@ -84,7 +84,7 @@ public class Entrada implements IEntrada {
 	        sb.append(" P");
 	    }
 
-	    sb.append(" - ").append(sede.toString()).append(" - ").append(ubicacion());
+	    sb.append(" - ").append(sede.obtenerNombre()).append(" - ").append(ubicacion());
 	    return sb.toString();
 	}
 
