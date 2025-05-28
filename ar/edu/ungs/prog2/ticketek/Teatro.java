@@ -89,7 +89,8 @@ public class Teatro extends Sede {
 			throw new IllegalArgumentException("El sector ingresado no existe.");
 		}
 
-		return precioBase + sector.obtenerIncremento();
+		double calculoIncremento = precioBase * (sector.obtenerIncremento() / 100.0);
+		return calculoIncremento + precioBase;
 	}
 
 
