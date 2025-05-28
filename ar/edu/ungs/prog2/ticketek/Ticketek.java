@@ -436,14 +436,45 @@ public class Ticketek implements ITicketek {
 
 	@Override
 	public double totalRecaudado(String nombreEspectaculo) {
-		// TODO Auto-generated method stub
-		return 0;
+		Espectaculo espectaculo = obtenerYValidarEspectaculo(nombreEspectaculo);
+		return calcularRecaudacionParaFunciones(new ArrayList<>(espectaculo.obtenerFunciones().values()));
 	}
 
 	@Override
 	public double totalRecaudadoPorSede(String nombreEspectaculo, String nombreSede) {
-		// TODO Auto-generated method stub
-		return 0;
+		Espectaculo espectaculo = obtenerYValidarEspectaculo(nombreEspectaculo);
+		if (nombreSede == null || nombreSede.isEmpty()) {
+			throw new IllegalArgumentException("La sede es requerida para consultar el total recaudado.");
+		}
+
+		List<Funcion> funcionesEnSede = new ArrayList<>();
+		for (Funcion funcion : espectaculo.obtenerFunciones().values()) {
+			if (funcion.obtenerSede().obtenerNombre().equals(nombreSede)) {
+				funcionesEnSede.add(funcion);
+			}
+		}
+		return calcularRecaudacionParaFunciones(funcionesEnSede);
 	}
 
+	private Espectaculo obtenerYValidarEspectaculo(String nombreEspectaculo) {
+		if (nombreEspectaculo == null || nombreEspectaculo.isEmpty()) {
+			throw new IllegalArgumentException("El nombre del espectáculo es requerido.");
+		}
+		Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
+		if (espectaculo == null) {
+			throw new IllegalArgumentException(
+					"El espectáculo '" + nombreEspectaculo + "' no se encuentra registrado.");
+		}
+		return espectaculo;
+	}
+
+	private double calcularRecaudacionParaFunciones(List<Funcion> funciones) {
+		double totalRecaudado = 0;
+		for (Funcion funcion : funciones) {
+			for (IEntrada entrada : funcion.obtenerEntradasVendidas()) {
+				totalRecaudado += entrada.precio();
+			}
+		}
+		return totalRecaudado;
+	}
 }

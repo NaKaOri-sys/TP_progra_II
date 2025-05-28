@@ -101,25 +101,24 @@ public class Principal {
 		// comprada con el de una funcion.
 		System.out.println("\nPrecio de entrada para El Rey Leon: $" + entradasConejo.getFirst().precio());
 		System.out.println("\nPrecio de funcion para El Rey Leon (VIP): $"
-				+ ticketek.costoEntrada("El Rey León", "29/07/25", "Platea VIP"));
+				+ ticketek.costoEntrada("El Rey Leon", "29/07/25", "Platea VIP"));
 		System.out.println("\nPrecio de funcion para El Rey Leon (Común): $"
-				+ ticketek.costoEntrada("El Rey León", "29/07/25", "Platea Común"));
+				+ ticketek.costoEntrada("El Rey Leon", "29/07/25", "Platea Común"));
 
 		System.out.println("\nPrecio de entrada para Coldplay: $" + entradasAlcides.getFirst().precio());
 		System.out.println(
 				"\nPrecio de funcion para Coldplay: $" + ticketek.costoEntrada("Coldplay en vivo", "31/07/25"));
 
-	
-		 // 8) Anular una entrada
-		  
-		 ticketek.anularEntrada(entradasAlcides.getLast(), "1234");
-//----------------------------------------------------------------------------------------------------------------
-		 //comprueba que las entradas se eliminaron, mas tarde eliminar de principal
-		 System.out.println("\nTodas las entradas de Alcides:");
-			for (IEntrada e : todasLasEntradasAlcides)
-				System.out.println(" - " + e);
-//---------------------------------------------------------------------------------------------------------------
-			/*
+		// 8) Anular una entrada
+
+		ticketek.anularEntrada(entradasAlcides.getLast(), "1234");
+//--------------------------------------------------------------------------------------
+		// comprueba que las entradas se eliminaron, mas tarde eliminar de principal
+		System.out.println("\nTodas las entradas de Alcides:");
+		for (IEntrada e : todasLasEntradasAlcides)
+			System.out.println(" - " + e);
+//----------------------------------------------------------------------------------------
+		/*
 		 * // 9) Cambiar una entrada
 		 * 
 		 * // Cambio la fecha de una entrada para estadio
@@ -138,6 +137,14 @@ public class Principal {
 		 * System.out.println("\nTotal Recaudado por El Rey León en Gran Rex: $" +
 		 * totalRecaudadoSede);
 		 */
+
+		// 12) Total recaudado por espectaculo
+		double totalRecaudado = ticketek.totalRecaudado("El Rey Leon");
+		System.out.println("\nTotal Recaudado por El Rey León: $" + totalRecaudado);
+
+		// 13) Total recaudado en espectaculo por sede.
+		double totalRecaudadoSede = ticketek.totalRecaudadoPorSede("El Rey Leon", "Teatro Gran Rex");
+		System.out.println("\nTotal Recaudado por El Rey León en Gran Rex: $" + totalRecaudadoSede);
 
 		// 15) Listar entradas vendidas de un espectaculo
 		List<IEntrada> entradasReyLeon = ticketek.listarEntradasEspectaculo("El Rey Leon");
