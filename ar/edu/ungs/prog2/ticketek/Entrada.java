@@ -74,6 +74,7 @@ public class Entrada implements IEntrada {
 		Fecha hoy = Fecha.fechaActual();
 		sb.append(codigo).append(" - ").append(obtenerNombre()).append(" - ");
 		sb.append(fecha.toString());
+		
 		if (fecha.esMayor(fecha, hoy)) {
 			sb.append(" P");
 		}

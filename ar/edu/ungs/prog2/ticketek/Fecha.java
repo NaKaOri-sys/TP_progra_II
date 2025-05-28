@@ -72,21 +72,15 @@ public class Fecha {
 	public int ObtenerAnio() {
 		return anio;
 	}
-	public boolean esMayor(Fecha fecha, Fecha otrafecha) {
-		if ((fecha.dia > otrafecha.dia && fecha.mes > otrafecha.mes && fecha.anio > otrafecha.anio)
-				|| (fecha.dia < otrafecha.dia && fecha.mes > otrafecha.mes && fecha.anio > otrafecha.anio))
-			return true;
-		else
-			return false;
+	public boolean esMayor(Fecha fecha, Fecha otraFecha) {
+	    if (fecha.anio != otraFecha.anio) return fecha.anio > otraFecha.anio;
+	    if (fecha.mes != otraFecha.mes) return fecha.mes > otraFecha.mes;
+	    return fecha.dia > otraFecha.dia;
 	}
-
 	public boolean esMenor(Fecha fecha, Fecha otrafecha) {
-
-		if (esMayor(fecha, otrafecha))
-			return false;
-		else
-			return true;
+	    return !esMayor(fecha, otrafecha) && !fecha.equals(otrafecha);
 	}
+
 	public static Fecha parse(String fechaStr) {
 	    return new Fecha(fechaStr);
 	}
