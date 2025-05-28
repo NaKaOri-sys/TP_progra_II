@@ -6,7 +6,7 @@ public class Estadio extends Sede {
 	private static Sector CAMPO;
 	public Estadio(String nombre, String direccion, int capacidadMaxima) {
 		super(nombre, direccion, capacidadMaxima);
-		CAMPO = new Sector("Campo", 0,capacidadMaxima, 0);
+		CAMPO = new Sector("CAMPO", 0,capacidadMaxima, 0);
 	}
 	
 	public Sector obtenerSector() {

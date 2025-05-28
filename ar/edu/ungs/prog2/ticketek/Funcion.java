@@ -6,14 +6,14 @@ public class Funcion {
 	private Sede sede;
 	private Fecha fecha;
 	private double precioBase;
-    private Set<IEntrada> entradasVendidas; // ✅ Cambiado de List a Set
+    private Set<IEntrada> entradasVendidas;
 	private HashMap<String, Integer> entradasVendidasPorSector;
 
 	public Funcion(Sede sede, Fecha fecha, double precioBase) {
 		this.sede = sede;
 		this.fecha = fecha;
 		this.precioBase = precioBase;
-        this.entradasVendidas = new HashSet<>(); // ✅ Inicialización como HashSet
+        this.entradasVendidas = new HashSet<>();
 		this.entradasVendidasPorSector = new HashMap<String, Integer>();
 	}
 
@@ -38,7 +38,7 @@ public class Funcion {
 	}
 	
     public void registrarEntrada(IEntrada entrada, String sector) {
-        entradasVendidas.add(entrada); // ✅ O(1)
+        entradasVendidas.add(entrada);
         entradasVendidasPorSector.put(sector,
             entradasVendidasPorSector.getOrDefault(sector, 0) + 1);
     }
@@ -52,9 +52,6 @@ public class Funcion {
 	}
 
     public boolean asientoOcupado(String sector, int fila, int asiento) {
-        // Puedes mantener tu lógica actual o recorrer entradasVendidas (O(n))
-        // Si querés que esto también sea O(1), se puede hacer usando otra estructura,
-        // pero eso requiere cambios mayores. Por ahora lo dejamos.
         for (IEntrada entrada : entradasVendidas) {
             if (entrada.ubicacion().equalsIgnoreCase(sector + " f:" + fila + " a:" + asiento)) {
                 return true;
@@ -63,13 +60,10 @@ public class Funcion {
         return false;
     }
     public void liberarAsiento(IEntrada entrada) {
-        //Entrada e = (Entrada) entrada;
-
-        entradasVendidas.remove(entrada); // ✅ O(1) con HashSet
-
+        entradasVendidas.remove(entrada);
         String sector;
-        if (entrada.ubicacion().equals("Campo")) {
-            sector = "Campo";
+        if (entrada.ubicacion().equals("CAMPO")) {
+            sector = "CAMPO";
         } else {
             String[] partes = entrada.ubicacion().split(" f:");
             sector = partes[0];

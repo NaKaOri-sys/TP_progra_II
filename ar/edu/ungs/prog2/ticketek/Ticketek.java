@@ -70,9 +70,7 @@ public class Ticketek implements ITicketek {
 
 	private void validarParametrosSede(String nombre, String direccion, int capacidadMaxima, int asientosPorFila,
 			String[] sectores, int[] capacidad, int[] porcentajeAdicional) {
-		validarParametrosSede(nombre, direccion, capacidadMaxima); // Reutilizamos el primer método
-
-		// Validaciones específicas de los sectores
+		validarParametrosSede(nombre, direccion, capacidadMaxima);
 		if (asientosPorFila <= 0) {
 			throw new IllegalArgumentException("Los asientos por fila deben ser un número positivo.");
 		}
@@ -139,14 +137,11 @@ public class Ticketek implements ITicketek {
 
 	@Override
 	public void registrarUsuario(String email, String nombre, String apellido, String contrasenia) {
-
 		// Si el email ya está registrado, se debe lanzar una excepcion
-
 		if (usuarios.containsKey(email)) {
 			throw new IllegalStateException("El email ya está registrado.");
 		}
 
-		// Si algun dato no es aceptable, se debe lanzar una excepcion.
 		if (email == null || !email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
 			throw new IllegalStateException("El Email ingresado es invalido.");
 		}
@@ -221,11 +216,10 @@ public class Ticketek implements ITicketek {
 
 		for (int i = 0; i < cantidadEntradas; i++) {
 			String codigo = Entrada.generarCodigo(8);
-			Entrada entrada = new Entrada(codigo, espectaculo, fechaEntrada, sede, "Campo", email);
+			Entrada entrada = new Entrada(codigo, espectaculo, fechaEntrada, sede, "CAMPO", email);
 			entradas.add(entrada);
 			usuario.comprarEntrada(entrada);
-			// Registrar la entrada vendida en la función
-			funcion.registrarEntrada(entrada, "Campo");
+			funcion.registrarEntrada(entrada, "CAMPO");
 		}
 		return entradas;
 	}
@@ -249,7 +243,6 @@ public class Ticketek implements ITicketek {
 			Entrada entrada = new Entrada(codigo, espectaculo, fechaEntrada, sede, sector, 1, asientos[i], email);
 			entradas.add(entrada);
 			usuario.comprarEntrada(entrada);
-			// Registrar la entrada vendida en la función
 			funcion.registrarEntrada(entrada, sector);
 		}
 		return entradas;
@@ -349,12 +342,9 @@ public class Ticketek implements ITicketek {
 
 	@Override
 	public IEntrada cambiarEntrada(IEntrada entrada, String contrasenia, String fechaNuevaStr) {
-
 		Entrada original = (Entrada) entrada;
-
 		String email = original.obtenerEmailComprador();
 		validarUsuario(email, contrasenia);
-
 		Fecha hoy = Fecha.fechaActual();
 		if (!hoy.esMenor(hoy, original.obtenerFecha())) {
 			throw new IllegalStateException("La entrada original ya pasó");
@@ -368,11 +358,11 @@ public class Ticketek implements ITicketek {
 
 		// Crear nueva entrada (tipo no numerada)
 		String nuevoCodigo = Entrada.generarCodigo(8);
-		Entrada nuevaEntrada = new Entrada(nuevoCodigo, espectaculo, fechaNueva, nuevaFuncion.obtenerSede(), "Campo",
+		Entrada nuevaEntrada = new Entrada(nuevoCodigo, espectaculo, fechaNueva, nuevaFuncion.obtenerSede(), "CAMPO",
 				email);
 
 		// Registrar nueva entrada
-		nuevaFuncion.registrarEntrada(nuevaEntrada, "Campo");
+		nuevaFuncion.registrarEntrada(nuevaEntrada, "CAMPO");
 		usuarios.get(email).comprarEntradas(List.of(nuevaEntrada));
 
 		// Anular la anterior
@@ -431,7 +421,7 @@ public class Ticketek implements ITicketek {
 		Fecha fechaFuncion = new Fecha(fecha);
 		Funcion funcion = espectaculo.obtenerFuncion(fechaFuncion);
 		HashMap<String, Sector> sectores = funcion.obtenerSede().obtenerSectores();
-		Sector sectorFuncion = sectores.get("Campo");
+		Sector sectorFuncion = sectores.get("CAMPO");
 		return funcion.obtenerSede().calcularPrecioBase(sectorFuncion, funcion.obtenerPrecioBase());
 	}
 

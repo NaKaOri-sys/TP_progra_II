@@ -22,7 +22,7 @@ public class Entrada implements IEntrada {
 		this.espectaculo = espectaculo;
 		this.fecha = fecha;
 		this.sede = sede;
-		this.ubicacion = "Campo";
+		this.ubicacion = "CAMPO";
 		this.emailComprador = emailComprador;
 		this.sector = sector;
 	}
@@ -63,8 +63,8 @@ public class Entrada implements IEntrada {
 	
 	@Override
 	public String ubicacion() {
-		if (ubicacion.equals("Campo")) {
-			return "Campo";
+		if (ubicacion.equals("CAMPO")) {
+			return "CAMPO";
 		} else {
 			return sector + " f:" + fila + " a:" + asiento;
 		}

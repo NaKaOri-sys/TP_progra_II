@@ -60,7 +60,7 @@ public class Usuario {
     }
 
     public boolean anularEntrada(IEntrada entrada) {
-        return entradas.remove(entrada); // O(1)
+        return entradas.remove(entrada);
     }
 
     public String getEmail() {
