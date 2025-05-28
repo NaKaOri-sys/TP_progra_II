@@ -1,21 +1,19 @@
 package TP_progra_II.ar.edu.ungs.prog2.ticketek;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Funcion {
 	private Sede sede;
 	private Fecha fecha;
 	private double precioBase;
-	private List<IEntrada> entradasVendidas;
+    private Set<IEntrada> entradasVendidas; // ✅ Cambiado de List a Set
 	private HashMap<String, Integer> entradasVendidasPorSector;
 
 	public Funcion(Sede sede, Fecha fecha, double precioBase) {
 		this.sede = sede;
 		this.fecha = fecha;
 		this.precioBase = precioBase;
-		this.entradasVendidas = new ArrayList<>();
+        this.entradasVendidas = new HashSet<>(); // ✅ Inicialización como HashSet
 		this.entradasVendidasPorSector = new HashMap<String, Integer>();
 	}
 
@@ -39,19 +37,13 @@ public class Funcion {
 		this.fecha = fecha;
 	}
 	
-	public void registrarEntrada(IEntrada entrada, String sector) {
-		if (entrada == null) {
-			throw new IllegalArgumentException("La entrada no puede ser nula.");
-		}
-		if ((!this.obtenerSede().obtenerSectores().containsKey(sector)))  {
-			throw new IllegalArgumentException("El sector no se encuentra registrado.");
-		}
-		this.entradasVendidas.add(entrada);
-		int entradasActuales = entradasVendidasPorSector.getOrDefault(sector, 0);
-		entradasVendidasPorSector.put(sector, entradasActuales + 1);
-	}
+    public void registrarEntrada(IEntrada entrada, String sector) {
+        entradasVendidas.add(entrada); // ✅ O(1)
+        entradasVendidasPorSector.put(sector,
+            entradasVendidasPorSector.getOrDefault(sector, 0) + 1);
+    }
 
-	public List<IEntrada> obtenerEntradasVendidas() {
+	public Set<IEntrada> obtenerEntradasVendidas() {
 		return entradasVendidas;
 	}
 	
@@ -59,34 +51,35 @@ public class Funcion {
 		return this.entradasVendidasPorSector;
 	}
 
-	public boolean asientoOcupado(String sector, int fila, int asiento) {
-		for (IEntrada e : entradasVendidas) {
-			if (e.ubicacion().equals(sector + " f:" + fila + " a:" + asiento)) {
-				return true;
-			}
-		}
-		return false;
-	}
-	public void liberarAsiento(IEntrada entrada) {
+    public boolean asientoOcupado(String sector, int fila, int asiento) {
+        // Puedes mantener tu lógica actual o recorrer entradasVendidas (O(n))
+        // Si querés que esto también sea O(1), se puede hacer usando otra estructura,
+        // pero eso requiere cambios mayores. Por ahora lo dejamos.
+        for (IEntrada entrada : entradasVendidas) {
+            if (entrada.ubicacion().equalsIgnoreCase(sector + " f:" + fila + " a:" + asiento)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public void liberarAsiento(IEntrada entrada) {
+        Entrada e = (Entrada) entrada;
 
-	    Entrada e = (Entrada) entrada;   
-	    // Eliminar la entrada de la lista de vendidas
-	    this.entradasVendidas.remove(entrada);
-	    // Obtener el sector desde la ubicación
-	    String sector;
-	    if (e.ubicacion().equals("Campo")) {
-	        sector = "Campo";
-	    } else {
-	        // Extraer sector desde ubicacion: "Platea f:3 a:5" → "Platea"
-	        String[] partes = e.ubicacion().split(" f:");
-	        sector = partes[0];
-	    }
-	    // Restar uno al contador de entradas vendidas por sector
-	    int cantidadActual = this.entradasVendidasPorSector.getOrDefault(sector, 0);
-	    if (cantidadActual > 0) {
-	        this.entradasVendidasPorSector.put(sector, cantidadActual - 1);
-	    }
-	}
+        entradasVendidas.remove(entrada); // ✅ O(1) con HashSet
+
+        String sector;
+        if (e.ubicacion().equals("Campo")) {
+            sector = "Campo";
+        } else {
+            String[] partes = e.ubicacion().split(" f:");
+            sector = partes[0];
+        }
+
+        int cantidadActual = this.entradasVendidasPorSector.getOrDefault(sector, 0);
+        if (cantidadActual > 0) {
+            this.entradasVendidasPorSector.put(sector, cantidadActual - 1);
+        }
+    }
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

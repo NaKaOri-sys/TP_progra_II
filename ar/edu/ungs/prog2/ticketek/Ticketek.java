@@ -328,7 +328,7 @@ public class Ticketek implements ITicketek {
 	public List<IEntrada> listarTodasLasEntradasDelUsuario(String email, String contrasenia) {
 		validarUsuario(email, contrasenia);
 		Usuario usuario = usuarios.get(email);
-		return new ArrayList<>(usuario.getEntradas());
+		return usuario.obtenerEntradas(usuario.getEntradas());
 	}
 
 	@Override
@@ -336,6 +336,7 @@ public class Ticketek implements ITicketek {
 		if (!(entrada instanceof Entrada)) {
 			throw new IllegalArgumentException("Tipo de entrada desconocido.");
 		}
+		
 
 		String email = ((Entrada) entrada).obtenerEmailComprador();
 		validarUsuario(email, contrasenia);
@@ -344,6 +345,7 @@ public class Ticketek implements ITicketek {
 		if (!hoy.esMenor(hoy, ((Entrada) entrada).obtenerFecha())) {
 			return false;
 		}
+		
 		if (!entrada.ubicacion().equals("Campo")) {
 			Espectaculo espectaculo = espectaculos.get(((Entrada) entrada).obtenerNombre());
 			Funcion funcion = espectaculo.obtenerFuncion(((Entrada) entrada).obtenerFecha());

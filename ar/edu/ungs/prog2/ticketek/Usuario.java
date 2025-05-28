@@ -39,15 +39,12 @@ public class Usuario {
         return null;
     }
 
-    public List<IEntrada> obtenerEntradas(List<Entrada> entradasFuturas) {
+    public List<IEntrada> obtenerEntradas(Set<Entrada> entradas) {
         List<IEntrada> listaEntradas = new ArrayList<>();
-        Fecha fechaActual = Fecha.fechaActual();
-        for (Entrada e : entradasFuturas) {
-            if (fechaActual.esMayor(fechaRegistro, fechaActual)) {
+        for (Entrada e : entradas) {
                 listaEntradas.add(e);
             }
-        }
-        return listaEntradas;
+     return listaEntradas;
     }
 
     public List<IEntrada> obtenerEntradasFuturas() {
