@@ -63,15 +63,15 @@ public class Funcion {
         return false;
     }
     public void liberarAsiento(IEntrada entrada) {
-        Entrada e = (Entrada) entrada;
+        //Entrada e = (Entrada) entrada;
 
         entradasVendidas.remove(entrada); // ✅ O(1) con HashSet
 
         String sector;
-        if (e.ubicacion().equals("Campo")) {
+        if (entrada.ubicacion().equals("Campo")) {
             sector = "Campo";
         } else {
-            String[] partes = e.ubicacion().split(" f:");
+            String[] partes = entrada.ubicacion().split(" f:");
             sector = partes[0];
         }
 

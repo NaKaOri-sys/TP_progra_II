@@ -40,23 +40,28 @@ public class Entrada implements IEntrada {
 		this.ubicacion = sector + " f:" + fila + " a:" + asiento;
 		this.emailComprador = emailComprador;
 	}
-
+	
+	@Override
 	public String obtenerNombre() {
 		return espectaculo.obtenerNombre();
 	}
-
+	
+	@Override
 	public Fecha obtenerFecha() {
 		return fecha;
 	}
 
-	public String getCodigo() {
+	@Override
+	public String obtenerCodigo() {
 		return codigo;
 	}
 
+	@Override
 	public String obtenerEmailComprador() {
 		return emailComprador;
 	}
-
+	
+	@Override
 	public String ubicacion() {
 		if (ubicacion.equals("Campo")) {
 			return "Campo";
