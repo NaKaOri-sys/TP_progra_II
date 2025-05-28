@@ -347,23 +347,23 @@ public class Ticketek implements ITicketek {
 	    return true;
 	}
 	@Override
-	public IEntrada cambiarEntrada(IEntrada entrada, String contrasenia, String fechaNuevaStr) {
-		
-	    Entrada original = (Entrada) entrada;
+	  public IEntrada cambiarEntrada(IEntrada entrada, String contrasenia, String fechaNuevaStr) {
+	    
+	      Entrada original = (Entrada) entrada;
 
-	    String email = original.obtenerEmailComprador();
-	    validarUsuario(email, contrasenia);
+	      String email = original.obtenerEmailComprador();
+	      validarUsuario(email, contrasenia);
 
-	    Fecha hoy = Fecha.fechaActual();
-	    if (!hoy.esMenor(hoy, original.obtenerFecha())) {
-	        throw new IllegalStateException("La entrada original ya pasó");
-	    }
-	    Espectaculo espectaculo = espectaculos.get(original.obtenerNombre());
-	    Fecha fechaNueva = Fecha.parse(fechaNuevaStr);
-	    Funcion nuevaFuncion = espectaculo.obtenerFuncion(fechaNueva);
-	    if (nuevaFuncion == null) {
-	        throw new IllegalStateException("No hay función en la fecha indicada");
-	    }
+	      Fecha hoy = Fecha.fechaActual();
+	      if (!hoy.esMenor(hoy, original.obtenerFecha())) {
+	          throw new IllegalStateException("La entrada original ya pasó");
+	      }
+	      Espectaculo espectaculo = espectaculos.get(original.obtenerNombre());
+	      Fecha fechaNueva = Fecha.parse(fechaNuevaStr);
+	      Funcion nuevaFuncion = espectaculo.obtenerFuncion(fechaNueva);
+	      if (nuevaFuncion == null) {
+	          throw new IllegalStateException("No hay función en la fecha indicada");
+	      }
 
 	    // Crear nueva entrada (tipo no numerada)
 	    String nuevoCodigo = Entrada.generarCodigo(8);
@@ -373,10 +373,10 @@ public class Ticketek implements ITicketek {
 	    nuevaFuncion.registrarEntrada(nuevaEntrada, "Campo");
 	    usuarios.get(email).comprarEntradas(List.of(nuevaEntrada));
 
-	    // Anular la anterior
-	    anularEntrada(original, contrasenia);
-	    return nuevaEntrada;
-	}
+	      // Anular la anterior
+	      anularEntrada(original, contrasenia);
+	      return nuevaEntrada;
+	  }
 
 
 	@Override
