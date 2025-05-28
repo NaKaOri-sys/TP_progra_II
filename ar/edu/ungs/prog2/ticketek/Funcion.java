@@ -39,7 +39,7 @@ public class Funcion {
 		this.fecha = fecha;
 	}
 
-	// Registrar una entrada vendida
+	
 	public void registrarEntrada(IEntrada entrada, String sector) {
 		if (entrada == null) {
 			throw new IllegalArgumentException("La entrada no puede ser nula.");
@@ -68,7 +68,29 @@ public class Funcion {
 		}
 		return false;
 	}
+	public void liberarAsiento(IEntrada entrada) {
 
+	    Entrada e = (Entrada) entrada;
+	    
+	    // Eliminar la entrada de la lista de vendidas
+	    this.entradasVendidas.remove(entrada);
+
+	    // Obtener el sector desde la ubicación
+	    String sector;
+	    if (e.ubicacion().equals("CAMPO")) {
+	        sector = "CAMPO";
+	    } else {
+	        // Extraer sector desde ubicacion: "Platea f:3 a:5" → "Platea"
+	        String[] partes = e.ubicacion().split(" f:");
+	        sector = partes[0];
+	    }
+
+	    // Restar uno al contador de entradas vendidas por sector
+	    int cantidadActual = this.entradasVendidasPorSector.getOrDefault(sector, 0);
+	    if (cantidadActual > 0) {
+	        this.entradasVendidasPorSector.put(sector, cantidadActual - 1);
+	    }
+	}
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

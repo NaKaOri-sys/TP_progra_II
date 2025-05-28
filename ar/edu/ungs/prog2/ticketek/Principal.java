@@ -109,11 +109,17 @@ public class Principal {
 		System.out.println(
 				"\nPrecio de funcion para Coldplay: $" + ticketek.costoEntrada("Coldplay en vivo", "31/07/25"));
 
-		/*
-		 * // 8) Anular una entrada
-		 * 
-		 * ticketek.anularEntrada(entradasAlcides.getLast(), "1234");
-		 * 
+	
+		 // 8) Anular una entrada
+		  
+		 ticketek.anularEntrada(entradasAlcides.getLast(), "1234");
+//--------------------------------------------------------------------------------------
+		 //comprueba que las entradas se eliminaron, mas tarde eliminar de principal
+		 System.out.println("\nTodas las entradas de Alcides:");
+			for (IEntrada e : todasLasEntradasAlcides)
+				System.out.println(" - " + e);
+//----------------------------------------------------------------------------------------
+			/*
 		 * // 9) Cambiar una entrada
 		 * 
 		 * // Cambio la fecha de una entrada para estadio

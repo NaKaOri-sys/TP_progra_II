@@ -217,7 +217,7 @@ public class Ticketek implements ITicketek {
 
 		for (int i = 0; i < cantidadEntradas; i++) {
 			String codigo = Entrada.generarCodigo(8);
-			Entrada entrada = new Entrada(codigo, espectaculo, fechaEntrada, sede, "Campo");
+			Entrada entrada = new Entrada(codigo, espectaculo, fechaEntrada, sede, "Campo", email);
 			entradas.add(entrada);
 
 			// Registrar la entrada vendida en la función
@@ -241,8 +241,9 @@ public class Ticketek implements ITicketek {
 		List<IEntrada> entradas = new ArrayList<>();
 
 		for (int i = 0; i < asientos.length; i++) {
+			
 			String codigo = Entrada.generarCodigo(8);
-			Entrada entrada = new Entrada(codigo, espectaculo, fechaEntrada, sede, sector, 1, asientos[i]);
+			Entrada entrada = new Entrada(codigo, espectaculo, fechaEntrada, sede, sector, 1, asientos[i], email);
 			entradas.add(entrada);
 
 			// Registrar la entrada vendida en la función
@@ -306,39 +307,49 @@ public class Ticketek implements ITicketek {
 
 	@Override
 	public List<IEntrada> listarEntradasFuturas(String email, String contrasenia) {
-		validarUsuario(email, contrasenia);
-		Usuario usuario = usuarios.get(email);
-
-		return usuario.obtenerEntradasFuturas(usuario.getEntradas());
+	    validarUsuario(email, contrasenia);
+	    Usuario usuario = usuarios.get(email);
+	    return usuario.obtenerEntradasFuturas();
 	}
 
 	private void validarUsuario(String email, String contrasenia) {
-		if (!usuarios.containsKey(email))
-			throw new IllegalStateException("Usuario no registrado");
-		if (!usuarios.get(email).validarContrasenia(contrasenia))
-			throw new IllegalStateException("Contraseña inválida");
+	    if (!usuarios.containsKey(email))
+	        throw new IllegalStateException("Usuario no registrado");
+	    if (!usuarios.get(email).validarContrasenia(contrasenia))
+	        throw new IllegalStateException("Contraseña inválida");
 	}
 
 	@Override
-	/**
-	 * 7) Devuelve una lista con todas las entradas que compró un usuario desde que
-	 * se registró en el sistema. Se debe autenticar al usuario.
-	 * 
-	 * @param email
-	 * @param contrasenia
-	 * @return
-	 */
 	public List<IEntrada> listarTodasLasEntradasDelUsuario(String email, String contrasenia) {
-		validarUsuario(email, contrasenia);
-		Usuario usuario = usuarios.get(email);
-		return usuario.obtenerEntradas(usuario.getEntradas());
+	    validarUsuario(email, contrasenia);
+	    Usuario usuario = usuarios.get(email);
+	    return new ArrayList<>(usuario.getEntradas());
 	}
-
+	
 	@Override
 	public boolean anularEntrada(IEntrada entrada, String contrasenia) {
-		// TODO Auto-generated method stub
-		return false;
+	    if (!(entrada instanceof Entrada)) {
+	        throw new IllegalArgumentException("Tipo de entrada desconocido.");
+	    }
+
+	    String email = ((Entrada) entrada).obtenerEmailComprador();
+	    validarUsuario(email, contrasenia);
+
+	    Fecha hoy = Fecha.fechaActual();
+	    if (!hoy.esMenor(hoy, ((Entrada) entrada).obtenerFecha())) {
+	        return false; 
+	    }
+
+	    if (!entrada.ubicacion().equals("CAMPO")) {
+	        Espectaculo espectaculo = espectaculos.get(((Entrada) entrada).obtenerNombre());
+	        Funcion funcion = espectaculo.obtenerFuncion(((Entrada) entrada).obtenerFecha());
+	        funcion.liberarAsiento(entrada);
+	    }
+
+	    return true;
 	}
+
+
 
 	@Override
 	public IEntrada cambiarEntrada(IEntrada entrada, String contrasenia, String fecha, String sector, int asiento) {
