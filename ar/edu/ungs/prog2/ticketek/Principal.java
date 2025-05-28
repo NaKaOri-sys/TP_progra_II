@@ -109,17 +109,16 @@ public class Principal {
 		System.out.println(
 				"\nPrecio de funcion para Coldplay: $" + ticketek.costoEntrada("Coldplay en vivo", "31/07/25"));
 
-		
-		 // 8) Anular una entrada
-		  
-		 ticketek.anularEntrada(entradasAlcides.getLast(), "1234");
+		// 8) Anular una entrada
+
+		ticketek.anularEntrada(entradasAlcides.getLast(), "1234");
 //--------------------------------------------------------------------------------------
-		 //comprueba que las entradas se eliminaron, mas tarde eliminar de principal
-		 System.out.println("\nTodas las entradas de Alcides:");
-			for (IEntrada e : todasLasEntradasAlcides)
-				System.out.println(" - " + e);
+		// comprueba que las entradas se eliminaron, mas tarde eliminar de principal
+		System.out.println("\nTodas las entradas de Alcides:");
+		for (IEntrada e : todasLasEntradasAlcides)
+			System.out.println(" - " + e);
 //----------------------------------------------------------------------------------------
-			/*
+		/*
 		 * // 9) Cambiar una entrada
 		 * 
 		 * // Cambio la fecha de una entrada para estadio
@@ -139,16 +138,13 @@ public class Principal {
 		 * totalRecaudadoSede);
 		 */
 
-		  
-		  // 12) Total recaudado por espectaculo 
-		  double totalRecaudado = ticketek.totalRecaudado("El Rey Leon");
-		  System.out.println("\nTotal Recaudado por El Rey León: $" + totalRecaudado);
-		  
-		  // 13) Total recaudado en espectaculo por sede. 
-		  double totalRecaudadoSede =  ticketek.totalRecaudadoPorSede("El Rey Leon", "Teatro Gran Rex");
-		  System.out.println("\nTotal Recaudado por El Rey León en Gran Rex: $" +
-		  totalRecaudadoSede);
-		 
+		// 12) Total recaudado por espectaculo
+		double totalRecaudado = ticketek.totalRecaudado("El Rey Leon");
+		System.out.println("\nTotal Recaudado por El Rey León: $" + totalRecaudado);
+
+		// 13) Total recaudado en espectaculo por sede.
+		double totalRecaudadoSede = ticketek.totalRecaudadoPorSede("El Rey Leon", "Teatro Gran Rex");
+		System.out.println("\nTotal Recaudado por El Rey León en Gran Rex: $" + totalRecaudadoSede);
 
 		// 15) Listar entradas vendidas de un espectaculo
 		List<IEntrada> entradasReyLeon = ticketek.listarEntradasEspectaculo("El Rey Leon");
