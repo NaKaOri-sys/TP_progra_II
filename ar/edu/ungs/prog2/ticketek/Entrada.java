@@ -80,7 +80,7 @@ public class Entrada implements IEntrada {
 	    sb.append(codigo).append(" - ").append(obtenerNombre()).append(" - ");
 	    sb.append(fecha.toString());
 
-	    if (fecha.esMenor(fecha, hoy)) {
+	    if (fecha.esMayor(hoy, fecha)) {
 	        sb.append(" P");
 	    }
 
