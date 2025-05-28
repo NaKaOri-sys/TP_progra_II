@@ -1,6 +1,7 @@
 package TP_progra_II.ar.edu.ungs.prog2.ticketek;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.Objects;
 
 public abstract class Sede {
@@ -27,8 +28,6 @@ public abstract class Sede {
 	public int obtenerCapacidadMaxima() {
 		return capacidadMaxima;
 	}
-
-	public abstract boolean esEnumerada();
 
 	public abstract double calcularPrecioBase(Sector sector, double precioBase);
 
@@ -80,7 +79,22 @@ public abstract class Sede {
 
 	@Override
 	public String toString() {
-		return "Sede [nombre=" + nombre + ", direccion=" + direccion + ", capacidadMaxima=" + capacidadMaxima + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("- ");
+		builder.append(nombre);
+		builder.append(" | ");
+		builder.append(direccion);
+		builder.append(" | ");
+		builder.append("Capacidad máxima: ");
+		builder.append(capacidadMaxima);
+		builder.append(" | ");
+		for (Entry<String, Double> entry : recaudacionPorEspectaculo.entrySet()) {
+			String key = entry.getKey();
+			double val = entry.getValue();
+			builder.append("Espectaculo: ").append(key).append(" | ").append("Total recaudado: $").append(val);
+		}
+		builder.append(" \n");
+		return builder.toString();
 	}
 
 }

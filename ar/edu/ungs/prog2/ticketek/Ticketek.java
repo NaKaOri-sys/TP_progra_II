@@ -508,4 +508,34 @@ public class Ticketek implements ITicketek {
 		}
 		return totalRecaudado;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Usuarios \n");
+		if (usuarios.isEmpty()) {
+			builder.append("Por el momento no hay usuarios creados.\n");
+		}
+		for (Usuario usuario : usuarios.values()) {
+			builder.append(usuario.toString());
+		}
+		builder.append("========================== \n");
+		builder.append("Sedes \n");
+		if (sedes.isEmpty()) {
+			builder.append("Por el momento no hay sedes creadas.\n");
+		}
+		for (Sede sede : sedes.values()) {
+			builder.append(sede.toString());
+		}
+		builder.append("========================== \n");
+		builder.append("Espectaculos, funciones y recaudación total por Espectaculo \n");
+		if (espectaculos.isEmpty()) {
+			builder.append("Por el momento no hay espectaculos creados.\n");
+		}
+		for (Espectaculo espectaculo : espectaculos.values()) {
+			builder.append(espectaculo.toString());
+		}
+		return builder.toString();
+	}
+	
 }
