@@ -182,6 +182,11 @@ public class Ticketek implements ITicketek {
 		validarParametrosFuncion(nombreEspectaculo, fecha, sede, precioBase);
 		Sede sedeRegistrada = sedes.get(sede);
 		Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
+		Fecha fechaFuncion = new Fecha(fecha); 
+		Funcion funcion = espectaculo.obtenerFunciones().get(fechaFuncion);
+		if (funcion != null) {
+			throw new IllegalStateException("Solo puede haber una fecha por espectaculo.");
+		}
 		espectaculo.registrarFuncion(fecha, sedeRegistrada, precioBase);
 	}
 
