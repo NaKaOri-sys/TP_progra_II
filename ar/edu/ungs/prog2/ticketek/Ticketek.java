@@ -508,4 +508,18 @@ public class Ticketek implements ITicketek {
 		}
 		return totalRecaudado;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Ticketek [usuarios=");
+		builder.append(usuarios.toString());
+		builder.append(", espectaculos=");
+		builder.append(espectaculos.toString());
+		builder.append(", sedes=");
+		builder.append(sedes.toString());
+		builder.append("]");
+		return builder.toString();
+	}
+	
 }
