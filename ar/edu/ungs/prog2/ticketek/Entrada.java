@@ -75,16 +75,19 @@ public class Entrada implements IEntrada {
 	}
 
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		Fecha hoy = Fecha.fechaActual();
-		sb.append(codigo).append(" - ").append(obtenerNombre()).append(" - ");
-		sb.append(fecha.toString());
-		if (fecha.esMayor(fecha, hoy)) {
-			sb.append(" P");
-		}
-		sb.append(" - ").append(sede.toString()).append(" - ").append(ubicacion());
-		return sb.toString();
+	    StringBuilder sb = new StringBuilder();
+	    Fecha hoy = Fecha.fechaActual();
+	    sb.append(codigo).append(" - ").append(obtenerNombre()).append(" - ");
+	    sb.append(fecha.toString());
+
+	    if (fecha.esMayor(hoy, fecha)) {
+	        sb.append(" P");
+	    }
+
+	    sb.append(" - ").append(sede.toString()).append(" - ").append(ubicacion());
+	    return sb.toString();
 	}
+
 
 	public static String generarCodigo(int longitud) {
 		String caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

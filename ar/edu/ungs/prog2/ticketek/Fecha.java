@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Objects;
 
-public class Fecha {
+public class Fecha implements Comparable<Fecha> {
 	private int dia;
 	private int mes;
 	private int anio;
@@ -72,21 +72,45 @@ public class Fecha {
 	public int ObtenerAnio() {
 		return anio;
 	}
-	public boolean esMayor(Fecha fecha, Fecha otrafecha) {
-		if ((fecha.dia > otrafecha.dia && fecha.mes > otrafecha.mes && fecha.anio > otrafecha.anio)
-				|| (fecha.dia < otrafecha.dia && fecha.mes > otrafecha.mes && fecha.anio > otrafecha.anio))
-			return true;
-		else
-			return false;
-	}
 
-	public boolean esMenor(Fecha fecha, Fecha otrafecha) {
+    public int compareTo(Fecha otraFecha) {
+        if (this.anio != otraFecha.anio) {
+            return Integer.compare(this.anio, otraFecha.anio);
+        }
+        if (this.mes != otraFecha.mes) {
+            return Integer.compare(this.mes, otraFecha.mes);
+        }
+        return Integer.compare(this.dia, otraFecha.dia);
+    }
 
-		if (esMayor(fecha, otrafecha))
-			return false;
-		else
-			return true;
-	}
+    public boolean esPosteriorA(Fecha otraFecha) {
+        return this.compareTo(otraFecha) > 0;
+    }
+
+    public boolean esAnteriorA(Fecha otraFecha) {
+        return this.compareTo(otraFecha) < 0;
+    }
+
+    public boolean esIgualA(Fecha otraFecha) {
+        return this.compareTo(otraFecha) == 0;
+    }
+
+    public boolean esMayorOIgual(Fecha otraFecha) {
+        return this.compareTo(otraFecha) >= 0;
+    }
+
+    public boolean esMenorOIgual(Fecha otraFecha) {
+        return this.compareTo(otraFecha) <= 0;
+    }
+
+    public boolean esMayor(Fecha fecha1, Fecha fecha2) {
+        return fecha1.compareTo(fecha2) > 0;
+    }
+
+    public boolean esMenor(Fecha fecha1, Fecha fecha2) {
+        return fecha1.compareTo(fecha2) < 0;
+    }
+
 	public static Fecha parse(String fechaStr) {
 	    return new Fecha(fechaStr);
 	}
