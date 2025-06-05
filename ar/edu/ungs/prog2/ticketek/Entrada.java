@@ -1,7 +1,6 @@
 package TP_progra_II.ar.edu.ungs.prog2.ticketek;
 
 import java.util.Random;
-import java.util.HashMap;
 import java.util.Objects;
 
 public class Entrada implements IEntrada {
@@ -10,7 +9,6 @@ public class Entrada implements IEntrada {
 	private Fecha fecha;
 	private Sede sede;
 	private String ubicacion;
-	private String sector;
 	private String emailComprador;
 
 	public Entrada(String codigo, Espectaculo espectaculo, Fecha fecha, Sede sede, String ubicacion,
@@ -51,10 +49,6 @@ public class Entrada implements IEntrada {
 		} else {
 			return ubicacion;
 		}
-	}
-
-	public String obtenerSector() {
-		return this.sector;
 	}
 
 	public String toString() {
