@@ -43,6 +43,7 @@ public class Espectaculo {
 		
 		double precioPorEntrada = sede.calcularPrecioBase(sede.obtenerSectores().get(ubicacion), funcion.obtenerPrecioBase());
 		List<IEntrada> entradas = new ArrayList<>();
+		
 		for (int i = 0; i < cantidadEntradas; i++) {
 			
 			String codigo = Entrada.generarCodigo(8);
