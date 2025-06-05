@@ -11,36 +11,18 @@ public class Entrada implements IEntrada {
 	private Sede sede;
 	private String ubicacion;
 	private String sector;
-	private int fila;
-	private int asiento;
 	private String emailComprador;
 
-	// Constructor para no numeradas
-	public Entrada(String codigo, Espectaculo espectaculo, Fecha fecha, Sede sede, String sector,
+	public Entrada(String codigo, Espectaculo espectaculo, Fecha fecha, Sede sede, String ubicacion,
 			String emailComprador) {
 		this.codigo = codigo;
 		this.espectaculo = espectaculo;
 		this.fecha = fecha;
 		this.sede = sede;
-		this.ubicacion = "CAMPO";
+		this.ubicacion = ubicacion;
 		this.emailComprador = emailComprador;
-		this.sector = sector;
 	}
 
-	// Constructor para numeradas
-	public Entrada(String codigo, Espectaculo espectaculo, Fecha fecha, Sede sede, String sector, int fila, int asiento,
-			String emailComprador) {
-		this.codigo = codigo;
-		this.espectaculo = espectaculo;
-		this.fecha = fecha;
-		this.sede = sede;
-		this.sector = sector;
-		this.fila = fila;
-		this.asiento = asiento;
-		this.ubicacion = sector + " f:" + fila + " a:" + asiento;
-		this.emailComprador = emailComprador;
-	}
-	
 	@Override
 	public String obtenerNombre() {
 		return espectaculo.obtenerNombre();
@@ -63,10 +45,11 @@ public class Entrada implements IEntrada {
 	
 	@Override
 	public String ubicacion() {
+		
 		if (ubicacion.equals("CAMPO")) {
 			return "CAMPO";
 		} else {
-			return sector + " f:" + fila + " a:" + asiento;
+			return ubicacion;
 		}
 	}
 	

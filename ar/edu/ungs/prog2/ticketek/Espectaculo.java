@@ -1,6 +1,8 @@
 package TP_progra_II.ar.edu.ungs.prog2.ticketek;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 public class Espectaculo {
@@ -33,6 +35,53 @@ public class Espectaculo {
 		}
 		return sb.toString();
 	}
+	public void venderEntradaDelEspectaculoNoEnumeradas(List<IEntrada> entradas, Espectaculo espectaculo, Fecha fecha, Usuario usuario, String email, String ubicacion,int cantidadEntradas) {
+		
+		Funcion funcion = espectaculo.obtenerFuncion(fecha);		
+		Sede sede = funcion.obtenerSede();
+		
+		
+		double precioPorEntrada = sede.calcularPrecioBase(sede.obtenerSectores().get(ubicacion), funcion.obtenerPrecioBase());
+		
+		for (int i = 0; i < cantidadEntradas; i++) {
+			
+			String codigo = Entrada.generarCodigo(8);
+			
+			Entrada entrada = new Entrada(codigo, espectaculo, fecha, sede, ubicacion, email);
+			entradas.add(entrada);
+			usuario.comprarEntrada(entrada);
+			funcion.registrarEntrada(entrada, ubicacion);
+			double montoRecaudado = precioPorEntrada * cantidadEntradas;
+			sede.actualizarRecaudacionEspectaculo(espectaculo.obtenerNombre(), montoRecaudado);
+
+		}
+	}
+	
+	
+	
+	public void venderEntradaDelEspectaculo(List<IEntrada> entradas, Espectaculo espectaculo, Fecha fecha, Usuario usuario, String email, String sector, int[] asientos) {
+				
+		Funcion funcion = espectaculo.obtenerFuncion(fecha);		
+		Sede sede = funcion.obtenerSede();
+		
+		
+		double precioPorEntrada = sede.calcularPrecioBase(sede.obtenerSectores().get(sector), funcion.obtenerPrecioBase());
+		
+		for (int i = 0; i < asientos.length; i++) {
+			
+			String codigo = Entrada.generarCodigo(8);
+			String ubicacion = sector + " f:" + sede.obtenerSectores().get(sector).calcularFila(asientos[i]) + " a:" + asientos[i];
+			
+			Entrada entrada = new Entrada(codigo, espectaculo, fecha, sede, ubicacion, email);
+			entradas.add(entrada);
+			usuario.comprarEntrada(entrada);
+			funcion.registrarEntrada(entrada, sector);
+			double montoRecaudado = precioPorEntrada * asientos.length;
+			sede.actualizarRecaudacionEspectaculo(espectaculo.obtenerNombre(), montoRecaudado);
+
+		}
+	}
+	
 
 	public void registrarCodigo() {
 		String uuid = UUID.randomUUID().toString();

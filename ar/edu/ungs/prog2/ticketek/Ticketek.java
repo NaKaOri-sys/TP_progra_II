@@ -204,56 +204,33 @@ public class Ticketek implements ITicketek {
 	// Vende una o varias entradas a un usuario para funciones en sedes no
 	// numeradas.
 
-	public List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia,
-			int cantidadEntradas) {
+	public List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia, int cantidadEntradas) {
 		validarParametrosEntrada(nombreEspectaculo, fecha, email, contrasenia, cantidadEntradas);
+		
 		Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
 		Fecha fechaEntrada = new Fecha(fecha);
-		Funcion funcion = espectaculo.obtenerFuncion(fechaEntrada);
-		Sede sede = funcion.obtenerSede();
 		Usuario usuario = usuarios.get(email);
+		String ubicacion = "CAMPO";
 		List<IEntrada> entradas = new ArrayList<>();
-		double precioEntrada = 0;
-		for (int i = 0; i < cantidadEntradas; i++) {
-			String codigo = Entrada.generarCodigo(8);
-			Entrada entrada = new Entrada(codigo, espectaculo, fechaEntrada, sede, "CAMPO", email);
-			entradas.add(entrada);
-			usuario.comprarEntrada(entrada);
-			funcion.registrarEntrada(entrada, "CAMPO");
-			precioEntrada = entrada.precio();
-		}
-		double montoRecaudado = precioEntrada * cantidadEntradas;
-		sede.actualizarRecaudacionEspectaculo(nombreEspectaculo, montoRecaudado);
-
+		espectaculo.venderEntradaDelEspectaculoNoEnumeradas(entradas, espectaculo, fechaEntrada, usuario, email, ubicacion, cantidadEntradas);
 		return entradas;
 	}
 
 	@Override
 	// Vende una o varias entradas a un usuario para funciones con sedes numeradas.
 
-	public List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia,
-			String sector, int[] asientos) {
+	public List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia, String sector, int[] asientos) {
+		
 		validarParametrosEntradaEnumeradas(nombreEspectaculo, fecha, email, contrasenia, sector, asientos);
 		Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
 		Fecha fechaEntrada = new Fecha(fecha);
-		Funcion funcion = espectaculo.obtenerFuncion(fechaEntrada);
-		Sede sede = funcion.obtenerSede();
 		Usuario usuario = usuarios.get(email);
 		List<IEntrada> entradas = new ArrayList<>();
-		double precioPorEntrada = sede.calcularPrecioBase(sede.obtenerSectores().get(sector), funcion.obtenerPrecioBase());
-		for (int i = 0; i < asientos.length; i++) {
-
-			String codigo = Entrada.generarCodigo(8);
-			Entrada entrada = new Entrada(codigo, espectaculo, fechaEntrada, sede, sector, 1, asientos[i], email);
-			entradas.add(entrada);
-			usuario.comprarEntrada(entrada);
-			funcion.registrarEntrada(entrada, sector);
-		}
-		double montoRecaudado = precioPorEntrada * asientos.length;
-		sede.actualizarRecaudacionEspectaculo(nombreEspectaculo, montoRecaudado);
+		espectaculo.venderEntradaDelEspectaculo(entradas, espectaculo, fechaEntrada, usuario, email, sector, asientos);
 		return entradas;
 	}
 
+	
 	private void validarParametrosEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia,
 			int cantidadEntradas) {
 		if (!usuarios.containsKey(email))
@@ -412,8 +389,7 @@ public class Ticketek implements ITicketek {
 			throw new IllegalStateException("El asiento está ocupado");
 		}
 		String nuevoCodigo = Entrada.generarCodigo(8);
-		Entrada nuevaEntrada = new Entrada(nuevoCodigo, espectaculo, fechaNueva, nuevaFuncion.obtenerSede(), sector,
-				fila, asiento, email);
+		Entrada nuevaEntrada = new Entrada(nuevoCodigo, espectaculo, fechaNueva, nuevaFuncion.obtenerSede(), sector, email);
 		
 		double montoEntrada = entrada.precio();
 		nuevaFuncion.obtenerSede().actualizarRecaudacionEspectaculo(espectaculo.obtenerNombre(), montoEntrada);
