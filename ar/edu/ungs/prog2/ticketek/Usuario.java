@@ -5,13 +5,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Usuario {
 	private String email;
 	private String nombre;
 	private String apellido;
 	private String contrasenia;
-	private Set<IEntrada> entradas;
+	private HashMap<String, IEntrada> entradas;
 	private Fecha fechaRegistro;
 
 	public Usuario(String email, String nombre, String apellido, String contrasenia, Fecha fechaRegistro) {
@@ -20,29 +21,25 @@ public class Usuario {
 		this.apellido = apellido;
 		this.contrasenia = contrasenia;
 		this.fechaRegistro = fechaRegistro;
-		this.entradas = new HashSet<>();
+		this.entradas= new HashMap<String, IEntrada>();
 	}
 
-	public void comprarEntradas(List<IEntrada> nuevasEntradas) {
-		entradas.addAll(nuevasEntradas);
-	}
+	/*
+	 * public void comprarEntradas(List<IEntrada> nuevasEntradas) {
+	 * entradas.addAll(nuevasEntradas); }
+	 */
 
 	public void comprarEntrada(IEntrada nuevaEntrada) {
-		entradas.add(nuevaEntrada);
+		entradas.put(nuevaEntrada.obtenerCodigo(), nuevaEntrada);
 	}
 
 	public IEntrada obtenerEntrada(String codigo) {
-		for (IEntrada e : entradas) {
-			if (e.obtenerCodigo().equals(codigo)) {
-				return e;
-			}
-		}
-		return null;
+		return entradas.get(codigo);
 	}
 
 	public List<IEntrada> obtenerEntradas() {
 		List<IEntrada> listaEntradas = new ArrayList<>();
-		for (IEntrada e : this.entradas) {
+		for (IEntrada e : this.entradas.values()) {
 			listaEntradas.add(e);
 		}
 		return listaEntradas;
@@ -51,7 +48,7 @@ public class Usuario {
 	public List<IEntrada> obtenerEntradasFuturas() {
 		List<IEntrada> listaFuturas = new ArrayList<>();
 		Fecha actual = Fecha.fechaActual();
-		for (IEntrada e : entradas) {
+		for (IEntrada e : entradas.values()) {
 			if (e.obtenerFecha().esMayor(e.obtenerFecha(), actual)) {
 				listaFuturas.add(e);
 			}
@@ -60,7 +57,7 @@ public class Usuario {
 	}
 
 	public boolean anularEntrada(IEntrada entrada) {
-		return entradas.remove(entrada);
+		return entradas.remove(entrada.obtenerCodigo() ,entrada);
 	}
 
 	public String getEmail() {
@@ -79,7 +76,7 @@ public class Usuario {
 		return contrasenia;
 	}
 
-	public Set<IEntrada> getEntradas() {
+	public HashMap<String, IEntrada> getEntradas() {
 		return entradas;
 	}
 
