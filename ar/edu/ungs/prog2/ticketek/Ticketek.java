@@ -211,7 +211,6 @@ public class Ticketek implements ITicketek {
 		Fecha fechaEntrada = new Fecha(fecha);
 		Usuario usuario = usuarios.get(email);
 		String ubicacion = "CAMPO";
-		List<IEntrada> entradas = new ArrayList<>();
 		return espectaculo.venderEntradaDelEspectaculo(espectaculo, fechaEntrada, usuario, email, ubicacion, cantidadEntradas);
 	}
 
@@ -224,7 +223,6 @@ public class Ticketek implements ITicketek {
 		Espectaculo espectaculo = espectaculos.get(nombreEspectaculo);
 		Fecha fechaEntrada = new Fecha(fecha);
 		Usuario usuario = usuarios.get(email);
-		List<IEntrada> entradas = new ArrayList<>();
 		return espectaculo.venderEntradaDelEspectaculo(espectaculo, fechaEntrada, usuario, email, sector, asientos);
 		
 	}
@@ -348,7 +346,7 @@ public class Ticketek implements ITicketek {
 		nuevaFuncion.obtenerSede().actualizarRecaudacionEspectaculo(espectaculo.obtenerNombre(), montoEntrada);
 		// Registrar nueva entrada
 		nuevaFuncion.registrarEntrada(nuevaEntrada, "CAMPO");
-		usuarios.get(email).comprarEntradas(List.of(nuevaEntrada));
+		usuarios.get(email).comprarEntrada((nuevaEntrada));
 
 		// Anular la anterior
 		anularEntrada(original, contrasenia);
@@ -393,7 +391,7 @@ public class Ticketek implements ITicketek {
 		double montoEntrada = entrada.precio();
 		nuevaFuncion.obtenerSede().actualizarRecaudacionEspectaculo(espectaculo.obtenerNombre(), montoEntrada);
 		nuevaFuncion.registrarEntrada(nuevaEntrada, sector);
-		usuarios.get(email).comprarEntradas(List.of(nuevaEntrada));
+		usuarios.get(email).comprarEntrada((nuevaEntrada));
 
 		anularEntrada(original, contrasenia);
 

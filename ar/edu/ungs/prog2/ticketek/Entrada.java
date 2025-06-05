@@ -27,7 +27,7 @@ public class Entrada implements IEntrada {
 	public String obtenerNombre() {
 		return espectaculo.obtenerNombre();
 	}
-	
+
 	@Override
 	public Fecha obtenerFecha() {
 		return fecha;
@@ -42,35 +42,34 @@ public class Entrada implements IEntrada {
 	public String obtenerEmailComprador() {
 		return emailComprador;
 	}
-	
+
 	@Override
 	public String ubicacion() {
-		
+
 		if (ubicacion.equals("CAMPO")) {
 			return "CAMPO";
 		} else {
 			return ubicacion;
 		}
 	}
-	
+
 	public String obtenerSector() {
 		return this.sector;
 	}
 
 	public String toString() {
-	    StringBuilder sb = new StringBuilder();
-	    Fecha hoy = Fecha.fechaActual();
-	    sb.append(codigo).append(" - ").append(obtenerNombre()).append(" - ");
-	    sb.append(fecha.toString());
+		StringBuilder sb = new StringBuilder();
+		Fecha hoy = Fecha.fechaActual();
+		sb.append(codigo).append(" - ").append(obtenerNombre()).append(" - ");
+		sb.append(fecha.toString());
 
-	    if (fecha.esMayor(hoy, fecha)) {
-	        sb.append(" P");
-	    }
+		if (fecha.esMayor(hoy, fecha)) {
+			sb.append(" P");
+		}
 
-	    sb.append(" - ").append(sede.obtenerNombre()).append(" - ").append(ubicacion());
-	    return sb.toString();
+		sb.append(" - ").append(sede.obtenerNombre()).append(" - ").append(ubicacion());
+		return sb.toString();
 	}
-
 
 	public static String generarCodigo(int longitud) {
 		String caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -99,9 +98,23 @@ public class Entrada implements IEntrada {
 
 	@Override
 	public double precio() {
-		Funcion funcion = espectaculo.obtenerFuncion(fecha);
-		HashMap<String, Sector> sectores = funcion.obtenerSede().obtenerSectores();
-		Sector sectorFuncion = sectores.get(obtenerSector());
-		return funcion.obtenerSede().calcularPrecioBase(sectorFuncion, funcion.obtenerPrecioBase());
+		return espectaculo.obtenerFuncion(obtenerFecha()).obtenerSede().calcularPrecioBase(espectaculo.obtenerFuncion(fecha).obtenerSede().obtenerSectores()
+				.get(obtenerNombreSectorDesdeUbicacion(ubicacion)), 
+				espectaculo.obtenerFuncion(fecha).obtenerPrecioBase());
+	}
+
+	public static String obtenerNombreSectorDesdeUbicacion(String ubicacion) {
+		if (ubicacion == null || ubicacion.trim().isEmpty()) {
+			throw new IllegalArgumentException("La ubicación no puede ser nula o vacía para extraer el sector.");
+		}
+
+		if (ubicacion.contains(" f:")) {
+			String[] partes = ubicacion.split(" f:");
+			// Asegurarse de que haya al menos una parte después del split
+			if (partes.length > 0) {
+				return partes[0].trim(); // Usamos trim() para eliminar posibles espacios en blanco
+			}
+		}
+		return ubicacion.trim();
 	}
 }
