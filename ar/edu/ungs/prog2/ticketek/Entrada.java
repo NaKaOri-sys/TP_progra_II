@@ -104,9 +104,8 @@ public class Entrada implements IEntrada {
 
 		if (ubicacion.contains(" f:")) {
 			String[] partes = ubicacion.split(" f:");
-			// Asegurarse de que haya al menos una parte después del split
 			if (partes.length > 0) {
-				return partes[0].trim(); // Usamos trim() para eliminar posibles espacios en blanco
+				return partes[0].trim();
 			}
 		}
 		return ubicacion.trim();
