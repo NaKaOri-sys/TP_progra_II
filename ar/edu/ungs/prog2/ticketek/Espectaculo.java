@@ -35,14 +35,14 @@ public class Espectaculo {
 		}
 		return sb.toString();
 	}
-	public void venderEntradaDelEspectaculoNoEnumeradas(List<IEntrada> entradas, Espectaculo espectaculo, Fecha fecha, Usuario usuario, String email, String ubicacion,int cantidadEntradas) {
+	public List<IEntrada> venderEntradaDelEspectaculo(Espectaculo espectaculo, Fecha fecha, Usuario usuario, String email, String ubicacion,int cantidadEntradas) {
 		
 		Funcion funcion = espectaculo.obtenerFuncion(fecha);		
 		Sede sede = funcion.obtenerSede();
 		
 		
 		double precioPorEntrada = sede.calcularPrecioBase(sede.obtenerSectores().get(ubicacion), funcion.obtenerPrecioBase());
-		
+		List<IEntrada> entradas = new ArrayList<>();
 		for (int i = 0; i < cantidadEntradas; i++) {
 			
 			String codigo = Entrada.generarCodigo(8);
@@ -55,18 +55,20 @@ public class Espectaculo {
 			sede.actualizarRecaudacionEspectaculo(espectaculo.obtenerNombre(), montoRecaudado);
 
 		}
+		return entradas;
 	}
 	
 	
 	
-	public void venderEntradaDelEspectaculo(List<IEntrada> entradas, Espectaculo espectaculo, Fecha fecha, Usuario usuario, String email, String sector, int[] asientos) {
+	
+	public List<IEntrada> venderEntradaDelEspectaculo(Espectaculo espectaculo, Fecha fecha, Usuario usuario, String email, String sector, int[] asientos) {
 				
 		Funcion funcion = espectaculo.obtenerFuncion(fecha);		
 		Sede sede = funcion.obtenerSede();
 		
 		
 		double precioPorEntrada = sede.calcularPrecioBase(sede.obtenerSectores().get(sector), funcion.obtenerPrecioBase());
-		
+		List<IEntrada> entradas = new ArrayList<>();
 		for (int i = 0; i < asientos.length; i++) {
 			
 			String codigo = Entrada.generarCodigo(8);
@@ -80,6 +82,7 @@ public class Espectaculo {
 			sede.actualizarRecaudacionEspectaculo(espectaculo.obtenerNombre(), montoRecaudado);
 
 		}
+		return entradas;
 	}
 	
 

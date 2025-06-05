@@ -212,7 +212,7 @@ public class Ticketek implements ITicketek {
 		Usuario usuario = usuarios.get(email);
 		String ubicacion = "CAMPO";
 		List<IEntrada> entradas = new ArrayList<>();
-		espectaculo.venderEntradaDelEspectaculoNoEnumeradas(entradas, espectaculo, fechaEntrada, usuario, email, ubicacion, cantidadEntradas);
+		espectaculo.venderEntradaDelEspectaculo(espectaculo, fechaEntrada, usuario, email, ubicacion, cantidadEntradas);
 		return entradas;
 	}
 
@@ -226,7 +226,7 @@ public class Ticketek implements ITicketek {
 		Fecha fechaEntrada = new Fecha(fecha);
 		Usuario usuario = usuarios.get(email);
 		List<IEntrada> entradas = new ArrayList<>();
-		espectaculo.venderEntradaDelEspectaculo(entradas, espectaculo, fechaEntrada, usuario, email, sector, asientos);
+		espectaculo.venderEntradaDelEspectaculo(espectaculo, fechaEntrada, usuario, email, sector, asientos);
 		return entradas;
 	}
 

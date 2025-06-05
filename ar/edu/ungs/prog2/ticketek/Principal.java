@@ -112,7 +112,7 @@ public class Principal {
 
         // 10) y 11) Imprimir los precios para comparar el precio 
      	// de una entrada comprada con el de una funcion.
-        System.out.println("\nPrecio de entrada para El Rey Leon: $" + entradasConejo.get(0).precio());
+        System.out.println("\nPrecio de entrada para El Rey León: $" + entradasConejo.get(0).precio());
         System.out.println("Precio de funcion para El Rey Leon (VIP): $" + ticketek.costoEntrada("El Rey León", "29/07/25", "Platea VIP"));
         System.out.println("Precio de funcion para El Rey Leon (Común): $" + ticketek.costoEntrada("El Rey León", "29/07/25", "Platea Común"));
 
